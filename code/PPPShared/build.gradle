@@ -4,7 +4,7 @@ kotlin {
     targets {
         final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneOS") ? presets.iosArm64 : presets.iosX64
 
-        fromPreset(iOSTarget, 'iOS') {
+        fromPreset(iOSTarget, 'ios') {
             binaries {
                 framework('PPPShared')
             }
@@ -41,7 +41,7 @@ configurations {
 task packForXcode(type: Sync) {
     final File frameworkDir = new File(buildDir, "xcode-frameworks")
     final String mode = project.findProperty("XCODE_CONFIGURATION")?.toUpperCase() ?: 'DEBUG'
-    final def framework = kotlin.targets.iOS.binaries.getFramework("PPPShared", mode)
+    final def framework = kotlin.targets.ios.binaries.getFramework("PPPShared", mode)
 
     inputs.property "mode", mode
     dependsOn framework.linkTask

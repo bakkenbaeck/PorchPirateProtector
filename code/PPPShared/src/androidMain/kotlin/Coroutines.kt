@@ -1,4 +1,4 @@
-package no.bakkenbaeck.pppshared.api
+package no.bakkenbaeck.pppshared
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

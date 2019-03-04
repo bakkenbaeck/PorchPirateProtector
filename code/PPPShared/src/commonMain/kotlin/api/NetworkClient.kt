@@ -4,9 +4,9 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.url
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import no.bakkenbaeck.pppshared.ApplicationDispatcher
 
 sealed class RequestMethod(val stringValue: String) {
     class Get: RequestMethod("GET")
@@ -20,8 +20,6 @@ sealed class NetworkResult<T> {
     class Success<T>(val item: T) : NetworkResult<T>()
     class Error<T>(val error: Throwable): NetworkResult<T>()
 }
-
-internal expect val ApplicationDispatcher: CoroutineDispatcher
 
 open class NetworkClient(val rootURLString: String) {
 

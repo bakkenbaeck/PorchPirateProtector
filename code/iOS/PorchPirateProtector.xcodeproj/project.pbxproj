@@ -1,0 +1,514 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9B4C8828222D285800638F1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4C8827222D285800638F1F /* AppDelegate.swift */; };
+		9B4C882A222D285800638F1F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4C8829222D285800638F1F /* ViewController.swift */; };
+		9B4C882D222D285800638F1F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B4C882B222D285800638F1F /* Main.storyboard */; };
+		9B4C882F222D285A00638F1F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B4C882E222D285A00638F1F /* Assets.xcassets */; };
+		9B4C8832222D285A00638F1F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B4C8830222D285A00638F1F /* LaunchScreen.storyboard */; };
+		9B4C883D222D285A00638F1F /* PorchPirateProtectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4C883C222D285A00638F1F /* PorchPirateProtectorTests.swift */; };
+		9B4C884C222D2ABE00638F1F /* SharedCode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4C884B222D2ABE00638F1F /* SharedCode.framework */; };
+		9B4C884D222D2ABE00638F1F /* SharedCode.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4C884B222D2ABE00638F1F /* SharedCode.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9B4C8839222D285A00638F1F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9B4C881C222D285800638F1F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9B4C8823222D285800638F1F;
+			remoteInfo = PorchPirateProtector;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9B4C884A222D2A9600638F1F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9B4C884D222D2ABE00638F1F /* SharedCode.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		9B4C8824222D285800638F1F /* PorchPirateProtector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PorchPirateProtector.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B4C8827222D285800638F1F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9B4C8829222D285800638F1F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9B4C882C222D285800638F1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9B4C882E222D285A00638F1F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9B4C8831222D285A00638F1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9B4C8833222D285A00638F1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B4C8838222D285A00638F1F /* PorchPirateProtectorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PorchPirateProtectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B4C883C222D285A00638F1F /* PorchPirateProtectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorchPirateProtectorTests.swift; sourceTree = "<group>"; };
+		9B4C883E222D285A00638F1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B4C884B222D2ABE00638F1F /* SharedCode.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SharedCode.framework; path = "../SharedCode/build/xcode-frameworks/SharedCode.framework"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9B4C8821222D285800638F1F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B4C884C222D2ABE00638F1F /* SharedCode.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9B4C8835222D285A00638F1F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9B4C881B222D285800638F1F = {
+			isa = PBXGroup;
+			children = (
+				9B4C884B222D2ABE00638F1F /* SharedCode.framework */,
+				9B4C8826222D285800638F1F /* PorchPirateProtector */,
+				9B4C883B222D285A00638F1F /* PorchPirateProtectorTests */,
+				9B4C8825222D285800638F1F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9B4C8825222D285800638F1F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9B4C8824222D285800638F1F /* PorchPirateProtector.app */,
+				9B4C8838222D285A00638F1F /* PorchPirateProtectorTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9B4C8826222D285800638F1F /* PorchPirateProtector */ = {
+			isa = PBXGroup;
+			children = (
+				9B4C8827222D285800638F1F /* AppDelegate.swift */,
+				9B4C8829222D285800638F1F /* ViewController.swift */,
+				9B4C882B222D285800638F1F /* Main.storyboard */,
+				9B4C882E222D285A00638F1F /* Assets.xcassets */,
+				9B4C8830222D285A00638F1F /* LaunchScreen.storyboard */,
+				9B4C8833222D285A00638F1F /* Info.plist */,
+			);
+			path = PorchPirateProtector;
+			sourceTree = "<group>";
+		};
+		9B4C883B222D285A00638F1F /* PorchPirateProtectorTests */ = {
+			isa = PBXGroup;
+			children = (
+				9B4C883C222D285A00638F1F /* PorchPirateProtectorTests.swift */,
+				9B4C883E222D285A00638F1F /* Info.plist */,
+			);
+			path = PorchPirateProtectorTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9B4C8823222D285800638F1F /* PorchPirateProtector */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9B4C8841222D285A00638F1F /* Build configuration list for PBXNativeTarget "PorchPirateProtector" */;
+			buildPhases = (
+				9B4C884E222D2BCC00638F1F /* Build Kotlin Native Framework */,
+				9B4C8820222D285800638F1F /* Sources */,
+				9B4C8821222D285800638F1F /* Frameworks */,
+				9B4C8822222D285800638F1F /* Resources */,
+				9B4C884A222D2A9600638F1F /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PorchPirateProtector;
+			productName = PorchPirateProtector;
+			productReference = 9B4C8824222D285800638F1F /* PorchPirateProtector.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9B4C8837222D285A00638F1F /* PorchPirateProtectorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9B4C8844222D285A00638F1F /* Build configuration list for PBXNativeTarget "PorchPirateProtectorTests" */;
+			buildPhases = (
+				9B4C8834222D285A00638F1F /* Sources */,
+				9B4C8835222D285A00638F1F /* Frameworks */,
+				9B4C8836222D285A00638F1F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9B4C883A222D285A00638F1F /* PBXTargetDependency */,
+			);
+			name = PorchPirateProtectorTests;
+			productName = PorchPirateProtectorTests;
+			productReference = 9B4C8838222D285A00638F1F /* PorchPirateProtectorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9B4C881C222D285800638F1F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "Bakken & Bæck";
+				TargetAttributes = {
+					9B4C8823222D285800638F1F = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					9B4C8837222D285A00638F1F = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = 9B4C8823222D285800638F1F;
+					};
+				};
+			};
+			buildConfigurationList = 9B4C881F222D285800638F1F /* Build configuration list for PBXProject "PorchPirateProtector" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9B4C881B222D285800638F1F;
+			productRefGroup = 9B4C8825222D285800638F1F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9B4C8823222D285800638F1F /* PorchPirateProtector */,
+				9B4C8837222D285A00638F1F /* PorchPirateProtectorTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9B4C8822222D285800638F1F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B4C8832222D285A00638F1F /* LaunchScreen.storyboard in Resources */,
+				9B4C882F222D285A00638F1F /* Assets.xcassets in Resources */,
+				9B4C882D222D285800638F1F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9B4C8836222D285A00638F1F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9B4C884E222D2BCC00638F1F /* Build Kotlin Native Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Kotlin Native Framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$SRCROOT/../SharedCode/build/xcode-frameworks\"\n./gradlew :SharedCode:packForXcode -PXCODE_CONFIGURATION=${CONFIGURATION}\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9B4C8820222D285800638F1F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B4C882A222D285800638F1F /* ViewController.swift in Sources */,
+				9B4C8828222D285800638F1F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9B4C8834222D285A00638F1F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B4C883D222D285A00638F1F /* PorchPirateProtectorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9B4C883A222D285A00638F1F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9B4C8823222D285800638F1F /* PorchPirateProtector */;
+			targetProxy = 9B4C8839222D285A00638F1F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		9B4C882B222D285800638F1F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9B4C882C222D285800638F1F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		9B4C8830222D285A00638F1F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9B4C8831222D285A00638F1F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9B4C883F222D285A00638F1F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9B4C8840222D285A00638F1F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9B4C8842222D285A00638F1F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../SharedCode/build/xcode-frameworks";
+				INFOPLIST_FILE = PorchPirateProtector/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = no.bakkenbaeck.PorchPirateProtector;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9B4C8843222D285A00638F1F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../SharedCode/build/xcode-frameworks";
+				INFOPLIST_FILE = PorchPirateProtector/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = no.bakkenbaeck.PorchPirateProtector;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		9B4C8845222D285A00638F1F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = PorchPirateProtectorTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = no.bakkenbaeck.PorchPirateProtectorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PorchPirateProtector.app/PorchPirateProtector";
+			};
+			name = Debug;
+		};
+		9B4C8846222D285A00638F1F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = PorchPirateProtectorTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = no.bakkenbaeck.PorchPirateProtectorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PorchPirateProtector.app/PorchPirateProtector";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9B4C881F222D285800638F1F /* Build configuration list for PBXProject "PorchPirateProtector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9B4C883F222D285A00638F1F /* Debug */,
+				9B4C8840222D285A00638F1F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9B4C8841222D285A00638F1F /* Build configuration list for PBXNativeTarget "PorchPirateProtector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9B4C8842222D285A00638F1F /* Debug */,
+				9B4C8843222D285A00638F1F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9B4C8844222D285A00638F1F /* Build configuration list for PBXNativeTarget "PorchPirateProtectorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9B4C8845222D285A00638F1F /* Debug */,
+				9B4C8846222D285A00638F1F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9B4C881C222D285800638F1F /* Project object */;
+}

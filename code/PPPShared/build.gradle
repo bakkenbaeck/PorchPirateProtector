@@ -16,10 +16,20 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api 'org.jetbrains.kotlin:kotlin-stdlib-common'
+            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutines_version"
+            implementation "io.ktor:ktor-client:$ktor_version"
         }
 
         androidMain.dependencies {
             api 'org.jetbrains.kotlin:kotlin-stdlib'
+            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+            implementation "io.ktor:ktor-client-android:$ktor_version"
+        }
+
+        iosMain.dependencies {
+            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$coroutines_version"
+            implementation "io.ktor:ktor-client-ios:$ktor_version"
+            implementation "io.ktor:ktor-client-core-ios:$ktor_version"
         }
     }
 }

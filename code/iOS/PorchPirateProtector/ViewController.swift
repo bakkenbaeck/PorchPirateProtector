@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SharedCode
+import PPPShared
 
 class ViewController: UIViewController {
 
@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 21))
-        label.center = CGPoint(x: 160, y: 285)
+        label.center = self.view.center
         label.textAlignment = .center
         label.font = label.font.withSize(25)
         label.text = CommonKt.createApplicationScreenMessage()

@@ -6,7 +6,7 @@ kotlin {
 
         fromPreset(iOSTarget, 'iOS') {
             binaries {
-                framework('SharedCode')
+                framework('PPPShared')
             }
         }
 
@@ -31,7 +31,7 @@ configurations {
 task packForXcode(type: Sync) {
     final File frameworkDir = new File(buildDir, "xcode-frameworks")
     final String mode = project.findProperty("XCODE_CONFIGURATION")?.toUpperCase() ?: 'DEBUG'
-    final def framework = kotlin.targets.iOS.binaries.getFramework("SharedCode", mode)
+    final def framework = kotlin.targets.iOS.binaries.getFramework("PPPShared", mode)
 
     inputs.property "mode", mode
     dependsOn framework.linkTask

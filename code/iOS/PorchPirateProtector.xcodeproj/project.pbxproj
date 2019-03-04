@@ -13,8 +13,8 @@
 		9B4C882F222D285A00638F1F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B4C882E222D285A00638F1F /* Assets.xcassets */; };
 		9B4C8832222D285A00638F1F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B4C8830222D285A00638F1F /* LaunchScreen.storyboard */; };
 		9B4C883D222D285A00638F1F /* PorchPirateProtectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4C883C222D285A00638F1F /* PorchPirateProtectorTests.swift */; };
-		9B4C884C222D2ABE00638F1F /* SharedCode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4C884B222D2ABE00638F1F /* SharedCode.framework */; };
-		9B4C884D222D2ABE00638F1F /* SharedCode.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4C884B222D2ABE00638F1F /* SharedCode.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9B4C8850222D347F00638F1F /* PPPShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4C884F222D347F00638F1F /* PPPShared.framework */; };
+		9B4C8851222D347F00638F1F /* PPPShared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4C884F222D347F00638F1F /* PPPShared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,7 +34,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9B4C884D222D2ABE00638F1F /* SharedCode.framework in Embed Frameworks */,
+				9B4C8851222D347F00638F1F /* PPPShared.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,7 +52,7 @@
 		9B4C8838222D285A00638F1F /* PorchPirateProtectorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PorchPirateProtectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B4C883C222D285A00638F1F /* PorchPirateProtectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorchPirateProtectorTests.swift; sourceTree = "<group>"; };
 		9B4C883E222D285A00638F1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9B4C884B222D2ABE00638F1F /* SharedCode.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SharedCode.framework; path = "../SharedCode/build/xcode-frameworks/SharedCode.framework"; sourceTree = "<group>"; };
+		9B4C884F222D347F00638F1F /* PPPShared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PPPShared.framework; path = "../PPPShared/build/xcode-frameworks/PPPShared.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B4C884C222D2ABE00638F1F /* SharedCode.framework in Frameworks */,
+				9B4C8850222D347F00638F1F /* PPPShared.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,7 +77,7 @@
 		9B4C881B222D285800638F1F = {
 			isa = PBXGroup;
 			children = (
-				9B4C884B222D2ABE00638F1F /* SharedCode.framework */,
+				9B4C884F222D347F00638F1F /* PPPShared.framework */,
 				9B4C8826222D285800638F1F /* PorchPirateProtector */,
 				9B4C883B222D285A00638F1F /* PorchPirateProtectorTests */,
 				9B4C8825222D285800638F1F /* Products */,
@@ -230,7 +230,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$SRCROOT/../SharedCode/build/xcode-frameworks\"\n./gradlew :SharedCode:packForXcode -PXCODE_CONFIGURATION=${CONFIGURATION}\n";
+			shellScript = "cd \"$SRCROOT/../PPPShared/build/xcode-frameworks\"\n./gradlew :PPPShared:packForXcode -PXCODE_CONFIGURATION=${CONFIGURATION}\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -404,7 +404,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../SharedCode/build/xcode-frameworks";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../PPPShared/build/xcode-frameworks";
 				INFOPLIST_FILE = PorchPirateProtector/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -423,7 +423,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../SharedCode/build/xcode-frameworks";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../PPPShared/build/xcode-frameworks";
 				INFOPLIST_FILE = PorchPirateProtector/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

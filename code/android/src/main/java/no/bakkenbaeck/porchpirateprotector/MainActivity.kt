@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 import android.os.Bundle
 import android.widget.TextView
-import no.bakkenbaeck.kotlinnative.createApplicationScreenMessage
+import no.bakkenbaeck.pppshared.createApplicationScreenMessage
 
 class MainActivity : AppCompatActivity() {
 

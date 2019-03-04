@@ -1,4 +1,4 @@
-package no.bakkenbaeck.kotlinnative
+package no.bakkenbaeck.pppshared
 
 import platform.UIKit.UIDevice
 

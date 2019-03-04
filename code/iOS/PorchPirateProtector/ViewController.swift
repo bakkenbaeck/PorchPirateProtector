@@ -20,6 +20,9 @@ class ViewController: UIViewController {
         label.font = label.font.withSize(25)
         label.text = CommonKt.createApplicationScreenMessage()
         view.addSubview(label)
+        
+        HttpBinClient().runGet()
+        HttpBinClient().runPost(body: "Hello from iOS!")
     }
 }
 

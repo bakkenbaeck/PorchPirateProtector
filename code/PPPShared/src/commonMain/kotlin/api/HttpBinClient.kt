@@ -1,31 +1,33 @@
 package no.bakkenbaeck.pppshared.api
 
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import no.bakkenbaeck.pppshared.ApplicationDispatcher
+
 class HttpBinClient: NetworkClient("https://httpbin.org") {
 
     fun runGet() {
         println("HTTPBIN: Starting GET")
-        executeRequest(
-            path = "get",
-            callback = { result ->
-                when (result) {
-                    is NetworkResult.Error<String> -> println("HTTPBIN: Error! : ${result.error}")
-                    is NetworkResult.Success<String> -> println("HTTPBIN: Success! Got: \n${result.item}")
-                }
+        GlobalScope.launch(ApplicationDispatcher) {
+            try {
+                val result = execute(path = "get")
+                println("HTTPBIN: Success! Got: \n${result}")
+            } catch (exception: Exception) {
+                println("HTTPBIN: Error! : ${exception}")
             }
-        )
+        }
     }
 
     fun runPost(body: String) {
         println("HTTPBIN: Starting POST")
-        executeRequest(
-            method = RequestMethod.Post(body),
-            path = "post",
-            callback = { result ->
-                when (result) {
-                    is NetworkResult.Error<String> -> println("HTTPBIN: Error! : ${result.error}")
-                    is NetworkResult.Success<String> -> println("HTTPBIN: Success! Got: \n${result.item}")
-                }
+        GlobalScope.launch(ApplicationDispatcher) {
+            try {
+                val result = execute(RequestMethod.Post(body), "post")
+                println("HTTPBIN: Success! Got: \n${result}")
+                println("HTTPBIN: Success! Got: \n${result}")
+            } catch (exception: Exception) {
+                println("HTTPBIN: Error! : ${exception}")
             }
-        )
+        }
     }
 }

@@ -1,27 +1,31 @@
 package no.bakkenbaeck.pppshared.api
 
 import io.ktor.client.HttpClient
-import io.ktor.client.request.get
-import io.ktor.client.request.post
-import io.ktor.client.request.url
+import io.ktor.client.request.*
+import io.ktor.http.HeadersBuilder
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import no.bakkenbaeck.pppshared.ApplicationDispatcher
 
 sealed class RequestMethod(val stringValue: String) {
     class Get: RequestMethod("GET")
-    class Put: RequestMethod("PUT")
+    class Put(val body: String): RequestMethod("PUT")
     class Post(val body: String): RequestMethod("POST")
     class Patch(val body: String): RequestMethod("PATCH")
     class Delete: RequestMethod("DELETE")
 }
 
-sealed class NetworkResult<T> {
-    class Success<T>(val item: T) : NetworkResult<T>()
-    class Error<T>(val error: Throwable): NetworkResult<T>()
+data class Header(val key: String, val value: String) {
+    companion object {
+        val ContentTypeJSON = Header("Content-Type", "application/json")
+        val AcceptJSON = Header("Accept", "application/json")
+        fun TokenAuth(token: String): Header {
+            return Header("Authorization", "Token $token")
+        }
+    }
 }
 
-open class NetworkClient(val rootURLString: String) {
+open class NetworkClient(private val rootURLString: String) {
 
     //https://ktor.io/clients/http-client/calls/requests.html
     private val ktorClient = HttpClient()
@@ -30,46 +34,79 @@ open class NetworkClient(val rootURLString: String) {
         return "$rootURLString/$path"
     }
 
-    fun executeRequest(
+    suspend fun execute(
         method: RequestMethod = RequestMethod.Get(),
         path: String,
-        callback: (NetworkResult<String>) -> Unit
-    ) {
-        GlobalScope.launch(ApplicationDispatcher) {
-            try {
-                val result = execute(method, path)
-                callback(NetworkResult.Success(result))
-            } catch (exception: Exception) {
-                callback(NetworkResult.Error(exception))
-            }
-        }
-    }
-
-    suspend fun execute(method: RequestMethod = RequestMethod.Get(),
-                        path: String): String {
+        headers: List<Header> = listOf()
+    ): String {
         return when (method) {
-            is RequestMethod.Get -> get(path)
-            is RequestMethod.Post -> post(path, method.body)
-            else -> "NOT IMPLEMENTED"
+            is RequestMethod.Get -> get(path, headers)
+            is RequestMethod.Put -> put(path, method.body, headers)
+            is RequestMethod.Post -> post(path, method.body, headers)
+            is RequestMethod.Patch -> patch(path, method.body, headers)
+            is RequestMethod.Delete -> delete(path, headers)
         }
     }
 
     private suspend fun get(
-        path: String): String {
+        path: String,
+        headers: List<Header>
+    ): String {
         val fullPath = fullURLStringForPath(path)
         return ktorClient.get {
             url(fullPath)
+            headers.forEach { header(it.key, it.value) }
         }
     }
 
     private suspend fun post(
         path: String,
-        data: String
+        data: String,
+        headers: List<Header>
     ): String {
         val fullPath = fullURLStringForPath(path)
         return ktorClient.post {
             url(fullPath)
             body = data
+            headers.forEach { header(it.key, it.value) }
+        }
+    }
+
+    private suspend fun put(
+        path: String,
+        data: String,
+        headers: List<Header>
+    ): String {
+        val fullPath = fullURLStringForPath(path)
+        return ktorClient.put {
+            url(fullPath)
+            body = data
+            headers.forEach { header(it.key, it) }
+        }
+    }
+
+    private suspend fun patch(
+        path: String,
+        data: String,
+        headers: List<Header>
+    ): String {
+        val fullPath = fullURLStringForPath(path)
+        return ktorClient.patch {
+            url(fullPath)
+            body = data
+            headers.forEach { header(it.key, it) }
+
+        }
+    }
+
+    private suspend fun delete(
+        path: String,
+        headers: List<Header>
+    ): String {
+        val fullPath = fullURLStringForPath(path)
+        return ktorClient.delete {
+            url(fullPath)
+            headers.forEach { header(it.key, it) }
         }
     }
 }

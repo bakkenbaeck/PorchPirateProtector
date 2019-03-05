@@ -1,4 +1,4 @@
-package no.bakkenbaeck.pppshared.controller
+package no.bakkenbaeck.pppshared.manager
 
 import no.bakkenbaeck.pppshared.model.UserToken
 

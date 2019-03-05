@@ -2,7 +2,7 @@ package no.bakkenbaeck.pppshared.presenter
 
 import kotlinx.coroutines.launch
 import no.bakkenbaeck.pppshared.api.Api
-import no.bakkenbaeck.pppshared.controller.TokenManager
+import no.bakkenbaeck.pppshared.manager.TokenManager
 import no.bakkenbaeck.pppshared.model.UserCredentials
 import no.bakkenbaeck.pppshared.validator.InputValidator
 import no.bakkenbaeck.pppshared.validator.ValidationResult

@@ -22,11 +22,21 @@ kotlin {
             implementation "io.ktor:ktor-client-core:$ktor_version"
         }
 
+        commonTest.dependencies {
+            implementation "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
+            implementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
+        }
+
         androidMain.dependencies {
             api 'org.jetbrains.kotlin:kotlin-stdlib'
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
             implementation "io.ktor:ktor-client-android:$ktor_version"
             implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
+        }
+
+        androidTest.dependencies {
+            implementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+            implementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
         }
 
         iosMain.dependencies {
@@ -59,4 +69,5 @@ task packForXcode(type: Sync) {
         }
     }
 }
+
 tasks.build.dependsOn packForXcode

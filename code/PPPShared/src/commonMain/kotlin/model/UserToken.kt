@@ -1,12 +1,8 @@
 package no.bakkenbaeck.pppshared.model
 
-data class UserToken(val token: String) {
+import kotlinx.serialization.Serializable
 
-    companion object {
-        fun fromJSONString(json: String): UserToken {
-            // TODO: Actually get token from json
-            return UserToken("TOKEN")
-        }
-    }
-
-}
+@Serializable
+data class UserToken(
+    val token: String
+)

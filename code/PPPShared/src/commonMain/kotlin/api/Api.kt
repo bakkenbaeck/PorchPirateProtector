@@ -1,5 +1,11 @@
 package no.bakkenbaeck.pppshared.api
 
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
+import io.ktor.client.features.*
+import io.ktor.client.call.*
+
+
 import no.bakkenbaeck.pppshared.model.*
 
 object Api {
@@ -15,7 +21,7 @@ object Api {
      */
     suspend fun createAccount(credentials: UserCredentials): UserToken {
         val tokenJSON = client.execute(
-            method = RequestMethod.Post(credentials.toJSONString()),
+            method = RequestMethod.Post(Json.stringify(UserCredentials.serializer(), credentials)),
             path = "createAccount",
             headers = listOf(
                 Header.ContentTypeJSON,
@@ -23,7 +29,7 @@ object Api {
             )
         )
 
-        return UserToken.fromJSONString(tokenJSON)
+        return Json.parse(UserToken.serializer(), tokenJSON)
     }
 
     /**
@@ -34,7 +40,7 @@ object Api {
      */
     suspend fun login(credentials: UserCredentials): UserToken {
         val tokenJSON = client.execute(
-            method = RequestMethod.Post(credentials.toJSONString()),
+            method = RequestMethod.Post(Json.stringify(UserCredentials.serializer(), credentials)),
             path = "login",
             headers = listOf(
                 Header.ContentTypeJSON,
@@ -42,7 +48,7 @@ object Api {
             )
         )
 
-        return UserToken.fromJSONString(tokenJSON)
+        return Json.parse(UserToken.serializer(), tokenJSON)
     }
 
     /**
@@ -57,7 +63,7 @@ object Api {
         token: String
     ): LockState {
         val lockStateJSON = client.execute(
-            method = RequestMethod.Post(request.toJSONString()),
+            method = RequestMethod.Post(Json.stringify(DeviceRequest.serializer(), request)),
             path = "device/${request.deviceId}/lock",
             headers = listOf(
                     Header.ContentTypeJSON,
@@ -67,7 +73,7 @@ object Api {
             )
         )
 
-        return LockState.fromJSONString(lockStateJSON)
+        return Json.parse(LockState.serializer(), lockStateJSON)
     }
 
     /**
@@ -82,16 +88,15 @@ object Api {
         token: String
     ): LockState {
         val lockStateJSON = client.execute(
-            method = RequestMethod.Post(request.toJSONString()),
+            method = RequestMethod.Post(Json.stringify(DeviceRequest.serializer(), request)),
             path = "device/${request.deviceId}/unlock",
             headers = listOf(
                 Header.ContentTypeJSON,
                 Header.AcceptJSON,
                 Header.TokenAuth(token)
-
             )
         )
 
-        return LockState.fromJSONString(lockStateJSON)
+        return Json.parse(LockState.serializer(), lockStateJSON)
     }
 }

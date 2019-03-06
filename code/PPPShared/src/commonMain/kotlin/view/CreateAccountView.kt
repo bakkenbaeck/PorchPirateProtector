@@ -17,9 +17,9 @@ interface CreateAccountView: ErrorHandling, IndefiniteLoadingIndicating {
     /// The confirmed password for the user (which should match `password`).
     var confirmPassword: String?
 
-    fun emailErrorUpdated(error: String?)
-    fun passwordErrorUpdated(error: String?)
-    fun confirmPasswordErrorUpdated(error: String?)
+    fun emailErrorUpdated(toString: String?)
+    fun passwordErrorUpdated(toString: String?)
+    fun confirmPasswordErrorUpdated(toString: String?)
 
     /// Called when an account has been successfully created.
     fun accountSuccessfullyCreated()

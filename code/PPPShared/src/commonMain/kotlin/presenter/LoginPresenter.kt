@@ -41,6 +41,7 @@ class LoginPresenter(
     }
 
     fun isCurrentInputValid(): Boolean {
+        validateInput()
         return emailError == null
                 && passwordError == null
     }

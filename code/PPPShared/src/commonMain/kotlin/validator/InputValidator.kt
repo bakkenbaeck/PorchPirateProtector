@@ -15,7 +15,18 @@ sealed class ValidationResult {
 
 object InputValidator {
 
-    fun validateNotNull(input: String?, fieldName: String): ValidationResult {
+    fun validate(input: String?, fieldName: String, functions: List<(String?, String) -> ValidationResult>): ValidationResult {
+        for (function in functions) {
+            val currentResult = function(input, fieldName)
+            when (currentResult) {
+                is ValidationResult.Invalid -> return currentResult
+            }
+        }
+
+        return ValidationResult.Valid()
+    }
+
+    private fun notNull(input: String?, fieldName: String): ValidationResult {
         return if (input != null) {
             ValidationResult.Valid()
         } else {
@@ -23,27 +34,41 @@ object InputValidator {
         }
     }
 
-    fun validateNotEmpty(input: String?, fieldName: String): ValidationResult {
-        if (input != null) {
-            return if (input.isNotEmpty()) {
-                ValidationResult.Valid()
-            } else {
-                return ValidationResult.Invalid.WasEmpty(fieldName)
-            }
+    private fun notEmpty(input: String?, fieldName: String): ValidationResult {
+        val isEmpty = input?.isEmpty() ?: true
+        return if (isEmpty) {
+            ValidationResult.Invalid.WasEmpty(fieldName)
         } else {
-            return ValidationResult.Invalid.WasNull(fieldName)
+            ValidationResult.Valid()
         }
     }
 
+    fun validateNotNull(input: String?, fieldName: String): ValidationResult {
+        return validate(input, fieldName, listOf(
+            ::notNull
+        ))
+    }
+
+    fun validateNotNullOrEmpty(input: String?, fieldName: String): ValidationResult {
+        return validate(input, fieldName, listOf(
+            ::notNull,
+            ::notEmpty
+        ))
+    }
+
     fun validateIsEmail(input: String?, fieldName: String): ValidationResult {
-        return if (input != null) {
-            if (input.isW3CValidEmail()) {
-                ValidationResult.Valid()
-            } else {
-                ValidationResult.Invalid.InvalidEmail(input)
-            }
+        val notEmptyResult = validateNotNullOrEmpty(input, fieldName)
+        when (notEmptyResult) {
+            is ValidationResult.Invalid -> return notEmptyResult
+        }
+
+        // If we're here, the input is definitely not null
+        val email = input!!
+
+        return if (email.isW3CValidEmail()) {
+            ValidationResult.Valid()
         } else {
-            ValidationResult.Invalid.WasNull(fieldName)
+            ValidationResult.Invalid.InvalidEmail(email)
         }
     }
 
@@ -52,17 +77,18 @@ object InputValidator {
         input: String?,
         fieldName: String
     ): ValidationResult {
-        return if (input != null) {
-            return if (input.length >= minimumLength) {
-                ValidationResult.Valid()
-            } else {
-                ValidationResult.Invalid.TooShort(
-                    fieldName = fieldName,
-                    minimumLength = minimumLength
-                )
-            }
+        val notEmptyResult = validateNotNullOrEmpty(input, fieldName)
+        when (notEmptyResult) {
+            is ValidationResult.Invalid -> return notEmptyResult
+        }
+
+        return if (input!!.length >= minimumLength) {
+            ValidationResult.Valid()
         } else {
-            ValidationResult.Invalid.WasNull(fieldName)
+            ValidationResult.Invalid.TooShort(
+                fieldName = fieldName,
+                minimumLength = minimumLength
+            )
         }
     }
 
@@ -72,21 +98,24 @@ object InputValidator {
         secondFieldName: String,
         secondFieldInput: String?
     ): ValidationResult {
-        return if (firstFieldInput == null) {
-            ValidationResult.Invalid.WasNull(fieldName = firstFieldName)
+        val firstFieldNonEmptyResult = validateNotNullOrEmpty(firstFieldInput, firstFieldName)
+        when (firstFieldNonEmptyResult) {
+            is ValidationResult.Invalid -> return firstFieldNonEmptyResult
+        }
+
+        val secondFieldNonEmptyResult = validateNotNullOrEmpty(secondFieldInput, secondFieldName)
+        when (secondFieldNonEmptyResult) {
+            is ValidationResult.Invalid -> return secondFieldNonEmptyResult
+        }
+
+        // If we've gotten here, both are definitely not null
+        return if (firstFieldInput!! == secondFieldInput!!) {
+            ValidationResult.Valid()
         } else {
-            if (secondFieldInput == null) {
-                 ValidationResult.Invalid.WasNull(fieldName = secondFieldName)
-            } else {
-                if (firstFieldInput == secondFieldInput) {
-                    ValidationResult.Valid()
-                } else {
-                    ValidationResult.Invalid.InputMismatch(
-                        firstFieldName = firstFieldName,
-                        secondFieldName = secondFieldName
-                    )
-                }
-            }
+            ValidationResult.Invalid.InputMismatch(
+                firstFieldName = firstFieldName,
+                secondFieldName = secondFieldName
+            )
         }
     }
 }

@@ -148,7 +148,7 @@ class ValidationTests {
         val secondFieldName = "confirm"
 
         val result = InputValidator.validateNonNullMatches(firstFieldName, null, secondFieldName, null)
-        val expectedResult = ValidationResult.Invalid.WasNull(firstFieldName)
+        val expectedResult = ValidationResult.Invalid.WasNull(secondFieldName)
 
         when (result) {
             is ValidationResult.Valid -> fail("This should not be valid")
@@ -190,7 +190,7 @@ class ValidationTests {
         val secondFieldName = "confirm"
 
         val result = InputValidator.validateNonNullMatches(firstFieldName, "", secondFieldName, "")
-        val expectedResult = ValidationResult.Invalid.WasEmpty(firstFieldName)
+        val expectedResult = ValidationResult.Invalid.WasEmpty(secondFieldName)
 
         when (result) {
             is ValidationResult.Valid -> fail("This should not be valid")

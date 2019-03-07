@@ -98,14 +98,14 @@ object InputValidator {
         secondFieldName: String,
         secondFieldInput: String?
     ): ValidationResult {
-        val firstFieldNonEmptyResult = validateNotNullOrEmpty(firstFieldInput, firstFieldName)
-        when (firstFieldNonEmptyResult) {
-            is ValidationResult.Invalid -> return firstFieldNonEmptyResult
-        }
-
         val secondFieldNonEmptyResult = validateNotNullOrEmpty(secondFieldInput, secondFieldName)
         when (secondFieldNonEmptyResult) {
             is ValidationResult.Invalid -> return secondFieldNonEmptyResult
+        }
+
+        val firstFieldNonEmptyResult = validateNotNullOrEmpty(firstFieldInput, firstFieldName)
+        when (firstFieldNonEmptyResult) {
+            is ValidationResult.Invalid -> return firstFieldNonEmptyResult
         }
 
         // If we've gotten here, both are definitely not null

@@ -29,20 +29,24 @@ class CreateAccountPresenter(
         view.confirmPasswordErrorUpdated(newValue)
     }
 
-    fun validateInput() {
+    fun validateEmail() {
         val emailResult = InputValidator.validateIsEmail(view.email, "email")
         when (emailResult) {
             is ValidationResult.Invalid -> emailError = emailResult.reason
             is ValidationResult.Valid -> emailError = null
         }
+    }
 
+    fun validatePassword() {
         val passwordResult = InputValidator.validateInputAtLeastLength(6, view.password, "password")
 
         when (passwordResult) {
             is ValidationResult.Invalid -> passwordError = passwordResult.reason
             is ValidationResult.Valid -> passwordError = null
         }
+    }
 
+    fun validateConfirmPassword() {
         val confirmPasswordResult = InputValidator.validateNonNullMatches(
             "password",
             view.password,
@@ -56,39 +60,47 @@ class CreateAccountPresenter(
         }
     }
 
+    fun validateAllInput() {
+        validateEmail()
+        validatePassword()
+        validateConfirmPassword()
+    }
+
     fun isCurrentInputValid(): Boolean {
-        validateInput()
+        validateAllInput()
         return emailError == null
                 && passwordError == null
                 && confirmPasswordError == null
     }
 
-    fun createAccount() {
+    suspend fun createAccountAsync(): Boolean {
+        validateAllInput()
         if (!isCurrentInputValid()) {
-            return
+            return false
         }
 
-        val email = view.email
-        val password = view.password
+        // If input is valid, these will not be null.
+        val creds = UserCredentials(view.email!!, view.password!!)
+        view.startLoadingIndicator()
 
-        if (email != null && password != null) {
-            val creds = UserCredentials(email, password)
-            view.startLoadingIndicator()
-            launch {
-                try {
-                    val token = Api.createAccount(creds)
-                    TokenManager.storeToken(token)
-                } catch (exception: Exception) {
-                    println("ERROR: ${exception.message}")
-                }
-            }.invokeOnCompletion {
-                view.stopLoadingIndicator()
-                TokenManager.currentToken()?.let {
-                    view.accountSuccessfullyCreated()
-                }
-            }
-        } else {
-            validateInput()
+        var result = false
+        try {
+            val token = Api.createAccount(creds)
+            TokenManager.storeToken(token)
+            view.accountSuccessfullyCreated()
+            result = true
+        } catch (exception: Exception) {
+            println("ERROR: ${exception.message}")
+            view.handleError(exception)
+        }
+
+        view.stopLoadingIndicator()
+        return result
+    }
+
+    fun createAccount() {
+        launch {
+            createAccountAsync()
         }
     }
 }

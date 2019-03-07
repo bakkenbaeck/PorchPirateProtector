@@ -25,13 +25,15 @@ class LoginPresenter(
         view.passwordErrorUpdated(newValue)
     }
 
-    fun validateInput() {
+    fun validateEmail() {
         val emailResult = InputValidator.validateIsEmail(view.email, "email")
         when (emailResult) {
             is ValidationResult.Invalid -> emailError = emailResult.reason
             is ValidationResult.Valid -> emailError = null
         }
+    }
 
+    fun validatePassword() {
         val passwordResult = InputValidator.validateInputAtLeastLength(6, view.password, "password")
 
         when (passwordResult) {
@@ -40,38 +42,44 @@ class LoginPresenter(
         }
     }
 
+    fun validateAllInput() {
+        validateEmail()
+        validatePassword()
+    }
+
     fun isCurrentInputValid(): Boolean {
-        validateInput()
+        validateAllInput()
         return emailError == null
                 && passwordError == null
     }
 
-    fun login() {
+
+    suspend fun loginAsync(): Boolean {
         if (!isCurrentInputValid()) {
-            return
+            return false
         }
 
-        val email = view.email
-        val password = view.password
+        // If input is valid, these will not be null.
+        val creds = UserCredentials(view.email!!, view.password!!)
+        view.startLoadingIndicator()
+        var success = false
+        try {
+            val token = Api.login(creds)
+            TokenManager.storeToken(token)
+            view.loginSucceeded()
+            success = true
+        } catch (exception: Exception) {
+            println("ERROR: ${exception.message}")
+            view.handleError(exception)
+        }
 
-        if (email != null && password != null) {
-            val creds = UserCredentials(email, password)
-            view.startLoadingIndicator()
-            launch {
-                try {
-                    val token = Api.login(creds)
-                    TokenManager.storeToken(token)
-                } catch (exception: Exception) {
-                    println("ERROR: ${exception.message}")
-                }
-            }.invokeOnCompletion {
-                view.stopLoadingIndicator()
-                TokenManager.currentToken()?.let {
-                    view.loginSucceeded()
-                }
-            }
-        } else {
-            validateInput()
+        view.stopLoadingIndicator()
+        return success
+    }
+
+    fun login() {
+        launch {
+            loginAsync()
         }
     }
 }

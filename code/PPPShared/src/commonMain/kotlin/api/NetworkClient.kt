@@ -34,7 +34,7 @@ open class NetworkClient(private val rootURLString: String) {
         return "$rootURLString/$path"
     }
 
-    suspend fun execute(
+    open suspend fun execute(
         method: RequestMethod = RequestMethod.Get(),
         path: String,
         headers: List<Header> = listOf()
@@ -95,7 +95,6 @@ open class NetworkClient(private val rootURLString: String) {
             url(fullPath)
             body = data
             headers.forEach { header(it.key, it) }
-
         }
     }
 

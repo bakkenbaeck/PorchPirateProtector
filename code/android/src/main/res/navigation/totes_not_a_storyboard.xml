@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/totes_not_a_storyboard" app:startDestination="@id/loginFragment">
+    <fragment
+            android:id="@+id/welcomeFragment"
+            android:name="no.bakkenbaeck.porchpirateprotector.fragment.WelcomeFragment"
+            android:label="Blank"
+            tools:layout="@layout/fragment_welcome" >
+        <action
+                android:id="@+id/action_welcomeFragment_to_loginFragment"
+                app:destination="@id/loginFragment"/>
+        <action
+                android:id="@+id/action_welcomeFragment_to_createAccountFragment"
+                app:destination="@id/createAccountFragment"/>
+    </fragment>
+    <fragment
+            android:id="@+id/loginFragment"
+            android:name="no.bakkenbaeck.porchpirateprotector.fragment.LoginFragment"
+            android:label="LoginFragment"
+            tools:layout="@layout/fragment_login"/>
+    <fragment
+            android:id="@+id/createAccountFragment"
+            android:name="no.bakkenbaeck.porchpirateprotector.fragment.CreateAccountFragment"
+            android:label="CreateAccountFragment"
+            tools:layout="@layout/fragment_create_account"/>
+</navigation>

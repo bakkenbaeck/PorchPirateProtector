@@ -6,7 +6,7 @@ import no.bakkenbaeck.pppshared.interfaces.IndefiniteLoadingIndicating
 /**
  * Interface to be implemented per platform.
  */
-interface CreateAccountView: ErrorHandling, IndefiniteLoadingIndicating {
+interface CreateAccountView: IndefiniteLoadingIndicating {
 
     /// The text the user has input as their email address.
     var email: String?
@@ -20,6 +20,7 @@ interface CreateAccountView: ErrorHandling, IndefiniteLoadingIndicating {
     fun emailErrorUpdated(toString: String?)
     fun passwordErrorUpdated(toString: String?)
     fun confirmPasswordErrorUpdated(toString: String?)
+    fun apiErrorUpdated(toString: String?)
 
     /// Called when an account has been successfully created.
     fun accountSuccessfullyCreated()

@@ -40,9 +40,9 @@ class LoginTests {
             passwordError = toString
         }
 
-        var receivedError: Throwable? = null
-        override fun handleError(error: Throwable) {
-            receivedError = error
+        var apiError: String? = null
+        override fun apiErrorUpdated(toString: String?) {
+            apiError = toString
         }
 
         var loginHasSucceeded = false
@@ -117,7 +117,7 @@ class LoginTests {
         assertFalse(view.loadingSpinnerWasStarted)
         assertFalse(view.loadingSpinnerWasStopped)
         assertFalse(view.loadingSpinnerGoing)
-        assertNull(view.receivedError)
+        assertNull(view.apiError)
         assertFalse(view.loginHasSucceeded)
 
         assertEquals(expectedEmailError.reason, view.emailError)
@@ -140,7 +140,7 @@ class LoginTests {
 
         assertNull(view.emailError)
         assertNull(view.passwordError)
-        assertNull(view.receivedError)
+        assertNull(view.apiError)
         assertTrue(view.loadingSpinnerWasStarted)
         assertTrue(view.loadingSpinnerWasStopped)
         assertFalse(view.loadingSpinnerGoing)
@@ -170,8 +170,7 @@ class LoginTests {
         assertTrue(view.loadingSpinnerWasStarted)
         assertTrue(view.loadingSpinnerWasStopped)
         assertFalse(view.loadingSpinnerGoing)
-        assertNotNull(view.receivedError)
-        assertEquals("Wrong password", view.receivedError?.message)
+        assertEquals("Wrong password", view.apiError)
         assertFalse(view.loginHasSucceeded)
 
         assertNull(TokenManager.currentToken())

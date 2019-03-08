@@ -17,9 +17,9 @@ class CreateAccountTests {
         override var password: String? = null
         override var confirmPassword: String? = null
 
-        var receivedError: Throwable? = null
-        override fun handleError(error: Throwable) {
-            receivedError = error
+        var apiError: String? = null
+        override fun apiErrorUpdated(toString: String?) {
+            apiError = toString
         }
 
         var emailError: String? = null
@@ -139,7 +139,7 @@ class CreateAccountTests {
         assertFalse(view.loadingSpinnerWasStarted)
         assertFalse(view.loadingSpinnerWasStopped)
         assertFalse(view.loadingSpinnerGoing)
-        assertNull(view.receivedError)
+        assertNull(view.apiError)
         assertFalse(view.accountCreationSucceeded)
 
         assertEquals(expectedEmailError.reason, view.emailError)
@@ -165,7 +165,7 @@ class CreateAccountTests {
         assertFalse(view.loadingSpinnerWasStarted)
         assertFalse(view.loadingSpinnerWasStopped)
         assertFalse(view.loadingSpinnerGoing)
-        assertNull(view.receivedError)
+        assertNull(view.apiError)
         assertFalse(view.accountCreationSucceeded)
 
         assertEquals(expectedEmailError.reason, view.emailError)
@@ -191,7 +191,7 @@ class CreateAccountTests {
         assertNull(view.emailError)
         assertNull(view.passwordError)
         assertNull(view.confirmPasswordError)
-        assertNull(view.receivedError)
+        assertNull(view.apiError)
         assertTrue(view.loadingSpinnerWasStarted)
         assertTrue(view.loadingSpinnerWasStopped)
         assertFalse(view.loadingSpinnerGoing)
@@ -223,8 +223,7 @@ class CreateAccountTests {
         assertTrue(view.loadingSpinnerWasStarted)
         assertTrue(view.loadingSpinnerWasStopped)
         assertFalse(view.loadingSpinnerGoing)
-        assertNotNull(view.receivedError)
-        assertEquals("Account already exists", view.receivedError?.message)
+        assertEquals("Account already exists", view.apiError)
         assertFalse(view.accountCreationSucceeded)
 
         assertNull(TokenManager.currentToken())

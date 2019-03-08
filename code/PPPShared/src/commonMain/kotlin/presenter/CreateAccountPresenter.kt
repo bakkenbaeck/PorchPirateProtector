@@ -11,9 +11,7 @@ import kotlin.properties.Delegates
 
 class CreateAccountPresenter(
     val view: CreateAccountView
-): BaseCoroutinePresenter(
-    errorHandler = view
-) {
+): BaseCoroutinePresenter() {
     /// Any error which has occurred in validating the user's email address.
     private var emailError: String? by Delegates.observable<String?>(null) { _, _, newValue ->
         view.emailErrorUpdated(newValue)
@@ -27,6 +25,10 @@ class CreateAccountPresenter(
     /// Any error which has occurred in confirming the user's password.
     private var confirmPasswordError: String? by Delegates.observable<String?>(null) { _, _, newValue ->
         view.confirmPasswordErrorUpdated(newValue)
+    }
+
+    private var apiError: String? by Delegates.observable<String?>(null) { _, _, newValue ->
+        view.apiErrorUpdated(newValue)
     }
 
     fun validateEmail() {
@@ -82,6 +84,7 @@ class CreateAccountPresenter(
         // If input is valid, these will not be null.
         val creds = UserCredentials(view.email!!, view.password!!)
         view.startLoadingIndicator()
+        apiError = null
 
         var result = false
         try {
@@ -90,8 +93,7 @@ class CreateAccountPresenter(
             view.accountSuccessfullyCreated()
             result = true
         } catch (exception: Exception) {
-            println("ERROR: ${exception.message}")
-            view.handleError(exception)
+            apiError = exception.message
         }
 
         view.stopLoadingIndicator()
@@ -102,5 +104,9 @@ class CreateAccountPresenter(
         launch {
             createAccountAsync()
         }
+    }
+
+    override fun handleError(error: Throwable) {
+        apiError = error.message
     }
 }

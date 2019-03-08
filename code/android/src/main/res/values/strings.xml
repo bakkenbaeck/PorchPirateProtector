@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Porch Pirate Protector</string>
+    <string name="email_hint">email</string>
+    <string name="password_hint">password</string>
+    <string name="log_in_title">Log In</string>
+    <string name="log_in_button_title">Log In</string>
+    <string name="create_account_button_title">Create Account</string>
+    <string name="porch_pirate_protector_title">Porch Pirate Protector 🔐</string>
+    <string name="create_account_title">Create Account</string>
 </resources>

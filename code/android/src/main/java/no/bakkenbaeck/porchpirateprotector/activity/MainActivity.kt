@@ -1,19 +1,16 @@
-package no.bakkenbaeck.porchpirateprotector
+package no.bakkenbaeck.porchpirateprotector.activity
 
 import androidx.appcompat.app.AppCompatActivity
 
 import android.os.Bundle
-import android.widget.TextView
+import no.bakkenbaeck.porchpirateprotector.R
 import no.bakkenbaeck.pppshared.api.HttpBinClient
-import no.bakkenbaeck.pppshared.createApplicationScreenMessage
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        findViewById<TextView>(R.id.main_text).text = createApplicationScreenMessage()
 
         HttpBinClient().runGet()
         HttpBinClient().runPost("HELLO ANDROID")

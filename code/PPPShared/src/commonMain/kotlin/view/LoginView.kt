@@ -6,7 +6,7 @@ import no.bakkenbaeck.pppshared.interfaces.IndefiniteLoadingIndicating
 /**
  * Interface to be implemented per platform.
  */
-interface LoginView: ErrorHandling, IndefiniteLoadingIndicating {
+interface LoginView: IndefiniteLoadingIndicating {
 
     /// The text the user has input as their email address.
     var email: String?
@@ -16,6 +16,7 @@ interface LoginView: ErrorHandling, IndefiniteLoadingIndicating {
 
     fun emailErrorUpdated(toString: String?)
     fun passwordErrorUpdated(toString: String?)
+    fun apiErrorUpdated(toString: String?)
 
     /// Called when login completes successfully.
     fun loginSucceeded()

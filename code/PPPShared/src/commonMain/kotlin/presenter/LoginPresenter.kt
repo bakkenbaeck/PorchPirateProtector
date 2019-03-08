@@ -11,9 +11,7 @@ import kotlin.properties.Delegates
 
 class LoginPresenter(
     val view: LoginView
-): BaseCoroutinePresenter(
-    errorHandler = view
-) {
+): BaseCoroutinePresenter() {
 
     /// Any error which has occurred in validating the user's email address.
     private var emailError: String? by Delegates.observable<String?>(null) { _, _, newValue ->
@@ -23,6 +21,10 @@ class LoginPresenter(
     /// Any error which has occurred in validating the user's password.
     private var passwordError: String? by Delegates.observable<String?>(null) { _, _, newValue ->
         view.passwordErrorUpdated(newValue)
+    }
+
+    private var apiError: String? by Delegates.observable<String?>(null) { _, _, newValue ->
+        view.apiErrorUpdated(newValue)
     }
 
     fun validateEmail() {
@@ -62,6 +64,8 @@ class LoginPresenter(
         // If input is valid, these will not be null.
         val creds = UserCredentials(view.email!!, view.password!!)
         view.startLoadingIndicator()
+        apiError = null
+
         var success = false
         try {
             val token = Api.login(creds)
@@ -69,8 +73,7 @@ class LoginPresenter(
             view.loginSucceeded()
             success = true
         } catch (exception: Exception) {
-            println("ERROR: ${exception.message}")
-            view.handleError(exception)
+            apiError = exception.message
         }
 
         view.stopLoadingIndicator()
@@ -81,5 +84,9 @@ class LoginPresenter(
         launch {
             loginAsync()
         }
+    }
+
+    override fun handleError(error: Throwable) {
+        apiError = error.message
     }
 }

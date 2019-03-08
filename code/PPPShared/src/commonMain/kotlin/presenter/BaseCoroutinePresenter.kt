@@ -9,13 +9,12 @@ import kotlin.coroutines.CoroutineContext
 
 // Ganked from https://github.com/JetBrains/kotlinconf-app/blob/master/common/src/commonMain/kotlin/org/jetbrains/kotlinconf/presentation/CoroutinePresenter.kt
 open class BaseCoroutinePresenter(
-    private val mainContext: CoroutineContext = ApplicationDispatcher,
-    private val errorHandler: ErrorHandling
+    private val mainContext: CoroutineContext = ApplicationDispatcher
 ): CoroutineScope {
 
     private val job = Job()
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        errorHandler.handleError(throwable)
+        handleError(throwable)
     }
 
     override val coroutineContext: CoroutineContext
@@ -23,5 +22,9 @@ open class BaseCoroutinePresenter(
 
     open fun onDestroy() {
         job.cancel()
+    }
+
+    open fun handleError(error: Throwable) {
+        println("ERROR: $error")
     }
 }

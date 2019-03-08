@@ -7,17 +7,16 @@
         android:layout_height="match_parent"
         tools:context=".activity.MainActivity">
 
-    <TextView
-            android:id="@+id/main_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Hello World!"
-            android:textSize="42sp"
-            android:layout_margin="5sp"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
+    <fragment
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/totes_not_a_storyboard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

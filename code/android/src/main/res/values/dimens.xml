@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="font_big_button_size">20sp</dimen>
     <dimen name="header_font_size">30sp</dimen>
 
     <dimen name="default_outer_margin">20dp</dimen>

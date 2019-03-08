@@ -24,7 +24,6 @@ object Api {
             method = RequestMethod.Post(Json.stringify(UserCredentials.serializer(), credentials)),
             path = "createAccount",
             headers = listOf(
-                Header.ContentTypeJSON,
                 Header.AcceptJSON
             )
         )
@@ -43,7 +42,6 @@ object Api {
             method = RequestMethod.Post(Json.stringify(UserCredentials.serializer(), credentials)),
             path = "login",
             headers = listOf(
-                Header.ContentTypeJSON,
                 Header.AcceptJSON
             )
         )
@@ -66,7 +64,6 @@ object Api {
             method = RequestMethod.Post(Json.stringify(DeviceRequest.serializer(), request)),
             path = "device/${request.deviceId}/lock",
             headers = listOf(
-                    Header.ContentTypeJSON,
                     Header.AcceptJSON,
                     Header.TokenAuth(token)
 
@@ -91,7 +88,6 @@ object Api {
             method = RequestMethod.Post(Json.stringify(DeviceRequest.serializer(), request)),
             path = "device/${request.deviceId}/unlock",
             headers = listOf(
-                Header.ContentTypeJSON,
                 Header.AcceptJSON,
                 Header.TokenAuth(token)
             )

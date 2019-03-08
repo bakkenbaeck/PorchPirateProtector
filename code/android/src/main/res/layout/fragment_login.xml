@@ -11,6 +11,7 @@
             android:orientation="vertical"
             android:gravity="center">
 
+        <!-- TITLE -->
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -18,6 +19,7 @@
                 android:gravity="center"
                 android:text="@string/log_in_title"/>
 
+        <!-- USERNAME-->
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_username"
                 android:layout_width="match_parent"
@@ -30,6 +32,8 @@
                     android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- PASSWORD-->
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_password"
                 android:layout_width="match_parent"
@@ -42,17 +46,24 @@
                     android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- SUBMIT BUTTON -->
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_login_submit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/font_big_button_size"
                 android:text="@string/log_in_button_title"/>
+
+        <!-- LOADING SPINNER -->
         <ProgressBar
                 android:id="@+id/progress_bar_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:indeterminate="true"
                 android:visibility="gone"/>
+
+        <!-- API ERROR TEXT -->
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

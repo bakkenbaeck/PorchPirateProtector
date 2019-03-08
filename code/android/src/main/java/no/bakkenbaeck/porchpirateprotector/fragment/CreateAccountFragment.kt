@@ -5,10 +5,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.fragment_create_account.*
 import no.bakkenbaeck.porchpirateprotector.R
+import no.bakkenbaeck.pppshared.presenter.CreateAccountPresenter
 import no.bakkenbaeck.pppshared.view.CreateAccountView
 
 class CreateAccountFragment: Fragment(), CreateAccountView {
+
+    private val presenter by lazy { CreateAccountPresenter(this) }
+
+    private fun handleFocusChange(forView: View, hasFocus: Boolean) {
+        if (hasFocus) {
+            // We just started editing, don't check yet.
+            return
+        }
+
+        when (forView) {
+            text_input_username.editText -> presenter.validateEmail()
+            text_input_password.editText -> presenter.validatePassword()
+            text_input_confirm_password.editText -> presenter.validateConfirmPassword()
+        }
+    }
 
     // FRAGMENT LIFECYCLE
 
@@ -16,43 +33,59 @@ class CreateAccountFragment: Fragment(), CreateAccountView {
         return inflater.inflate(R.layout.fragment_create_account, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        button_create_account_submit.setOnClickListener { presenter.createAccount() }
+        text_input_username.editText?.setOnFocusChangeListener(::handleFocusChange)
+        text_input_password.editText?.setOnFocusChangeListener(::handleFocusChange)
+        text_input_confirm_password.editText?.setOnFocusChangeListener(::handleFocusChange)
+
+    }
+
     // CREATE ACCOUNT VIEW OVERRIDES
 
     override var email: String?
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
+        get() = text_input_username.editText?.text.toString()
+        set(value) { text_input_username.editText?.setText(value) }
+
     override var password: String?
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
+        get() = text_input_password.editText?.text.toString()
+        set(value) { text_input_password.editText?.setText(value) }
+
     override var confirmPassword: String?
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
+        get() = text_input_confirm_password.editText?.text.toString()
+        set(value) { text_input_confirm_password.editText?.setText(value) }
 
     override fun emailErrorUpdated(toString: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        text_input_username.error = toString
     }
 
     override fun passwordErrorUpdated(toString: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        text_input_password.error = toString
     }
 
     override fun confirmPasswordErrorUpdated(toString: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        text_input_confirm_password.error = toString
     }
 
     override fun accountSuccessfullyCreated() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        println("SUCCESS!")
     }
 
     override fun apiErrorUpdated(toString: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        textview_error_create_account.text = toString
     }
 
     override fun startLoadingIndicator() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        button_create_account_submit.isEnabled = false
+        progress_bar_create_account.visibility = View.VISIBLE
+        progress_bar_create_account.animate()
     }
 
     override fun stopLoadingIndicator() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        button_create_account_submit.isEnabled = true
+        progress_bar_create_account.clearAnimation()
+        progress_bar_create_account.visibility = View.GONE
     }
 }

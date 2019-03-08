@@ -15,18 +15,30 @@ class LoginFragment: Fragment(), LoginView {
 
     private val presenter by lazy { LoginPresenter(this) }
 
-    private fun login() {
-        presenter.login()
+    private fun handleFocusChange(forView: View, hasFocus: Boolean) {
+        if (hasFocus) {
+            // We just started editing, don't check yet.
+            return
+        }
+
+        when (forView) {
+            text_input_username.editText -> presenter.validateEmail()
+            text_input_password.editText -> presenter.validatePassword()
+        }
     }
 
     // FRAGMENT LIFECYCLE OVERRIDES
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_login, container, false)
+        return inflater.inflate(R.layout.fragment_login, container, false)
+    }
 
-        button_login_submit.setOnClickListener { login() }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        return view
+        button_login_submit.setOnClickListener { presenter.login() }
+        text_input_username.editText?.setOnFocusChangeListener(::handleFocusChange)
+        text_input_password.editText?.setOnFocusChangeListener(::handleFocusChange)
     }
 
     // LOGIN VIEW
@@ -53,17 +65,17 @@ class LoginFragment: Fragment(), LoginView {
 
     override fun passwordErrorUpdated(toString: String?) {
         text_input_password.error = toString
-
     }
 
     override fun startLoadingIndicator() {
         progress_bar_login.visibility = View.VISIBLE
         progress_bar_login.animate()
-
+        button_login_submit.isEnabled = false
     }
 
     override fun stopLoadingIndicator() {
         progress_bar_login.clearAnimation()
         progress_bar_login.visibility = View.GONE
+        button_login_submit.isEnabled = true
     }
 }

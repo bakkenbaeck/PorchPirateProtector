@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/totes_not_a_storyboard" app:startDestination="@id/loginFragment">
+        android:id="@+id/totes_not_a_storyboard" app:startDestination="@id/welcomeFragment">
     <fragment
             android:id="@+id/welcomeFragment"
             android:name="no.bakkenbaeck.porchpirateprotector.fragment.WelcomeFragment"

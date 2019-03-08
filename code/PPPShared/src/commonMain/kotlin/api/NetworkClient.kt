@@ -17,7 +17,7 @@ sealed class RequestMethod(val stringValue: String) {
 
 data class Header(val key: String, val value: String) {
     companion object {
-        val ContentTypeJSON = Header("Content-Type", "application/json")
+        // NOTE: 'Content-Type' is set by ktor automatically
         val AcceptJSON = Header("Accept", "application/json")
         fun TokenAuth(token: String): Header {
             return Header("Authorization", "Token $token")

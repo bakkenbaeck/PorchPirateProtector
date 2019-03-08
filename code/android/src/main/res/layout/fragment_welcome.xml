@@ -20,17 +20,19 @@
                 android:textSize="70sp"
                 android:text="@string/porch_pirate_protector_title"
                 android:gravity="center"/>
+
         <com.google.android.material.button.MaterialButton
                 android:text="@string/create_account_button_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:layout_editor_absoluteY="284dp"
-                tools:layout_editor_absoluteX="145dp"
+                android:textSize="@dimen/font_big_button_size"
                 android:id="@+id/button_create_account"/>
+
         <com.google.android.material.button.MaterialButton
                 android:text="@string/log_in_button_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/font_big_button_size"
                 android:id="@+id/button_login"/>
     </LinearLayout>
 

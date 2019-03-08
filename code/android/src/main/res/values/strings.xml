@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Porch Pirate Protector</string>
-    <string name="email_hint">email</string>
-    <string name="password_hint">password</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">Confirm Password</string>
     <string name="log_in_title">Log In</string>
     <string name="log_in_button_title">Log In</string>
     <string name="create_account_button_title">Create Account</string>

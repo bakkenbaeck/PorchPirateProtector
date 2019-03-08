@@ -7,18 +7,85 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ScrollableLinearLayout">
+            android:orientation="vertical"
+            android:layout_margin="@dimen/default_outer_margin">
+
+        <!-- TITLE -->
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/HeaderTextView"
+                android:textSize="@dimen/header_font_size"
+                android:gravity="center"
                 android:text="@string/create_account_title"/>
 
-        <TextView
-                style="@style/ErrorTextView"
+
+        <!-- USERNAME-->
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textview_error_login"/>
+                android:hint="@string/email_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:inputType="textEmailAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- PASSWORD-->
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:inputType="textPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- PASSWORD-->
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/confirm_password_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:inputType="textPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- SUBMIT BUTTON -->
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_create_account_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_big_button_size"
+                android:text="@string/create_account_button_title"/>
+
+        <!-- LOADING SPINNER -->
+        <ProgressBar
+                android:id="@+id/progress_bar_create_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="gone"/>
+
+        <!-- API ERROR TEXT -->
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textview_error_create_account"
+                android:textColor="@color/errorRed"
+                android:gravity="center"
+                tools:text="An error occurred."/>
+
     </LinearLayout>
 
 </ScrollView>

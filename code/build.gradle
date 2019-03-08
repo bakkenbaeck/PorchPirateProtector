@@ -3,6 +3,7 @@
 buildscript {
     repositories {
         maven { url "https://dl.bintray.com/kotlin/kotlinx" }
+        maven { url "https://plugins.gradle.org/m2/" }
         google()
         jcenter()
         
@@ -11,6 +12,8 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.3.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+        classpath "com.github.jengelman.gradle.plugins:shadow:$shadow_version"
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

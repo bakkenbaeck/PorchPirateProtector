@@ -1,3 +1,4 @@
 include ':android'
 include ':PPPShared'
+include ':server'
 enableFeaturePreview('GRADLE_METADATA')

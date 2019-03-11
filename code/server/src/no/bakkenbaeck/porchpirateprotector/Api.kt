@@ -54,9 +54,8 @@ internal fun Routing.login(database: ServerDB) {
             credentials?.let {
                 database.fetchUser(credentials.username)?.let {
                     if (PasswordHasher.hashedValueMatches(credentials.password, it.saltedHashedPassword)) {
-                        val token = UUID.randomUUID().toString()
-                        it.token = token
-                        val userToken = UserToken(token)
+                        database.updateToken(it)
+                        val userToken = it.userToken()!! // This should be non null after this update.
                         call.respondText(
                             userToken.toJSONString(),
                             ContentType.Application.Json,
@@ -66,7 +65,19 @@ internal fun Routing.login(database: ServerDB) {
                         call.respond(HttpStatusCode.Unauthorized)
                     }
                 } ?: call.respond(HttpStatusCode.Unauthorized)
-            } ?: call.respond(HttpStatusCode.BadRequest)
+            } ?: call.respond(HttpStatusCode.BadRequest, "Could not read credentials from your account")
+        }
+        get {
+            call.respondHtml {
+                head {
+                    title { +"API: Login" }
+                }
+                body {
+                    p {
+                        +"You're trying to access the login API with a GET. Good luck with that."
+                    }
+                }
+            }
         }
     }
 }
@@ -83,13 +94,25 @@ internal fun Routing.createAccount(database: ServerDB) {
                 } else {
                     val newUser = database.createUser(credentials)
                     val token = newUser.userToken()!! // This should die if it's null as we *just* created the token
-                    call.respondText (
+                    call.respondText(
                         token.toJSONString(),
                         ContentType.Application.Json,
                         HttpStatusCode.Created
                     )
                 }
             } ?: call.respond(HttpStatusCode.BadRequest)
+        }
+        get {
+            call.respondHtml {
+                head {
+                    title { +"API: Create Account" }
+                }
+                body {
+                    p {
+                        +"You're trying to access the create account API with a GET. Good luck with that."
+                    }
+                }
+            }
         }
     }
 }

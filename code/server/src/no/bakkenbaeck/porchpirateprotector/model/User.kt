@@ -10,7 +10,7 @@ import org.jetbrains.exposed.dao.IntIdTable
 object Users: IntIdTable() {
     val username = varchar("username", 100) // Column<String>
     val saltedHashedPassword = varchar("salted_hashed", 100) // Column<String>
-    val token = varchar("token", 20).nullable() // Column<String?>
+    val token = varchar("token", 100).nullable() // Column<String?>
 }
 
 class User(id: EntityID<Int>): IntEntity(id), Principal {

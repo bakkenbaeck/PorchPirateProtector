@@ -1,24 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Welcome View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="WelcomeViewController" customModule="PorchPirateProtector" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="43" translatesAutoresizingMaskIntoConstraints="NO" id="mIK-E7-x8v">
+                                <rect key="frame" x="134" y="282" width="107" height="103"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RIu-Rc-9Cc">
+                                        <rect key="frame" x="0.0" y="0.0" width="107" height="30"/>
+                                        <state key="normal" title="Create Account"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EYN-Lj-YS7">
+                                        <rect key="frame" x="34.5" y="73" width="38" height="30"/>
+                                        <state key="normal" title="Login"/>
+                                        <connections>
+                                            <segue destination="pha-BC-7Gu" kind="show" id="4tT-DI-4EV"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="mIK-E7-x8v" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tYb-Z0-NhR"/>
+                            <constraint firstItem="mIK-E7-x8v" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="vUv-nM-G9S"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="xiB-mk-2gp">
+            <objects>
+                <viewController id="pha-BC-7Gu" customClass="LoginViewController" customModule="PorchPirateProtector" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zXx-B4-oXK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WcC-S0-eoR">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ncJ-CI-IIa">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="417"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="kxf-kC-kRS">
+                                                <rect key="frame" x="20" y="40" width="335" height="357"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log In" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cva-CC-jIa">
+                                                        <rect key="frame" x="0.0" y="0.0" width="335" height="36"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hrp-uc-XJh" customClass="TextInputContainer" customModule="PorchPirateProtector" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="56" width="335" height="77"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="77" id="5Gn-aa-CuP"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="fieldName" value="Email"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1WL-5K-JqE" customClass="TextInputContainer" customModule="PorchPirateProtector" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="153" width="335" height="77"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="77" id="0cj-Jb-pHb"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="fieldName" value="Password"/>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSecureTextEntry" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yey-Wb-GCR">
+                                                        <rect key="frame" x="0.0" y="250" width="335" height="30"/>
+                                                        <state key="normal" title="Log In"/>
+                                                        <connections>
+                                                            <action selector="login" destination="pha-BC-7Gu" eventType="touchUpInside" id="V2I-Rc-GBT"/>
+                                                        </connections>
+                                                    </button>
+                                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="0J1-L7-ncP">
+                                                        <rect key="frame" x="0.0" y="300" width="335" height="20"/>
+                                                    </activityIndicatorView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HRA-ew-sPB">
+                                                        <rect key="frame" x="0.0" y="340" width="335" height="17"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="kxf-kC-kRS" firstAttribute="top" secondItem="ncJ-CI-IIa" secondAttribute="top" constant="40" id="Mdw-2v-NIK"/>
+                                            <constraint firstAttribute="trailing" secondItem="kxf-kC-kRS" secondAttribute="trailing" constant="20" id="U2d-Di-Kve"/>
+                                            <constraint firstAttribute="bottom" secondItem="kxf-kC-kRS" secondAttribute="bottom" constant="20" id="UPg-hj-Pyq"/>
+                                            <constraint firstItem="kxf-kC-kRS" firstAttribute="leading" secondItem="ncJ-CI-IIa" secondAttribute="leading" constant="20" id="XCc-df-cYn"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="ncJ-CI-IIa" firstAttribute="leading" secondItem="WcC-S0-eoR" secondAttribute="leading" id="G5L-4G-fQA"/>
+                                    <constraint firstItem="ncJ-CI-IIa" firstAttribute="top" secondItem="WcC-S0-eoR" secondAttribute="top" id="JFs-pZ-Tam"/>
+                                    <constraint firstAttribute="bottom" secondItem="ncJ-CI-IIa" secondAttribute="bottom" id="NFb-4p-yeN"/>
+                                    <constraint firstAttribute="trailing" secondItem="ncJ-CI-IIa" secondAttribute="trailing" id="Y6e-0O-Kkz"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="eAx-Cc-NMM" firstAttribute="bottom" secondItem="WcC-S0-eoR" secondAttribute="bottom" id="1Vk-ur-zc0"/>
+                            <constraint firstItem="WcC-S0-eoR" firstAttribute="top" secondItem="eAx-Cc-NMM" secondAttribute="top" id="IWH-ZZ-Vx5"/>
+                            <constraint firstItem="WcC-S0-eoR" firstAttribute="leading" secondItem="zXx-B4-oXK" secondAttribute="leading" id="Qn7-di-Ki5"/>
+                            <constraint firstAttribute="trailing" secondItem="WcC-S0-eoR" secondAttribute="trailing" id="hOy-sg-7jG"/>
+                            <constraint firstItem="ncJ-CI-IIa" firstAttribute="width" secondItem="zXx-B4-oXK" secondAttribute="width" id="uOy-BS-0hi"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="eAx-Cc-NMM"/>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="0J1-L7-ncP" id="4E0-bS-aWu"/>
+                        <outlet property="apiErrorLabel" destination="HRA-ew-sPB" id="az0-TE-xud"/>
+                        <outlet property="emailTextInput" destination="hrp-uc-XJh" id="SWQ-Ci-RbZ"/>
+                        <outlet property="loginButton" destination="Yey-Wb-GCR" id="ryg-lV-THi"/>
+                        <outlet property="passwordTextInput" destination="1WL-5K-JqE" id="dpD-dA-uo9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uof-5B-mN9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1102" y="-372"/>
         </scene>
     </scenes>
 </document>

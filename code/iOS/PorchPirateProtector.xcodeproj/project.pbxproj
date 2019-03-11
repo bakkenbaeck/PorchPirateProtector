@@ -7,14 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B3E9A412236B1F10026EBD1 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E9A402236B1F10026EBD1 /* WelcomeViewController.swift */; };
+		9B3E9A432236B2000026EBD1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E9A422236B2000026EBD1 /* LoginViewController.swift */; };
+		9B3E9A452236B27A0026EBD1 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E9A442236B27A0026EBD1 /* CreateAccountViewController.swift */; };
+		9B3E9A482236B29A0026EBD1 /* TextInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E9A472236B29A0026EBD1 /* TextInputView.swift */; };
+		9B3E9A4A2236B3040026EBD1 /* TextInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B3E9A492236B3040026EBD1 /* TextInputView.xib */; };
+		9B3E9A4D2236BC8F0026EBD1 /* NibContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E9A4C2236BC8F0026EBD1 /* NibContainer.swift */; };
+		9B3E9A4F2236BCE50026EBD1 /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E9A4E2236BCE50026EBD1 /* NibLoadable.swift */; };
 		9B4C8828222D285800638F1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4C8827222D285800638F1F /* AppDelegate.swift */; };
-		9B4C882A222D285800638F1F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4C8829222D285800638F1F /* ViewController.swift */; };
 		9B4C882D222D285800638F1F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B4C882B222D285800638F1F /* Main.storyboard */; };
 		9B4C882F222D285A00638F1F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B4C882E222D285A00638F1F /* Assets.xcassets */; };
 		9B4C8832222D285A00638F1F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B4C8830222D285A00638F1F /* LaunchScreen.storyboard */; };
 		9B4C883D222D285A00638F1F /* PorchPirateProtectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4C883C222D285A00638F1F /* PorchPirateProtectorTests.swift */; };
 		9B4C8850222D347F00638F1F /* PPPShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4C884F222D347F00638F1F /* PPPShared.framework */; };
 		9B4C8851222D347F00638F1F /* PPPShared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4C884F222D347F00638F1F /* PPPShared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9BC870282236E46800976CAD /* Optional+Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC870272236E46800976CAD /* Optional+Empty.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,9 +49,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9B3E9A402236B1F10026EBD1 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		9B3E9A422236B2000026EBD1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		9B3E9A442236B27A0026EBD1 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		9B3E9A472236B29A0026EBD1 /* TextInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputView.swift; sourceTree = "<group>"; };
+		9B3E9A492236B3040026EBD1 /* TextInputView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextInputView.xib; sourceTree = "<group>"; };
+		9B3E9A4C2236BC8F0026EBD1 /* NibContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibContainer.swift; sourceTree = "<group>"; };
+		9B3E9A4E2236BCE50026EBD1 /* NibLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibLoadable.swift; sourceTree = "<group>"; };
 		9B4C8824222D285800638F1F /* PorchPirateProtector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PorchPirateProtector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B4C8827222D285800638F1F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9B4C8829222D285800638F1F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9B4C882C222D285800638F1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9B4C882E222D285A00638F1F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B4C8831222D285A00638F1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -53,6 +66,7 @@
 		9B4C883C222D285A00638F1F /* PorchPirateProtectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorchPirateProtectorTests.swift; sourceTree = "<group>"; };
 		9B4C883E222D285A00638F1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B4C884F222D347F00638F1F /* PPPShared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PPPShared.framework; path = "../PPPShared/build/xcode-frameworks/PPPShared.framework"; sourceTree = "<group>"; };
+		9BC870272236E46800976CAD /* Optional+Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Empty.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +88,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B3E9A462236B2830026EBD1 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9B3E9A402236B1F10026EBD1 /* WelcomeViewController.swift */,
+				9B3E9A422236B2000026EBD1 /* LoginViewController.swift */,
+				9B3E9A442236B27A0026EBD1 /* CreateAccountViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		9B3E9A4B2236B31C0026EBD1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9B3E9A472236B29A0026EBD1 /* TextInputView.swift */,
+				9B3E9A492236B3040026EBD1 /* TextInputView.xib */,
+				9B3E9A4C2236BC8F0026EBD1 /* NibContainer.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9B3E9A502236BCEA0026EBD1 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				9B3E9A4E2236BCE50026EBD1 /* NibLoadable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		9B4C881B222D285800638F1F = {
 			isa = PBXGroup;
 			children = (
@@ -97,11 +139,14 @@
 			isa = PBXGroup;
 			children = (
 				9B4C8827222D285800638F1F /* AppDelegate.swift */,
-				9B4C8829222D285800638F1F /* ViewController.swift */,
 				9B4C882B222D285800638F1F /* Main.storyboard */,
 				9B4C882E222D285A00638F1F /* Assets.xcassets */,
 				9B4C8830222D285A00638F1F /* LaunchScreen.storyboard */,
 				9B4C8833222D285A00638F1F /* Info.plist */,
+				9BC870262236E44D00976CAD /* Extension */,
+				9B3E9A502236BCEA0026EBD1 /* Protocol */,
+				9B3E9A462236B2830026EBD1 /* ViewController */,
+				9B3E9A4B2236B31C0026EBD1 /* View */,
 			);
 			path = PorchPirateProtector;
 			sourceTree = "<group>";
@@ -113,6 +158,14 @@
 				9B4C883E222D285A00638F1F /* Info.plist */,
 			);
 			path = PorchPirateProtectorTests;
+			sourceTree = "<group>";
+		};
+		9BC870262236E44D00976CAD /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				9BC870272236E46800976CAD /* Optional+Empty.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,6 +253,7 @@
 			files = (
 				9B4C8832222D285A00638F1F /* LaunchScreen.storyboard in Resources */,
 				9B4C882F222D285A00638F1F /* Assets.xcassets in Resources */,
+				9B3E9A4A2236B3040026EBD1 /* TextInputView.xib in Resources */,
 				9B4C882D222D285800638F1F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -239,7 +293,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B4C882A222D285800638F1F /* ViewController.swift in Sources */,
+				9B3E9A452236B27A0026EBD1 /* CreateAccountViewController.swift in Sources */,
+				9B3E9A4F2236BCE50026EBD1 /* NibLoadable.swift in Sources */,
+				9B3E9A432236B2000026EBD1 /* LoginViewController.swift in Sources */,
+				9B3E9A482236B29A0026EBD1 /* TextInputView.swift in Sources */,
+				9B3E9A412236B1F10026EBD1 /* WelcomeViewController.swift in Sources */,
+				9B3E9A4D2236BC8F0026EBD1 /* NibContainer.swift in Sources */,
+				9BC870282236E46800976CAD /* Optional+Empty.swift in Sources */,
 				9B4C8828222D285800638F1F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

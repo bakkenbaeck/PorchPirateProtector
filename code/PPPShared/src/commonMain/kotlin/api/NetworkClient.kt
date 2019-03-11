@@ -65,6 +65,7 @@ open class NetworkClient(private val rootURLString: String) {
         headers: List<Header>
     ): String {
         val fullPath = fullURLStringForPath(path)
+        println("POSTUN $data")
         return ktorClient.post {
             url(fullPath)
             body = data

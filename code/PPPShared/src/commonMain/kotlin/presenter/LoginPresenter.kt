@@ -1,6 +1,8 @@
 package no.bakkenbaeck.pppshared.presenter
 
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import no.bakkenbaeck.pppshared.ApplicationDispatcher
 import no.bakkenbaeck.pppshared.api.Api
 import no.bakkenbaeck.pppshared.manager.TokenManager
 import no.bakkenbaeck.pppshared.model.UserCredentials
@@ -9,7 +11,7 @@ import no.bakkenbaeck.pppshared.validator.ValidationResult
 import no.bakkenbaeck.pppshared.view.LoginView
 import kotlin.properties.Delegates
 
-class LoginPresenter(
+class  LoginPresenter(
     val view: LoginView
 ): BaseCoroutinePresenter() {
 

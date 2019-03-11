@@ -7,13 +7,12 @@ import platform.darwin.dispatch_get_main_queue
 import platform.darwin.dispatch_queue_t
 import kotlin.coroutines.CoroutineContext
 
-internal actual val ApplicationDispatcher: CoroutineDispatcher = NsQueueDispatcher(dispatch_get_main_queue())
+internal actual val ApplicationDispatcher: CoroutineDispatcher = NsQueueDispatcher()
 
-internal class NsQueueDispatcher(
-    private val dispatchQueue: dispatch_queue_t
-) : CoroutineDispatcher() {
+internal class NsQueueDispatcher: CoroutineDispatcher() {
     override fun dispatch(context: CoroutineContext, block: Runnable) {
-        dispatch_async(dispatchQueue) {
+        val queue = dispatch_get_main_queue()
+        dispatch_async(queue) {
             block.run()
         }
     }

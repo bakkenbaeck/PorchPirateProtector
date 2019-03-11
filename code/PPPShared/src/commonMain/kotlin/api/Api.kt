@@ -1,17 +1,13 @@
 package no.bakkenbaeck.pppshared.api
 
 import kotlinx.serialization.json.*
-import kotlinx.serialization.*
-import io.ktor.client.features.*
-import io.ktor.client.call.*
-
 
 import no.bakkenbaeck.pppshared.model.*
 
 object Api {
 
     /// The client to use to execute these requests. Variable for testing.
-    var client = NetworkClient(rootURLString = "http://localhost")
+    var client = NetworkClient(rootURLString = "http://localhost:8080/api")
 
     /**
      * Creates a new user.

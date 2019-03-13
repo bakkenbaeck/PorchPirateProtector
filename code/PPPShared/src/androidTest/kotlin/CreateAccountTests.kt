@@ -177,7 +177,7 @@ class CreateAccountTests {
     fun attemptingToCreateAccountWithValidCredsSucceeds() = runBlocking {
         val view = TestCreateAccountView()
         val presenter = CreateAccountPresenter(view)
-        Api.client = MockNetworkClient()
+        presenter.api.client = MockNetworkClient()
 
         view.email = MockNetworkClient.validUsername
         view.password = "password"
@@ -205,7 +205,7 @@ class CreateAccountTests {
     fun attemptingToCreateAccountWithExistingCredsFails() = runBlocking {
         val view = TestCreateAccountView()
         val presenter = CreateAccountPresenter(view)
-        Api.client = MockNetworkClient()
+        presenter.api.client = MockNetworkClient()
 
         view.email = MockNetworkClient.takenUsername
         view.password = "password"

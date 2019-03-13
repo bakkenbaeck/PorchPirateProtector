@@ -3,7 +3,6 @@ package no.bakkenbaeck.pppshared
 import no.bakkenbaeck.pppshared.presenter.*
 import no.bakkenbaeck.pppshared.view.LoginView
 import no.bakkenbaeck.pppshared.validator.*
-import kotlin.test.*
 import kotlinx.coroutines.*
 import no.bakkenbaeck.pppshared.api.Api
 import no.bakkenbaeck.pppshared.manager.TokenManager
@@ -128,7 +127,7 @@ class LoginTests {
     fun attemptingToLoginWithValidCredsSucceeds() = runBlocking {
         val view = TestLoginView()
         val presenter = LoginPresenter(view)
-        Api.client = MockNetworkClient()
+        presenter.api.client = MockNetworkClient()
 
         view.email = MockNetworkClient.validUsername
         view.password = "password"
@@ -154,7 +153,7 @@ class LoginTests {
     fun attemptingToLoginWithInvalidCredsFails() = runBlocking {
         val view = TestLoginView()
         val presenter = LoginPresenter(view)
-        Api.client = MockNetworkClient()
+        presenter.api.client = MockNetworkClient()
 
         view.email = MockNetworkClient.wrongPasswordUsername
         view.password = "password"

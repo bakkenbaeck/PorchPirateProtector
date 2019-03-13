@@ -20,7 +20,7 @@ data class Header(val key: String, val value: String) {
         // NOTE: 'Content-Type' is set by ktor automatically
         val AcceptJSON = Header("Accept", "application/json")
         fun TokenAuth(token: String): Header {
-            return Header("Authorization", "Token $token")
+            return Header("Authorization", "Bearer $token")
         }
     }
 }

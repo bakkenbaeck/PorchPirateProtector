@@ -20,10 +20,39 @@
             android:id="@+id/loginFragment"
             android:name="no.bakkenbaeck.porchpirateprotector.fragment.LoginFragment"
             android:label="LoginFragment"
-            tools:layout="@layout/fragment_login"/>
+            tools:layout="@layout/fragment_login">
+        <action
+                android:id="@+id/action_loginFragment_to_deviceListFragment"
+                app:destination="@id/deviceListFragment"/>
+    </fragment>
     <fragment
             android:id="@+id/createAccountFragment"
             android:name="no.bakkenbaeck.porchpirateprotector.fragment.CreateAccountFragment"
             android:label="CreateAccountFragment"
-            tools:layout="@layout/fragment_create_account"/>
+            tools:layout="@layout/fragment_create_account">
+        <action
+                android:id="@+id/action_createAccountFragment_to_deviceListFragment"
+                app:destination="@id/deviceListFragment"/>
+    </fragment>
+    <fragment
+            android:id="@+id/deviceListFragment"
+            android:name="no.bakkenbaeck.porchpirateprotector.fragment.DeviceListFragment"
+            android:label="DeviceListFragment"
+            tools:layout="@layout/fragment_device_list">
+        <action
+                android:id="@+id/action_deviceListFragment_to_deviceDetailFragment"
+                app:destination="@id/deviceDetailFragment"/>
+        <action android:id="@+id/action_deviceListFragment_to_addDeviceFragment"
+                app:destination="@id/addDeviceFragment"/>
+    </fragment>
+    <fragment
+            android:id="@+id/deviceDetailFragment"
+            android:name="no.bakkenbaeck.porchpirateprotector.fragment.DeviceDetailFragment"
+            android:label="DeviceDetailFragment"
+            tools:layout="@layout/fragment_device_detail"/>
+    <fragment
+            android:id="@+id/addDeviceFragment"
+            android:name="no.bakkenbaeck.porchpirateprotector.fragment.AddDeviceFragment"
+            android:label="AddDeviceFragment"
+            tools:layout="@layout/fragment_device_add"/>
 </navigation>

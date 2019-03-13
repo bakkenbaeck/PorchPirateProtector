@@ -48,44 +48,59 @@ class Api {
         return Json.parse(UserToken.serializer(), tokenJSON)
     }
 
-    /**
-     * Locks a device.
-     *
-     * @param request The request to use to lock the device.
-     * @param token The current user's token.
-     * @return The updated lock state of the device
-     */
-    suspend fun lockDevice(
-        request: DeviceRequest,
+    suspend fun addDevice(
+        ipAddress: String,
         token: String
-    ): LockState {
-        val lockStateJSON = client.execute(
-            method = RequestMethod.Post(Json.stringify(DeviceRequest.serializer(), request)),
-            path = "device/${request.deviceId}/lock",
+    ): DeviceRequest {
+        val request = DeviceCreateRequest(ipAddress)
+        val addDeviceJSON = client.execute(
+            method = RequestMethod.Post(request.toJSONString()),
+            path = "device/add",
             headers = listOf(
-                    Header.AcceptJSON,
-                    Header.TokenAuth(token)
-
+                Header.AcceptJSON,
+                Header.TokenAuth(token)
             )
         )
+
+        println("PPP: $addDeviceJSON")
+
+        return Json.parse(DeviceRequest.serializer(), addDeviceJSON)
+    }
+
+    suspend fun getCurrentLockState(
+        deviceId: Int,
+        pairingKey: String,
+        token: String
+    ): LockState {
+        val request = DeviceRequest(deviceId, pairingKey, null)
+        val lockStateJSON = client.execute(
+            method = RequestMethod.Post(request.toJSONString()),
+            path = "device/status",
+            headers = listOf(
+                Header.AcceptJSON,
+                Header.TokenAuth(token)
+            )
+        )
+
+        println("PPP: $lockStateJSON")
 
         return Json.parse(LockState.serializer(), lockStateJSON)
     }
 
     /**
-     * Unlocks a device.
+     * Locks or unlocks a device.
      *
-     * @param request The request to use to unlock the device.
+     * @param request The request to use to lock or unlock the device.
      * @param token The current user's token.
      * @return The updated lock state of the device
      */
-    suspend fun unlockDevice(
+    suspend fun updateDeviceLockState(
         request: DeviceRequest,
         token: String
     ): LockState {
         val lockStateJSON = client.execute(
             method = RequestMethod.Post(Json.stringify(DeviceRequest.serializer(), request)),
-            path = "device/${request.deviceId}/unlock",
+            path = "device/lock",
             headers = listOf(
                 Header.AcceptJSON,
                 Header.TokenAuth(token)

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_create_account.*
 import no.bakkenbaeck.porchpirateprotector.R
 import no.bakkenbaeck.pppshared.presenter.CreateAccountPresenter
@@ -70,7 +71,7 @@ class CreateAccountFragment: Fragment(), CreateAccountView {
     }
 
     override fun accountSuccessfullyCreated() {
-        println("SUCCESS!")
+        findNavController().navigate(R.id.action_createAccountFragment_to_deviceListFragment)
     }
 
     override fun apiErrorUpdated(toString: String?) {

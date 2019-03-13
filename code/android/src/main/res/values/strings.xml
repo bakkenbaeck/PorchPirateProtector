@@ -8,4 +8,6 @@
     <string name="create_account_button_title">Create Account</string>
     <string name="porch_pirate_protector_title">Porch Pirate Protector 🔐</string>
     <string name="create_account_title">Create Account</string>
+    <string name="lock_button_title">Lock</string>
+    <string name="unlock_button_title">Unlock</string>
 </resources>

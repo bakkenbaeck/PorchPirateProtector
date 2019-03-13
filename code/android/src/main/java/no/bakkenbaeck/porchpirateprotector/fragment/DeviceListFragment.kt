@@ -17,12 +17,13 @@ import no.bakkenbaeck.porchpirateprotector.R
 import no.bakkenbaeck.porchpirateprotector.adapter.DeviceListAdapter
 import no.bakkenbaeck.porchpirateprotector.adapter.DeviceSelectionListener
 import no.bakkenbaeck.porchpirateprotector.fragment.DeviceDetailFragment.Companion.ARG_DEVICE
+import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.pppshared.presenter.DeviceListPresenter
 
 class DeviceListFragment: Fragment(), DeviceListView, DeviceSelectionListener {
 
     private val adapter by lazy { DeviceListAdapter(this) }
-    private val presenter by lazy { DeviceListPresenter(this) }
+    private val presenter by lazy { DeviceListPresenter(this, KeyStoreManager) }
 
     // FRAGMENT LIFECYCLE
 

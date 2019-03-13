@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_device_detail.*
 import no.bakkenbaeck.porchpirateprotector.R
+import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.pppshared.model.PairedDevice
 import no.bakkenbaeck.pppshared.presenter.DeviceDetailPresenter
 import no.bakkenbaeck.pppshared.view.DeviceDetailView
@@ -14,7 +15,7 @@ import java.lang.RuntimeException
 
 class DeviceDetailFragment: Fragment(), DeviceDetailView {
 
-    private val presenter by lazy { DeviceDetailPresenter(this, currentDevice) }
+    private val presenter by lazy { DeviceDetailPresenter(this, currentDevice, KeyStoreManager) }
 
     private lateinit var currentDevice: PairedDevice
 

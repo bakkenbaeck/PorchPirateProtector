@@ -12,13 +12,14 @@ import kotlinx.android.synthetic.main.fragment_device_add.*
 import no.bakkenbaeck.porchpirateprotector.R
 import no.bakkenbaeck.porchpirateprotector.adapter.IpListAdapter
 import no.bakkenbaeck.porchpirateprotector.adapter.IpSelectionListener
+import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.pppshared.model.PairedDevice
 import no.bakkenbaeck.pppshared.presenter.DeviceAddPresenter
 import no.bakkenbaeck.pppshared.view.DeviceAddView
 
 class AddDeviceFragment: Fragment(), DeviceAddView, IpSelectionListener {
 
-    private val presenter by lazy { DeviceAddPresenter(this) }
+    private val presenter by lazy { DeviceAddPresenter(this, KeyStoreManager) }
     private val adapter by lazy { IpListAdapter(this) }
 
     // FRAGMENT LIFECYCLE

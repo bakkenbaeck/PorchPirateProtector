@@ -9,12 +9,13 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_create_account.*
 import no.bakkenbaeck.porchpirateprotector.R
 import no.bakkenbaeck.porchpirateprotector.extension.hideSoftKeyboard
+import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.pppshared.presenter.CreateAccountPresenter
 import no.bakkenbaeck.pppshared.view.CreateAccountView
 
 class CreateAccountFragment: Fragment(), CreateAccountView {
 
-    private val presenter by lazy { CreateAccountPresenter(this) }
+    private val presenter by lazy { CreateAccountPresenter(this, KeyStoreManager) }
 
     private fun handleFocusChange(forView: View, hasFocus: Boolean) {
         if (hasFocus) {

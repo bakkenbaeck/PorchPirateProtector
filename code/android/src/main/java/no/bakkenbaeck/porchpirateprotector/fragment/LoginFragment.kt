@@ -10,13 +10,14 @@ import no.bakkenbaeck.porchpirateprotector.R
 
 import kotlinx.android.synthetic.main.fragment_login.*
 import no.bakkenbaeck.porchpirateprotector.extension.hideSoftKeyboard
+import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.pppshared.presenter.LoginPresenter
 import no.bakkenbaeck.pppshared.view.LoginView
 
 
 class LoginFragment: Fragment(), LoginView {
 
-    private val presenter by lazy { LoginPresenter(this) }
+    private val presenter by lazy { LoginPresenter(this, KeyStoreManager) }
 
     private fun handleFocusChange(forView: View, hasFocus: Boolean) {
         if (hasFocus) {

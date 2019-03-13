@@ -15,11 +15,15 @@ sealed class ValidationResult {
 
 object InputValidator {
 
+    // https://discuss.kotlinlang.org/t/explicit-do-nothing-construct/1972/2
+    private val pass: Unit = Unit
+
     fun validate(input: String?, fieldName: String, functions: List<(String?, String) -> ValidationResult>): ValidationResult {
         for (function in functions) {
             val currentResult = function(input, fieldName)
             when (currentResult) {
                 is ValidationResult.Invalid -> return currentResult
+                is ValidationResult.Valid -> pass
             }
         }
 
@@ -60,6 +64,7 @@ object InputValidator {
         val notEmptyResult = validateNotNullOrEmpty(input, fieldName)
         when (notEmptyResult) {
             is ValidationResult.Invalid -> return notEmptyResult
+            is ValidationResult.Valid -> pass
         }
 
         // If we're here, the input is definitely not null
@@ -80,6 +85,7 @@ object InputValidator {
         val notEmptyResult = validateNotNullOrEmpty(input, fieldName)
         when (notEmptyResult) {
             is ValidationResult.Invalid -> return notEmptyResult
+            is ValidationResult.Valid -> pass
         }
 
         return if (input!!.length >= minimumLength) {
@@ -101,11 +107,13 @@ object InputValidator {
         val secondFieldNonEmptyResult = validateNotNullOrEmpty(secondFieldInput, secondFieldName)
         when (secondFieldNonEmptyResult) {
             is ValidationResult.Invalid -> return secondFieldNonEmptyResult
+            is ValidationResult.Valid -> pass
         }
 
         val firstFieldNonEmptyResult = validateNotNullOrEmpty(firstFieldInput, firstFieldName)
         when (firstFieldNonEmptyResult) {
             is ValidationResult.Invalid -> return firstFieldNonEmptyResult
+            is ValidationResult.Valid -> pass
         }
 
         // If we've gotten here, both are definitely not null

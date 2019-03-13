@@ -32,16 +32,7 @@ import java.util.concurrent.*
 internal fun Routing.helloWorld() {
     route("/") {
         get {
-            call.respondHtml {
-                head {
-                    title { +"Ktor: jetty" }
-                }
-                body {
-                    p {
-                        +"Hello from Ktor Jetty engine sample application"
-                    }
-                }
-            }
+            serveHTML("Home","Hello from Porch Pirate Protector's server app!")
         }
     }
 }
@@ -68,16 +59,7 @@ internal fun Routing.login(database: ServerDB) {
             } ?: call.respond(HttpStatusCode.BadRequest, "Could not read credentials from your account")
         }
         get {
-            call.respondHtml {
-                head {
-                    title { +"API: Login" }
-                }
-                body {
-                    p {
-                        +"You're trying to access the login API with a GET. Good luck with that."
-                    }
-                }
-            }
+            serveHTML("Login","You're trying to access the login API with a GET. Good luck with that.")
         }
     }
 }
@@ -103,16 +85,7 @@ internal fun Routing.createAccount(database: ServerDB) {
             } ?: call.respond(HttpStatusCode.BadRequest)
         }
         get {
-            call.respondHtml {
-                head {
-                    title { +"API: Create Account" }
-                }
-                body {
-                    p {
-                        +"You're trying to access the create account API with a GET. Good luck with that."
-                    }
-                }
-            }
+            serveHTML("Create Account","You're trying to access the create account API with a GET. Good luck with that.")
         }
     }
 }
@@ -128,6 +101,21 @@ internal fun Routing.deviceRequest(database: ServerDB) {
                 // TODO: Implement!
                 call.respond(HttpStatusCode(418, "I'm a teapot!"))
             } ?: call.respond(HttpStatusCode.BadRequest)
+        }
+    }
+}
+
+internal suspend fun PipelineContext<Unit, ApplicationCall>.serveHTML(
+    title: String,
+    message: String) {
+    call.respondHtml {
+        head {
+            title { +"API: $title" }
+        }
+        body {
+            p {
+                + message
+            }
         }
     }
 }

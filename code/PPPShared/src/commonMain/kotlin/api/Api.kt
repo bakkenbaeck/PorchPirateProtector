@@ -4,11 +4,12 @@ import kotlinx.serialization.json.*
 
 import no.bakkenbaeck.pppshared.model.*
 
+expect fun localhostRootURL(): String
+
 class Api {
 
     /// The client to use to execute these requests. Variable for testing.
-    /// 10.0.2.2 is the emulator address for localhost
-    var client = NetworkClient(rootURLString = "http://10.0.2.2:8080/api")
+    var client = NetworkClient(rootURLString = "${localhostRootURL()}/api")
 
     /**
      * Creates a new user.

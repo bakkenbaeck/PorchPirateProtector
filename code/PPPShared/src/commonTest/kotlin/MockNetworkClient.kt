@@ -13,8 +13,8 @@ class MockNetworkClient: NetworkClient("") {
         const val validUsername = "valid@seemslegit.biz"
         const val wrongPasswordUsername = "wrongpass@nope.org"
         const val takenUsername = "taken@nope.org"
-        const val goodDeviceId = "1"
-        const val badDeviceId = "2"
+        const val goodDeviceId = 1
+        const val badDeviceId = 2
         const val mockToken = "I AM A MOCK TOKEN"
     }
 
@@ -67,9 +67,6 @@ class MockNetworkClient: NetworkClient("") {
         when (method) {
             is RequestMethod.Post -> {
                 val request = Json.parse(DeviceRequest.serializer(), method.body)
-                if (!path.contains(request.deviceId)) {
-                    throw RuntimeException("Wrong device ID for path!")
-                }
                 when (path) {
                     "device/$goodDeviceId/lock" -> return mockLockState(goodDeviceId, true)
                     "device/$badDeviceId/lock" -> throw RuntimeException("Bad device ID! No donut!")
@@ -85,9 +82,6 @@ class MockNetworkClient: NetworkClient("") {
         when (method) {
             is RequestMethod.Post -> {
                 val request = Json.parse(DeviceRequest.serializer(), method.body)
-                if (!path.contains(request.deviceId)) {
-                    throw RuntimeException("Wrong device ID for path!")
-                }
                 when (path) {
                     "device/$goodDeviceId/unlock" -> return mockLockState(goodDeviceId, false)
                     "device/$badDeviceId/unlock" -> throw RuntimeException("Bad device ID! No donut!")
@@ -99,7 +93,7 @@ class MockNetworkClient: NetworkClient("") {
         }
     }
 
-    private fun mockLockState(deviceId: String, isLocked: Boolean): String {
+    private fun mockLockState(deviceId: Int, isLocked: Boolean): String {
         val lockState = LockState(deviceId, isLocked)
         return Json.stringify(LockState.serializer(), lockState)
     }

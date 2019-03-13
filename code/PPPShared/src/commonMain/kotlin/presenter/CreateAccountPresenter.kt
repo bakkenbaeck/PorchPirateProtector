@@ -12,6 +12,7 @@ import kotlin.properties.Delegates
 class CreateAccountPresenter(
     val view: CreateAccountView
 ): BaseCoroutinePresenter() {
+
     /// Any error which has occurred in validating the user's email address.
     private var emailError: String? by Delegates.observable<String?>(null) { _, _, newValue ->
         view.emailErrorUpdated(newValue)
@@ -88,7 +89,7 @@ class CreateAccountPresenter(
 
         var result = false
         try {
-            val token = Api.createAccount(creds)
+            val token = api.createAccount(creds)
             TokenManager.storeToken(token)
             view.accountSuccessfullyCreated()
             result = true

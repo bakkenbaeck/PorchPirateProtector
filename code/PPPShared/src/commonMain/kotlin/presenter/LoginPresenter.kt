@@ -70,7 +70,7 @@ class  LoginPresenter(
 
         var success = false
         try {
-            val token = Api.login(creds)
+            val token = api.login(creds)
             TokenManager.storeToken(token)
             view.loginSucceeded()
             success = true

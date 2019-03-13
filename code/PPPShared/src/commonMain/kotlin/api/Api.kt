@@ -4,7 +4,7 @@ import kotlinx.serialization.json.*
 
 import no.bakkenbaeck.pppshared.model.*
 
-object Api {
+class Api {
 
     /// The client to use to execute these requests. Variable for testing.
     /// 10.0.2.2 is the emulator address for localhost

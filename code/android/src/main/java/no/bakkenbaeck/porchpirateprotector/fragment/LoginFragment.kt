@@ -9,8 +9,10 @@ import androidx.navigation.fragment.findNavController
 import no.bakkenbaeck.porchpirateprotector.R
 
 import kotlinx.android.synthetic.main.fragment_login.*
+import no.bakkenbaeck.porchpirateprotector.extension.hideSoftKeyboard
 import no.bakkenbaeck.pppshared.presenter.LoginPresenter
 import no.bakkenbaeck.pppshared.view.LoginView
+
 
 class LoginFragment: Fragment(), LoginView {
 
@@ -61,6 +63,7 @@ class LoginFragment: Fragment(), LoginView {
     }
 
     override fun loginSucceeded() {
+        hideSoftKeyboard()
         findNavController().navigate(R.id.action_loginFragment_to_deviceListFragment)
     }
 

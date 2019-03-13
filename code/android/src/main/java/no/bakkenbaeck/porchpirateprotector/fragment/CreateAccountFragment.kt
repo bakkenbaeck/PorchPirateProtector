@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_create_account.*
 import no.bakkenbaeck.porchpirateprotector.R
+import no.bakkenbaeck.porchpirateprotector.extension.hideSoftKeyboard
 import no.bakkenbaeck.pppshared.presenter.CreateAccountPresenter
 import no.bakkenbaeck.pppshared.view.CreateAccountView
 
@@ -71,6 +72,7 @@ class CreateAccountFragment: Fragment(), CreateAccountView {
     }
 
     override fun accountSuccessfullyCreated() {
+        hideSoftKeyboard()
         findNavController().navigate(R.id.action_createAccountFragment_to_deviceListFragment)
     }
 

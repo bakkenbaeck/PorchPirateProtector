@@ -18,11 +18,10 @@ class ServerDB {
     init {
         /// The IP of your MySql server.
         // If you're using docker, use `docker container inspect [container name]` to get your IP address.
-        val serverIP = "172.17.0.2"
+        val serverIP = "172.17.0.3"
 
-        /// The MySql username for you database.
-        /// You should probably use something other than "root" for anything you're deploying.
-        val databaseUsername = "root"
+        /// The MySQL username for you database.
+        val databaseUsername = "ppp-database"
 
         /// The password for your user in the database.
         /// For the love of god, use something more secure than this.

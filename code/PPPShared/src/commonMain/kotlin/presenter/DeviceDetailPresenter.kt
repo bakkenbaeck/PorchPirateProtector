@@ -1,16 +1,16 @@
 package no.bakkenbaeck.pppshared.presenter
 
 import kotlinx.coroutines.launch
-import no.bakkenbaeck.pppshared.api.Api
-import no.bakkenbaeck.pppshared.manager.TokenManager
+import no.bakkenbaeck.pppshared.interfaces.SecureStorage
 import no.bakkenbaeck.pppshared.model.LockState
 import no.bakkenbaeck.pppshared.model.PairedDevice
 import no.bakkenbaeck.pppshared.view.DeviceDetailView
 
 class DeviceDetailPresenter(
     val view: DeviceDetailView,
-    val device: PairedDevice
-): BaseCoroutinePresenter() {
+    val device: PairedDevice,
+    storage: SecureStorage
+): BaseCoroutinePresenter(secureStorage = storage) {
 
     suspend fun getStatusAsync(): LockState? {
         view.startLoadingIndicator()

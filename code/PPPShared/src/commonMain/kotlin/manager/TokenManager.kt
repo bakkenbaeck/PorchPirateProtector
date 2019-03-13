@@ -1,23 +1,21 @@
 package no.bakkenbaeck.pppshared.manager
 
+import no.bakkenbaeck.pppshared.interfaces.SecureStorage
 import no.bakkenbaeck.pppshared.model.UserToken
 
 object TokenManager {
 
-    private var token: UserToken? = null
-
-    fun currentToken(): UserToken? {
-        // TODO: Fetch from secure storage
-        return token
+    fun currentToken(storage: SecureStorage): UserToken? {
+        storage.fetchTokenString()?.let {
+            return UserToken(it)
+        } ?: return null
     }
 
-    fun storeToken(token: UserToken) {
-        // TODO: Store securely
-        this.token = token
+    fun storeToken(token: UserToken, storage: SecureStorage) {
+        storage.storeTokenString(token.token)
     }
 
-    fun clearToken() {
-        // TODO: Clear from secure storage
-        token = null
+    fun clearToken(storage: SecureStorage) {
+        storage.clearTokenString()
     }
 }

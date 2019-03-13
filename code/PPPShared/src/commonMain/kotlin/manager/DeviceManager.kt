@@ -9,7 +9,6 @@ object DeviceManager {
     var pairedDevices: MutableList<PairedDevice> = mutableListOf()
     var unpairedDeviceIpAddresses: MutableList<String> = mutableListOf("10.0.0.3")
 
-
     private fun isAlreadyPaired(deviceIpAddress: String): Boolean {
         val paired = pairedDevices.firstOrNull { it.ipAddress == deviceIpAddress }
         return (paired != null)

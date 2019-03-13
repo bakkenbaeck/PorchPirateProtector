@@ -1,13 +1,15 @@
 package no.bakkenbaeck.pppshared.presenter
 
 import kotlinx.coroutines.launch
+import no.bakkenbaeck.pppshared.interfaces.SecureStorage
 import no.bakkenbaeck.pppshared.manager.DeviceManager
 import no.bakkenbaeck.pppshared.model.PairedDevice
 import no.bakkenbaeck.pppshared.view.DeviceListView
 
 class DeviceListPresenter(
-    val view: DeviceListView
-): BaseCoroutinePresenter() {
+    val view: DeviceListView,
+    storage: SecureStorage
+): BaseCoroutinePresenter(secureStorage = storage) {
 
     init {
         updateDeviceList()

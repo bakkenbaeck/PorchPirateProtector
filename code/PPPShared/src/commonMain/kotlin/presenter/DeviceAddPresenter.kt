@@ -1,13 +1,15 @@
 package no.bakkenbaeck.pppshared.presenter
 
 import kotlinx.coroutines.launch
+import no.bakkenbaeck.pppshared.interfaces.SecureStorage
 import no.bakkenbaeck.pppshared.manager.DeviceManager
 import no.bakkenbaeck.pppshared.model.PairedDevice
 import no.bakkenbaeck.pppshared.view.DeviceAddView
 
 class DeviceAddPresenter(
-    val view: DeviceAddView
-): BaseCoroutinePresenter() {
+    val view: DeviceAddView,
+    storage: SecureStorage
+): BaseCoroutinePresenter(secureStorage = storage) {
 
     fun updateAvailableIPAddresses() {
         view.updatedAvailableDeviceIPAddresses(DeviceManager.unpairedDeviceIpAddresses)

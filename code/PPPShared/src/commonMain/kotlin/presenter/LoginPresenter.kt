@@ -1,9 +1,7 @@
 package no.bakkenbaeck.pppshared.presenter
 
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import no.bakkenbaeck.pppshared.ApplicationDispatcher
-import no.bakkenbaeck.pppshared.api.Api
+import no.bakkenbaeck.pppshared.interfaces.SecureStorage
 import no.bakkenbaeck.pppshared.manager.TokenManager
 import no.bakkenbaeck.pppshared.model.UserCredentials
 import no.bakkenbaeck.pppshared.validator.InputValidator
@@ -12,8 +10,9 @@ import no.bakkenbaeck.pppshared.view.LoginView
 import kotlin.properties.Delegates
 
 class  LoginPresenter(
-    val view: LoginView
-): BaseCoroutinePresenter() {
+    val view: LoginView,
+    storage: SecureStorage
+): BaseCoroutinePresenter(secureStorage = storage) {
 
     /// Any error which has occurred in validating the user's email address.
     private var emailError: String? by Delegates.observable<String?>(null) { _, _, newValue ->
@@ -56,8 +55,7 @@ class  LoginPresenter(
         return emailError == null
                 && passwordError == null
     }
-
-
+    
     suspend fun loginAsync(): Boolean {
         if (!isCurrentInputValid()) {
             return false
@@ -71,7 +69,7 @@ class  LoginPresenter(
         var success = false
         try {
             val token = api.login(creds)
-            TokenManager.storeToken(token)
+            TokenManager.storeToken(token, secureStorage)
             view.loginSucceeded()
             success = true
         } catch (exception: Exception) {

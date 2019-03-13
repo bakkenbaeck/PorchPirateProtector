@@ -17,7 +17,7 @@ class LoginViewController: UIViewController {
     @IBOutlet private var apiErrorLabel: UILabel!
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     
-    private lazy var presenter = LoginPresenter(view: self)
+    private lazy var presenter = LoginPresenter(view: self, storage: Keychain.shared)
     
     override func viewDidLoad() {
         super.viewDidLoad()

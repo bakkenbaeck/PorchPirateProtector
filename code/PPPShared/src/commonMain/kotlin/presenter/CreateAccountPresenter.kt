@@ -1,7 +1,7 @@
 package no.bakkenbaeck.pppshared.presenter
 
 import kotlinx.coroutines.launch
-import no.bakkenbaeck.pppshared.api.Api
+import no.bakkenbaeck.pppshared.interfaces.SecureStorage
 import no.bakkenbaeck.pppshared.manager.TokenManager
 import no.bakkenbaeck.pppshared.model.UserCredentials
 import no.bakkenbaeck.pppshared.validator.InputValidator
@@ -10,8 +10,9 @@ import no.bakkenbaeck.pppshared.view.CreateAccountView
 import kotlin.properties.Delegates
 
 class CreateAccountPresenter(
-    val view: CreateAccountView
-): BaseCoroutinePresenter() {
+    val view: CreateAccountView,
+    storage: SecureStorage
+): BaseCoroutinePresenter(secureStorage = storage) {
 
     /// Any error which has occurred in validating the user's email address.
     private var emailError: String? by Delegates.observable<String?>(null) { _, _, newValue ->
@@ -90,7 +91,7 @@ class CreateAccountPresenter(
         var result = false
         try {
             val token = api.createAccount(creds)
-            TokenManager.storeToken(token)
+            TokenManager.storeToken(token, secureStorage)
             view.accountSuccessfullyCreated()
             result = true
         } catch (exception: Exception) {

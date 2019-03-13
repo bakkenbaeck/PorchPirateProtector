@@ -58,15 +58,10 @@ class CreateAccountTests {
 
     }
 
-    @Before
-    fun setup() {
-        TokenManager.clearToken()
-    }
-
     @Test
     fun validationSetsProperErrorsThenClearsThemAfterChangesMade() {
         val view = TestCreateAccountView()
-        val presenter = CreateAccountPresenter(view)
+        val presenter = CreateAccountPresenter(view, MockStorage())
 
         presenter.validateAllInput()
 
@@ -125,7 +120,7 @@ class CreateAccountTests {
     @Test
     fun checkingValidityWithoutChangesTriggersErrors() = runBlocking {
         val view = TestCreateAccountView()
-        val presenter = CreateAccountPresenter(view)
+        val presenter = CreateAccountPresenter(view, MockStorage())
         val expectedEmailError = ValidationResult.Invalid.WasNull("email")
         val expectedPasswordError = ValidationResult.Invalid.WasNull("password")
         val expectedConfirmPasswordError = ValidationResult.Invalid.WasNull("confirm password")
@@ -150,7 +145,7 @@ class CreateAccountTests {
     @Test
     fun attemptingToCreateAccountWithoutChangesTriggersErrorsAndFails() = runBlocking {
         val view = TestCreateAccountView()
-        val presenter = CreateAccountPresenter(view)
+        val presenter = CreateAccountPresenter(view, MockStorage())
 
         val expectedEmailError = ValidationResult.Invalid.WasNull("email")
         val expectedPasswordError = ValidationResult.Invalid.WasNull("password")
@@ -176,7 +171,8 @@ class CreateAccountTests {
     @Test
     fun attemptingToCreateAccountWithValidCredsSucceeds() = runBlocking {
         val view = TestCreateAccountView()
-        val presenter = CreateAccountPresenter(view)
+        val storage = MockStorage()
+        val presenter = CreateAccountPresenter(view, storage)
         presenter.api.client = MockNetworkClient()
 
         view.email = MockNetworkClient.validUsername
@@ -197,14 +193,15 @@ class CreateAccountTests {
         assertFalse(view.loadingSpinnerGoing)
         assertTrue(view.accountCreationSucceeded)
 
-        assertNotNull(TokenManager.currentToken())
-        assertEquals(MockNetworkClient.mockToken, TokenManager.currentToken()?.token)
+        assertNotNull(TokenManager.currentToken(storage))
+        assertEquals(MockNetworkClient.mockToken, TokenManager.currentToken(storage)?.token)
     }
 
     @Test
     fun attemptingToCreateAccountWithExistingCredsFails() = runBlocking {
         val view = TestCreateAccountView()
-        val presenter = CreateAccountPresenter(view)
+        val storage = MockStorage()
+        val presenter = CreateAccountPresenter(view, storage)
         presenter.api.client = MockNetworkClient()
 
         view.email = MockNetworkClient.takenUsername
@@ -226,6 +223,6 @@ class CreateAccountTests {
         assertEquals("Account already exists", view.apiError)
         assertFalse(view.accountCreationSucceeded)
 
-        assertNull(TokenManager.currentToken())
+        assertNull(TokenManager.currentToken(storage))
     }
 }

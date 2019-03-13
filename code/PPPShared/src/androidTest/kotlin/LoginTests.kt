@@ -4,9 +4,8 @@ import no.bakkenbaeck.pppshared.presenter.*
 import no.bakkenbaeck.pppshared.view.LoginView
 import no.bakkenbaeck.pppshared.validator.*
 import kotlinx.coroutines.*
-import no.bakkenbaeck.pppshared.api.Api
+import kotlin.test.*
 import no.bakkenbaeck.pppshared.manager.TokenManager
-import org.junit.Before
 
 class LoginTests {
 
@@ -50,15 +49,10 @@ class LoginTests {
         }
     }
 
-    @Before
-    fun setup() {
-        TokenManager.clearToken()
-    }
-
     @Test
     fun validationSetsProperErrorsThenClearsThemAfterChangesMade() {
         val view = TestLoginView()
-        val presenter = LoginPresenter(view)
+        val presenter = LoginPresenter(view, MockStorage())
 
         presenter.validateAllInput()
 
@@ -88,7 +82,7 @@ class LoginTests {
     @Test
     fun checkingValidityWithoutChangesTriggersErrors() {
         val view = TestLoginView()
-        val presenter = LoginPresenter(view)
+        val presenter = LoginPresenter(view, MockStorage())
 
         val isValid = presenter.isCurrentInputValid()
 
@@ -103,7 +97,7 @@ class LoginTests {
     @Test
     fun attemptingToLoginWithoutChangesTriggersErrorsAndFails() = runBlocking {
         val view = TestLoginView()
-        val presenter = LoginPresenter(view)
+        val presenter = LoginPresenter(view, MockStorage())
         val expectedEmailError = ValidationResult.Invalid.WasNull("email")
         val expectedPasswordError = ValidationResult.Invalid.WasNull("password")
 
@@ -126,7 +120,8 @@ class LoginTests {
     @Test
     fun attemptingToLoginWithValidCredsSucceeds() = runBlocking {
         val view = TestLoginView()
-        val presenter = LoginPresenter(view)
+        val storage = MockStorage()
+        val presenter = LoginPresenter(view, storage)
         presenter.api.client = MockNetworkClient()
 
         view.email = MockNetworkClient.validUsername
@@ -145,14 +140,15 @@ class LoginTests {
         assertFalse(view.loadingSpinnerGoing)
         assertTrue(view.loginHasSucceeded)
 
-        assertNotNull(TokenManager.currentToken())
-        assertEquals(MockNetworkClient.mockToken, TokenManager.currentToken()?.token)
+        assertNotNull(TokenManager.currentToken(storage))
+        assertEquals(MockNetworkClient.mockToken, TokenManager.currentToken(storage)?.token)
     }
 
     @Test
     fun attemptingToLoginWithInvalidCredsFails() = runBlocking {
         val view = TestLoginView()
-        val presenter = LoginPresenter(view)
+        val storage = MockStorage()
+        val presenter = LoginPresenter(view, storage)
         presenter.api.client = MockNetworkClient()
 
         view.email = MockNetworkClient.wrongPasswordUsername
@@ -172,6 +168,6 @@ class LoginTests {
         assertEquals("Wrong password", view.apiError)
         assertFalse(view.loginHasSucceeded)
 
-        assertNull(TokenManager.currentToken())
+        assertNull(TokenManager.currentToken(storage))
     }
 }

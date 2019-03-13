@@ -11,8 +11,5 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        HttpBinClient().runGet()
-        HttpBinClient().runPost("HELLO ANDROID")
     }
 }

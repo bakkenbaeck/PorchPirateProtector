@@ -19,6 +19,8 @@ class User(id: EntityID<Int>): IntEntity(id), Principal {
     var username by Users.username
     var saltedHashedPassword by Users.saltedHashedPassword
     var token by Users.token
+    val pairingKeys by PairingKey referrersOn PairingKeys.user
+
 
     fun userToken(): UserToken? {
         token?.let {

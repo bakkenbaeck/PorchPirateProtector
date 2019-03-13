@@ -16,10 +16,16 @@ fun Application.main() {
 
     val serverDB = ServerDB()
     install(Routing) {
+        // Uncomment to figure out how things are being routed
+        //trace { println(it.buildText()) }
+
+        // Actually route things
         authenticate(serverDB)
         helloWorld()
         login(serverDB)
         createAccount(serverDB)
+        addDevice(serverDB)
+        deviceStatus(serverDB)
+        updateDeviceLockState(serverDB)
     }
-
 }

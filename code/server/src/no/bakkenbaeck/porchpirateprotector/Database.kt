@@ -1,9 +1,8 @@
 package no.bakkenbaeck.porchpirateprotector
 
-import no.bakkenbaeck.porchpirateprotector.model.Device
-import no.bakkenbaeck.porchpirateprotector.model.Devices
-import no.bakkenbaeck.porchpirateprotector.model.User
-import no.bakkenbaeck.porchpirateprotector.model.Users
+import no.bakkenbaeck.porchpirateprotector.model.*
+import no.bakkenbaeck.pppshared.model.DeviceRequest
+import no.bakkenbaeck.pppshared.model.LockState
 import no.bakkenbaeck.pppshared.model.UserCredentials
 import no.bakkenbaeck.pppshared.model.UserToken
 import org.jetbrains.exposed.dao.*
@@ -36,13 +35,13 @@ class ServerDB {
         /// > create table {databaseName}
         val databaseName = "ppp"
 
-        database = Database.connect("jdbc:mysql://$serverIP:3306/$databaseName  ",
+        database = Database.connect("jdbc:mysql://$serverIP:3306/$databaseName",
             user = databaseUsername,
             password = databasePassword,
             driver = "com.mysql.jdbc.Driver"
         )
         transaction {
-            SchemaUtils.create(Users, Devices)
+            SchemaUtils.create(Users, Devices, PairingKeys)
         }
     }
 
@@ -93,20 +92,58 @@ class ServerDB {
         }
     }
 
-    fun createDevice(address: String): Device {
+    fun validateDeviceRequest(deviceRequest: DeviceRequest, userId: Int): Device? {
         return transaction {
-            Device.new {
-                ipAddress = address
+            val key = PairingKey
+                .find {
+                    PairingKeys.key eq deviceRequest.pairingKey
+                }
+                .limit(1)
+                .firstOrNull() ?: return@transaction null
+
+            return@transaction if (key.device.id.value == deviceRequest.deviceId
+                    && key.user.id.value == userId) {
+                key.device
+            } else {
+                null
             }
         }
     }
 
-    fun fetchDevice(id: Int): Device? {
+    fun addUser(userToAdd: User, toDevice: Device): DeviceRequest {
         return transaction {
-            Device
-                .find { Devices.id eq id }
+            val key = PairingKey.new {
+                device = toDevice
+                user = userToAdd
+                key = UUID.randomUUID().toString()
+            }
+
+            return@transaction key.toDeviceRequest()
+        }
+    }
+
+    fun fetchOrCreateDevice(address: String): Device {
+        return transaction {
+            val fetched = Device
+                .find { Devices.ipAddress eq address}
                 .limit(1)
                 .firstOrNull()
+
+            return@transaction if (fetched != null) {
+                fetched
+            } else {
+                Device.new {
+                    ipAddress = address
+                    isLocked = true
+                }
+            }
+        }
+    }
+
+    fun updateDevice(device: Device, toState: LockState): LockState {
+        return transaction {
+            device.isLocked = toState.isLocked
+            return@transaction LockState(device.id.value, device.isLocked)
         }
     }
 }

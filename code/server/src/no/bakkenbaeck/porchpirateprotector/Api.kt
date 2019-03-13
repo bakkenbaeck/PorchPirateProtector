@@ -19,9 +19,7 @@ import kotlinx.html.title
 import kotlinx.serialization.json.*
 import kotlinx.serialization.parse
 import no.bakkenbaeck.porchpirateprotector.model.User
-import no.bakkenbaeck.pppshared.model.DeviceRequest
-import no.bakkenbaeck.pppshared.model.UserCredentials
-import no.bakkenbaeck.pppshared.model.UserToken
+import no.bakkenbaeck.pppshared.model.*
 import org.apache.http.HttpResponse
 import org.apache.http.HttpStatus
 import java.time.*
@@ -90,17 +88,69 @@ internal fun Routing.createAccount(database: ServerDB) {
     }
 }
 
-internal fun Routing.deviceRequest(database: ServerDB) {
-    route("api/device") {
+internal fun Routing.addDevice(database: ServerDB) {
+    route("api/device/add") {
         post {
-            val user = call.principal<User>() ?: call.respond(HttpStatusCode.Unauthorized)
-            val bodyText = call.receiveText()
-            val deviceRequest = DeviceRequest.fromJSONString(bodyText)
+            val user = call.principal<User>()
+            user?.let {
+                val bodyText = call.receiveText()
+                val createRequest = DeviceCreateRequest.fromJSONString(bodyText)
+                createRequest?.let {
+                    val device = database.fetchOrCreateDevice(it.ipAddress)
+                    val returnRequest = database.addUser(user, device)
+                    call.respondText(
+                        returnRequest.toJSONString(),
+                        ContentType.Application.Json,
+                        HttpStatusCode.Created
+                    )
+                } ?: call.respond(HttpStatusCode.BadRequest, "Could not parse create request")
+            } ?: call.respond(HttpStatusCode.Unauthorized)
+        }
+    }
+}
 
-            deviceRequest?.let {
-                // TODO: Implement!
-                call.respond(HttpStatusCode(418, "I'm a teapot!"))
-            } ?: call.respond(HttpStatusCode.BadRequest)
+internal fun Routing.deviceStatus(database: ServerDB) {
+    route("api/device/status") {
+        post {
+            val user = call.principal<User>()
+            user?.let {
+                val bodyText = call.receiveText()
+                val deviceRequest = DeviceRequest.fromJSONString(bodyText)
+                deviceRequest?.let {
+                    database.validateDeviceRequest(deviceRequest, user.id.value)?.let {
+                        val lockState = it.toLockState()
+                        call.respondText(
+                            lockState.toJSONString(),
+                            ContentType.Application.Json,
+                            HttpStatusCode.OK
+                        )
+                    } ?: call.respond(HttpStatusCode.Forbidden, "You do not have permission to access this device")
+                } ?: call.respond(HttpStatusCode.BadRequest, "Could not parse status request")
+            } ?: call.respond(HttpStatusCode.Unauthorized)
+        }
+    }
+}
+
+internal fun Routing.updateDeviceLockState(database: ServerDB) {
+    route("api/device/lock") {
+        post {
+            val user = call.principal<User>()
+            user?.let {
+                val bodyText = call.receiveText()
+                val deviceRequest = DeviceRequest.fromJSONString(bodyText)
+                deviceRequest?.let {
+                    it.lockState?.let { lockState ->
+                        database.validateDeviceRequest(deviceRequest, user.id.value)?.let { validDevice ->
+                            val updatedLockState = database.updateDevice(validDevice, lockState)
+                            call.respondText(
+                                updatedLockState.toJSONString(),
+                                ContentType.Application.Json,
+                                HttpStatusCode.OK
+                            )
+                        } ?: call.respond(HttpStatusCode.Forbidden, "You do not have permission to access this device")
+                    } ?: call.respond(HttpStatusCode.BadRequest, "Please include your desired lock state")
+                } ?: call.respond(HttpStatusCode.BadRequest, "Could not parse lock state request")
+            } ?: call.respond(HttpStatusCode.Unauthorized)
         }
     }
 }

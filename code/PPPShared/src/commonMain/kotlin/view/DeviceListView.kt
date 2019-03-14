@@ -7,6 +7,8 @@ interface DeviceListView: IndefiniteLoadingIndicating {
 
     fun setAddButtonEnabled(enabled: Boolean)
 
+    fun showAddDevice()
+
     fun deviceListUpdated(toDeviceList: List<PairedDevice>)
 
     fun showDetailForDevice(device: PairedDevice)

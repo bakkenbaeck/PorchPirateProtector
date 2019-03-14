@@ -37,9 +37,7 @@ class DeviceListFragment: Fragment(), DeviceListView, DeviceSelectionListener {
         recyclerview_device_list.layoutManager = LinearLayoutManager(context)
         recyclerview_device_list.adapter = this.adapter
 
-        fab_add_device.setOnClickListener {
-            findNavController().navigate(R.id.action_deviceListFragment_to_addDeviceFragment)
-        }
+        fab_add_device.setOnClickListener { presenter.selectedAddDevice() }
     }
 
     override fun onResume() {
@@ -57,6 +55,10 @@ class DeviceListFragment: Fragment(), DeviceListView, DeviceSelectionListener {
 
     override fun setAddButtonEnabled(enabled: Boolean) {
         fab_add_device.isEnabled = enabled
+    }
+
+    override fun showAddDevice() {
+        findNavController().navigate(R.id.action_deviceListFragment_to_addDeviceFragment)
     }
 
     override fun deviceListUpdated(toDeviceList: List<PairedDevice>) {

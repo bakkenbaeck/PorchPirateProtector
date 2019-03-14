@@ -5,9 +5,7 @@ import no.bakkenbaeck.pppshared.view.CreateAccountView
 import no.bakkenbaeck.pppshared.validator.*
 import kotlin.test.*
 import kotlinx.coroutines.*
-import no.bakkenbaeck.pppshared.api.Api
 import no.bakkenbaeck.pppshared.manager.TokenManager
-import org.junit.Before
 
 class CreateAccountTests {
 

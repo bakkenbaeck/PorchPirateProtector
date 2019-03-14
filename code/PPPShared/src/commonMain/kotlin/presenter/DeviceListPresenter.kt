@@ -20,16 +20,18 @@ class DeviceListPresenter(
         view.setAddButtonEnabled(!DeviceManager.unpairedDeviceIpAddresses.isEmpty())
     }
 
-    suspend fun fetchDeviceDetailsAsync(device: PairedDevice) {
+    suspend fun fetchDeviceDetailsAsync(device: PairedDevice): List<PairedDevice>? {
         view.startLoadingIndicator()
+        var devices: List<PairedDevice>? = null
         try {
-            DeviceManager.updateStatus(api, device, throwingToken())
+            devices = DeviceManager.updateStatus(api, device, throwingToken())
             updateDeviceList()
         } catch (exception: Exception) {
             view.apiErrorUpdated(exception.message)
         }
 
         view.stopLoadingIndicator()
+        return devices
     }
 
     fun fetchDeviceDetails(device: PairedDevice) {
@@ -40,5 +42,9 @@ class DeviceListPresenter(
 
     fun selectedDevice(device: PairedDevice) {
         view.showDetailForDevice(device)
+    }
+
+    fun selectedAddDevice() {
+        view.showAddDevice()
     }
 }

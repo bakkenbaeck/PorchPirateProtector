@@ -53,6 +53,8 @@ object DeviceManager {
         if (index >= 0) {
             pairedDevices.removeAt(index)
             pairedDevices.add(index, device)
+        } else {
+            pairedDevices.add(device)
         }
 
         return pairedDevices.toList()

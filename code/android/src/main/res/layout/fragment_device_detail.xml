@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:layout_margin="@dimen/default_outer_margin">
+
+    <TextView
+            android:id="@+id/textview_device_detail_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/header_font_size"
+            android:gravity="center"
+            tools:text="Device #1" />
 
     <com.google.android.material.button.MaterialButton
             android:id="@+id/button_lock"

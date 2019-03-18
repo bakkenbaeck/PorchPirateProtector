@@ -51,7 +51,7 @@ class DeviceDetailFragment: Fragment(), DeviceDetailView {
     // DEVICE DETAIL VIEW
 
     override fun setTitle(toString: String) {
-        activity?.title = toString
+        textview_device_detail_name.text = toString
     }
 
     override fun setLockButtonEnabled(enabled: Boolean) {

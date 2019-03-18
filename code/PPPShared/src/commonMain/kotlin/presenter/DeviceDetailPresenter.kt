@@ -20,6 +20,7 @@ class DeviceDetailPresenter(
         var lockState: LockState? = null
         try {
             lockState = api.getCurrentLockState(device.deviceId, device.pairingKey, throwingToken())
+            device.lockState = lockState
             view.setLockButtonEnabled(!lockState.isLocked)
             view.setUnlockButtonEnabled(lockState.isLocked)
         } catch (exception: Exception) {
@@ -38,6 +39,7 @@ class DeviceDetailPresenter(
         var lockState: LockState? = null
         try {
             lockState = api.updateDeviceLockState(device.createRequest(true), throwingToken())
+            device.lockState = lockState
             view.setUnlockButtonEnabled(true)
         } catch (exception: Exception) {
             view.setApiError(exception.message)
@@ -56,6 +58,7 @@ class DeviceDetailPresenter(
         var lockState: LockState? = null
         try {
             lockState = api.updateDeviceLockState(device.createRequest(false), throwingToken())
+            device.lockState = lockState
             view.setLockButtonEnabled(true)
         } catch (exception: Exception) {
             view.setApiError(exception.message)

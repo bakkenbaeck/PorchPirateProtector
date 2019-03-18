@@ -1,6 +1,5 @@
 package no.bakkenbaeck.pppshared
 
-import kotlinx.coroutines.runBlocking
 import no.bakkenbaeck.pppshared.manager.DeviceManager
 import no.bakkenbaeck.pppshared.model.LockState
 import no.bakkenbaeck.pppshared.model.PairedDevice
@@ -54,7 +53,7 @@ class DeviceDetailTests {
     }
 
     @Test
-    fun fetchingCurrentStateWithValidKeySucceeds() = runBlocking {
+    fun fetchingCurrentStateWithValidKeySucceeds() = platformRunBlocking {
         val view = TestDetailView()
         val storage = MockStorage()
         storage.tokenString = MockNetworkClient.mockToken
@@ -103,7 +102,7 @@ class DeviceDetailTests {
     }
 
     @Test
-    fun fetchingCurrentStateWithInvalidKeyFails() = runBlocking {
+    fun fetchingCurrentStateWithInvalidKeyFails() = platformRunBlocking {
         val view = TestDetailView()
         val storage = MockStorage()
         storage.tokenString = MockNetworkClient.mockToken
@@ -141,7 +140,7 @@ class DeviceDetailTests {
     }
 
     @Test
-    fun lockingUnlockedDeviceWithValidKeySucceeds() = runBlocking {
+    fun lockingUnlockedDeviceWithValidKeySucceeds() = platformRunBlocking {
         val view = TestDetailView()
         val storage = MockStorage()
         storage.tokenString = MockNetworkClient.mockToken
@@ -191,7 +190,7 @@ class DeviceDetailTests {
     }
 
     @Test
-    fun lockingUnlockedDeviceWithInvalidKeyFails() = runBlocking {
+    fun lockingUnlockedDeviceWithInvalidKeyFails() = platformRunBlocking {
         val view = TestDetailView()
         val storage = MockStorage()
         storage.tokenString = MockNetworkClient.mockToken
@@ -232,7 +231,7 @@ class DeviceDetailTests {
     }
 
     @Test
-    fun unlockingLockedDeviceWithValidKeySucceeds() = runBlocking {
+    fun unlockingLockedDeviceWithValidKeySucceeds() = platformRunBlocking {
         val view = TestDetailView()
         val storage = MockStorage()
         storage.tokenString = MockNetworkClient.mockToken
@@ -282,7 +281,7 @@ class DeviceDetailTests {
     }
 
     @Test
-    fun unlockingLockedDeviceWithInvalidKeyFails() = runBlocking {
+    fun unlockingLockedDeviceWithInvalidKeyFails() = platformRunBlocking {
         val view = TestDetailView()
         val storage = MockStorage()
         storage.tokenString = MockNetworkClient.mockToken

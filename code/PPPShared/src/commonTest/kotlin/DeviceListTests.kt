@@ -1,13 +1,11 @@
 package no.bakkenbaeck.pppshared
 
-import kotlinx.coroutines.runBlocking
 import no.bakkenbaeck.pppshared.manager.DeviceManager
 import no.bakkenbaeck.pppshared.manager.TokenManager
 import no.bakkenbaeck.pppshared.model.PairedDevice
 import no.bakkenbaeck.pppshared.model.UserToken
 import no.bakkenbaeck.pppshared.presenter.DeviceListPresenter
 import no.bakkenbaeck.pppshared.view.DeviceListView
-import org.junit.Before
 import kotlin.test.*
 
 class DeviceListTests {
@@ -92,7 +90,7 @@ class DeviceListTests {
     }
 
     @Test
-    fun fetchingDeviceDetails() = runBlocking {
+    fun fetchingDeviceDetails() = platformRunBlocking {
         val view = TestDeviceListView()
         val storage = MockStorage()
         storage.storeTokenString(MockNetworkClient.mockToken)
@@ -170,5 +168,4 @@ class DeviceListTests {
 
         assertTrue(view.navigatedToAdd)
     }
-
 }

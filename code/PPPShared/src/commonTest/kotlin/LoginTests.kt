@@ -104,7 +104,7 @@ class LoginTests {
     }
 
     @Test
-    fun attemptingToLoginWithoutChangesTriggersErrorsAndFails() = runBlocking {
+    fun attemptingToLoginWithoutChangesTriggersErrorsAndFails() = platformRunBlocking {
         val view = TestLoginView()
         val presenter = LoginPresenter(view, MockStorage())
         val expectedEmailError = ValidationResult.Invalid.WasNull("email")
@@ -129,7 +129,7 @@ class LoginTests {
     }
 
     @Test
-    fun attemptingToLoginWithValidCredsSucceeds() = runBlocking {
+    fun attemptingToLoginWithValidCredsSucceeds() = platformRunBlocking {
         val view = TestLoginView()
         val storage = MockStorage()
         val presenter = LoginPresenter(view, storage)
@@ -158,7 +158,7 @@ class LoginTests {
     }
 
     @Test
-    fun attemptingToLoginWithInvalidCredsFails() = runBlocking {
+    fun attemptingToLoginWithInvalidCredsFails() = platformRunBlocking {
         val view = TestLoginView()
         val storage = MockStorage()
         val presenter = LoginPresenter(view, storage)

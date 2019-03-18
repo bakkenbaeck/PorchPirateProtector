@@ -1,6 +1,5 @@
 package no.bakkenbaeck.pppshared
 
-import kotlinx.coroutines.runBlocking
 import no.bakkenbaeck.pppshared.manager.DeviceManager
 import no.bakkenbaeck.pppshared.model.PairedDevice
 import no.bakkenbaeck.pppshared.presenter.DeviceAddPresenter
@@ -68,7 +67,7 @@ class DeviceAddTests {
     }
 
     @Test
-    fun attemptingToAddDeviceWithIncorrectLoginTokenFails() = runBlocking {
+    fun attemptingToAddDeviceWithIncorrectLoginTokenFails() = platformRunBlocking {
         val view = TestAddView()
         val storage = MockStorage()
         storage.tokenString = "Nooooope"
@@ -89,7 +88,7 @@ class DeviceAddTests {
     }
 
     @Test
-    fun addingLockedDeviceSucceeds() = runBlocking {
+    fun addingLockedDeviceSucceeds() = platformRunBlocking {
         val view = TestAddView()
         val storage = MockStorage()
         storage.tokenString = MockNetworkClient.mockToken
@@ -118,7 +117,7 @@ class DeviceAddTests {
     }
 
     @Test
-    fun addingUnlockedDeviceSucceeds() = runBlocking {
+    fun addingUnlockedDeviceSucceeds() = platformRunBlocking {
         val view = TestAddView()
         val storage = MockStorage()
         storage.tokenString = MockNetworkClient.mockToken

@@ -40,6 +40,15 @@ class CreateAccountTests {
             accountCreationSucceeded = true
         }
 
+        var submitEnabled = true
+        var submitWasDisabled = false
+        override fun setSubmitButtonEnabled(enabled: Boolean) {
+            submitEnabled = enabled
+            if (!enabled) {
+                submitWasDisabled = true
+            }
+        }
+
         var loadingSpinnerGoing = false
 
         var loadingSpinnerWasStarted = false
@@ -53,7 +62,6 @@ class CreateAccountTests {
             loadingSpinnerGoing = false
             loadingSpinnerWasStopped = true
         }
-
     }
 
     @Test
@@ -113,6 +121,7 @@ class CreateAccountTests {
         assertNull(view.emailError)
         assertNull(view.passwordError)
         assertNull(view.confirmPasswordError)
+
     }
 
     @Test
@@ -131,7 +140,9 @@ class CreateAccountTests {
         // the input was invalid
         assertFalse(view.loadingSpinnerWasStarted)
         assertFalse(view.loadingSpinnerWasStopped)
+        assertFalse(view.submitWasDisabled)
         assertFalse(view.loadingSpinnerGoing)
+        assertTrue(view.submitEnabled)
         assertNull(view.apiError)
         assertFalse(view.accountCreationSucceeded)
 
@@ -157,9 +168,12 @@ class CreateAccountTests {
         // been made since the input was invalid
         assertFalse(view.loadingSpinnerWasStarted)
         assertFalse(view.loadingSpinnerWasStopped)
+        assertFalse(view.submitWasDisabled)
         assertFalse(view.loadingSpinnerGoing)
+        assertTrue(view.submitEnabled)
         assertNull(view.apiError)
         assertFalse(view.accountCreationSucceeded)
+
 
         assertEquals(expectedEmailError.reason, view.emailError)
         assertEquals(expectedPasswordError.reason, view.passwordError)
@@ -190,6 +204,8 @@ class CreateAccountTests {
         assertTrue(view.loadingSpinnerWasStopped)
         assertFalse(view.loadingSpinnerGoing)
         assertTrue(view.accountCreationSucceeded)
+        assertTrue(view.submitEnabled)
+        assertTrue(view.submitWasDisabled)
 
         assertNotNull(TokenManager.currentToken(storage))
         assertEquals(MockNetworkClient.mockToken, TokenManager.currentToken(storage)?.token)
@@ -220,6 +236,8 @@ class CreateAccountTests {
         assertFalse(view.loadingSpinnerGoing)
         assertEquals("Account already exists", view.apiError)
         assertFalse(view.accountCreationSucceeded)
+        assertTrue(view.submitEnabled)
+        assertTrue(view.submitWasDisabled)
 
         assertNull(TokenManager.currentToken(storage))
     }

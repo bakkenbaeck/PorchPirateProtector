@@ -1,6 +1,5 @@
 package no.bakkenbaeck.pppshared.view
 
-import no.bakkenbaeck.pppshared.interfaces.ErrorHandling
 import no.bakkenbaeck.pppshared.interfaces.IndefiniteLoadingIndicating
 
 /**
@@ -21,6 +20,8 @@ interface CreateAccountView: IndefiniteLoadingIndicating {
     fun passwordErrorUpdated(toString: String?)
     fun confirmPasswordErrorUpdated(toString: String?)
     fun apiErrorUpdated(toString: String?)
+
+    fun setSubmitButtonEnabled(enabled: Boolean)
 
     /// Called when an account has been successfully created.
     fun accountSuccessfullyCreated()

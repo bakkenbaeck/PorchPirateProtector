@@ -61,6 +61,10 @@ class CreateAccountFragment: Fragment(), CreateAccountView {
         get() = text_input_confirm_password.editText?.text.toString()
         set(value) { text_input_confirm_password.editText?.setText(value) }
 
+    override fun setSubmitButtonEnabled(enabled: Boolean) {
+        button_create_account_submit.isEnabled = enabled
+    }
+
     override fun emailErrorUpdated(toString: String?) {
         text_input_username.error = toString
     }
@@ -83,12 +87,10 @@ class CreateAccountFragment: Fragment(), CreateAccountView {
     }
 
     override fun startLoadingIndicator() {
-        button_create_account_submit.isEnabled = false
         progress_bar_create_account.showAndStartAnimating()
     }
 
     override fun stopLoadingIndicator() {
-        button_create_account_submit.isEnabled = true
         progress_bar_create_account.stopAnimatingAndHide()
     }
 }

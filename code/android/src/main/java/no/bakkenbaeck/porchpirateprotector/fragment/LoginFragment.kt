@@ -57,6 +57,10 @@ class LoginFragment: Fragment(), LoginView {
         get() = text_input_password.editText?.text.toString()
         set(value) { text_input_password.editText?.setText(value) }
 
+    override fun setSubmitButtonEnabled(enabled: Boolean) {
+        button_login_submit.isEnabled = enabled
+    }
+
     override fun emailErrorUpdated(toString: String?) {
         text_input_username.error = toString
     }
@@ -76,11 +80,9 @@ class LoginFragment: Fragment(), LoginView {
 
     override fun startLoadingIndicator() {
         progress_bar_login.showAndStartAnimating()
-        button_login_submit.isEnabled = false
     }
 
     override fun stopLoadingIndicator() {
         progress_bar_login.stopAnimatingAndHide()
-        button_login_submit.isEnabled = true
     }
 }

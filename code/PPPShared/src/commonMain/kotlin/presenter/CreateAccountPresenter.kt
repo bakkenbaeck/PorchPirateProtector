@@ -85,6 +85,7 @@ class CreateAccountPresenter(
 
         // If input is valid, these will not be null.
         val creds = UserCredentials(view.email!!, view.password!!)
+        view.setSubmitButtonEnabled(false)
         view.startLoadingIndicator()
         apiError = null
 
@@ -98,6 +99,7 @@ class CreateAccountPresenter(
             apiError = exception.message
         }
 
+        view.setSubmitButtonEnabled(true)
         view.stopLoadingIndicator()
         return result
     }

@@ -64,6 +64,7 @@ class  LoginPresenter(
         // If input is valid, these will not be null.
         val creds = UserCredentials(view.email!!, view.password!!)
         view.startLoadingIndicator()
+        view.setSubmitButtonEnabled(false)
         apiError = null
 
         var success = false
@@ -77,6 +78,7 @@ class  LoginPresenter(
         }
 
         view.stopLoadingIndicator()
+        view.setSubmitButtonEnabled(true)
         return success
     }
 

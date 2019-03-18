@@ -1,6 +1,5 @@
 package no.bakkenbaeck.pppshared.view
 
-import no.bakkenbaeck.pppshared.interfaces.ErrorHandling
 import no.bakkenbaeck.pppshared.interfaces.IndefiniteLoadingIndicating
 
 /**
@@ -17,6 +16,8 @@ interface LoginView: IndefiniteLoadingIndicating {
     fun emailErrorUpdated(toString: String?)
     fun passwordErrorUpdated(toString: String?)
     fun apiErrorUpdated(toString: String?)
+
+    fun setSubmitButtonEnabled(enabled: Boolean)
 
     /// Called when login completes successfully.
     fun loginSucceeded()

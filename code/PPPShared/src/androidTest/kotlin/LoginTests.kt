@@ -14,6 +14,15 @@ class LoginTests {
         override var email: String? = null
         override var password: String? = null
 
+        var submitEnabled = true
+        var submitWasDisabled = false
+        override fun setSubmitButtonEnabled(enabled: Boolean) {
+            submitEnabled = enabled
+            if (!submitEnabled) {
+                submitWasDisabled = true
+            }
+        }
+
         var loadingSpinnerGoing = false
 
         var loadingSpinnerWasStarted = false
@@ -109,6 +118,8 @@ class LoginTests {
         // the input was invalid
         assertFalse(view.loadingSpinnerWasStarted)
         assertFalse(view.loadingSpinnerWasStopped)
+        assertFalse(view.submitWasDisabled)
+        assertTrue(view.submitEnabled)
         assertFalse(view.loadingSpinnerGoing)
         assertNull(view.apiError)
         assertFalse(view.loginHasSucceeded)
@@ -139,6 +150,8 @@ class LoginTests {
         assertTrue(view.loadingSpinnerWasStopped)
         assertFalse(view.loadingSpinnerGoing)
         assertTrue(view.loginHasSucceeded)
+        assertTrue(view.submitEnabled)
+        assertTrue(view.submitWasDisabled)
 
         assertNotNull(TokenManager.currentToken(storage))
         assertEquals(MockNetworkClient.mockToken, TokenManager.currentToken(storage)?.token)
@@ -167,6 +180,8 @@ class LoginTests {
         assertFalse(view.loadingSpinnerGoing)
         assertEquals("Wrong password", view.apiError)
         assertFalse(view.loginHasSucceeded)
+        assertTrue(view.submitEnabled)
+        assertTrue(view.submitWasDisabled)
 
         assertNull(TokenManager.currentToken(storage))
     }

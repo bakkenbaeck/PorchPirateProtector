@@ -31,6 +31,4 @@ import PPPShared
     func fetchTokenString() -> String? {
         return self.token
     }
-    
-    
 }

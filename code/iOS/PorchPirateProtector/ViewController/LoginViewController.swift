@@ -19,12 +19,6 @@ class LoginViewController: UIViewController {
     
     private lazy var presenter = LoginPresenter(view: self, storage: Keychain.shared)
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
-    }
-    
     @IBAction private func login() {
         self.presenter.login()
     }

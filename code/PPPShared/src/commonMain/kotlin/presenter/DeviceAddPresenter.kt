@@ -12,7 +12,7 @@ class DeviceAddPresenter(
 ): BaseCoroutinePresenter(secureStorage = storage) {
 
     fun updateAvailableIPAddresses() {
-        view.updatedAvailableDeviceIPAddresses(DeviceManager.unpairedDeviceIpAddresses)
+        view.updatedAvailableDeviceIPAddresses(DeviceManager.unpairedDeviceIpAddresses.toList())
     }
 
     suspend fun addDeviceAsync(deviceIpAddress: String): PairedDevice? {
@@ -26,7 +26,7 @@ class DeviceAddPresenter(
         }
 
         view.stopLoadingIndicator()
-        view.updatedAvailableDeviceIPAddresses(DeviceManager.unpairedDeviceIpAddresses)
+        view.updatedAvailableDeviceIPAddresses(DeviceManager.unpairedDeviceIpAddresses.toList())
         pairedDevice?.let { view.deviceAddedSuccessfully(it) }
         return pairedDevice
     }

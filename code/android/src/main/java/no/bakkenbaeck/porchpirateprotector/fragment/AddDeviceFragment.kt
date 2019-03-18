@@ -12,6 +12,8 @@ import kotlinx.android.synthetic.main.fragment_device_add.*
 import no.bakkenbaeck.porchpirateprotector.R
 import no.bakkenbaeck.porchpirateprotector.adapter.IpListAdapter
 import no.bakkenbaeck.porchpirateprotector.adapter.IpSelectionListener
+import no.bakkenbaeck.porchpirateprotector.extension.showAndStartAnimating
+import no.bakkenbaeck.porchpirateprotector.extension.stopAnimatingAndHide
 import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.pppshared.model.PairedDevice
 import no.bakkenbaeck.pppshared.presenter.DeviceAddPresenter
@@ -58,12 +60,10 @@ class AddDeviceFragment: Fragment(), DeviceAddView, IpSelectionListener {
     }
 
     override fun startLoadingIndicator() {
-        progress_bar_add_device.visibility = View.VISIBLE
-        progress_bar_add_device.animate()
+        progress_bar_add_device.showAndStartAnimating()
     }
 
     override fun stopLoadingIndicator() {
-        progress_bar_add_device.clearAnimation()
-        progress_bar_add_device.visibility = View.GONE
+        progress_bar_add_device.stopAnimatingAndHide()
     }
 }

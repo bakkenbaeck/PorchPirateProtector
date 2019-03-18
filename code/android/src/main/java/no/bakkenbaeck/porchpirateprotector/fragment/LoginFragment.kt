@@ -10,6 +10,8 @@ import no.bakkenbaeck.porchpirateprotector.R
 
 import kotlinx.android.synthetic.main.fragment_login.*
 import no.bakkenbaeck.porchpirateprotector.extension.hideSoftKeyboard
+import no.bakkenbaeck.porchpirateprotector.extension.showAndStartAnimating
+import no.bakkenbaeck.porchpirateprotector.extension.stopAnimatingAndHide
 import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.pppshared.presenter.LoginPresenter
 import no.bakkenbaeck.pppshared.view.LoginView
@@ -73,14 +75,12 @@ class LoginFragment: Fragment(), LoginView {
     }
 
     override fun startLoadingIndicator() {
-        progress_bar_login.visibility = View.VISIBLE
-        progress_bar_login.animate()
+        progress_bar_login.showAndStartAnimating()
         button_login_submit.isEnabled = false
     }
 
     override fun stopLoadingIndicator() {
-        progress_bar_login.clearAnimation()
-        progress_bar_login.visibility = View.GONE
+        progress_bar_login.stopAnimatingAndHide()
         button_login_submit.isEnabled = true
     }
 }

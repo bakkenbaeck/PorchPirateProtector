@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_device_detail.*
 import no.bakkenbaeck.porchpirateprotector.R
+import no.bakkenbaeck.porchpirateprotector.extension.showAndStartAnimating
+import no.bakkenbaeck.porchpirateprotector.extension.stopAnimatingAndHide
 import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.pppshared.model.PairedDevice
 import no.bakkenbaeck.pppshared.presenter.DeviceDetailPresenter
@@ -65,12 +67,10 @@ class DeviceDetailFragment: Fragment(), DeviceDetailView {
     }
 
     override fun startLoadingIndicator() {
-        progress_bar_device_detail.visibility = View.VISIBLE
-        progress_bar_device_detail.animate()
+        progress_bar_device_detail.showAndStartAnimating()
     }
 
     override fun stopLoadingIndicator() {
-        progress_bar_device_detail.clearAnimation()
-        progress_bar_device_detail.visibility = View.GONE
+        progress_bar_device_detail.stopAnimatingAndHide()
     }
 }

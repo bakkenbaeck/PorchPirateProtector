@@ -16,6 +16,8 @@ import no.bakkenbaeck.pppshared.view.DeviceListView
 import no.bakkenbaeck.porchpirateprotector.R
 import no.bakkenbaeck.porchpirateprotector.adapter.DeviceListAdapter
 import no.bakkenbaeck.porchpirateprotector.adapter.DeviceSelectionListener
+import no.bakkenbaeck.porchpirateprotector.extension.showAndStartAnimating
+import no.bakkenbaeck.porchpirateprotector.extension.stopAnimatingAndHide
 import no.bakkenbaeck.porchpirateprotector.fragment.DeviceDetailFragment.Companion.ARG_DEVICE
 import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.pppshared.presenter.DeviceListPresenter
@@ -80,12 +82,10 @@ class DeviceListFragment: Fragment(), DeviceListView, DeviceSelectionListener {
     }
 
     override fun startLoadingIndicator() {
-        progress_bar_device_list.visibility = View.VISIBLE
-        progress_bar_device_list.animate()
+        progress_bar_device_list.showAndStartAnimating()
     }
 
     override fun stopLoadingIndicator() {
-        progress_bar_device_list.clearAnimation()
-        progress_bar_device_list.visibility = View.GONE
+        progress_bar_device_list.stopAnimatingAndHide()
     }
 }

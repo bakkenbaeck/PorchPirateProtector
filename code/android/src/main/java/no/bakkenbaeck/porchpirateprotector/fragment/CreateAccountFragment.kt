@@ -9,6 +9,8 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_create_account.*
 import no.bakkenbaeck.porchpirateprotector.R
 import no.bakkenbaeck.porchpirateprotector.extension.hideSoftKeyboard
+import no.bakkenbaeck.porchpirateprotector.extension.showAndStartAnimating
+import no.bakkenbaeck.porchpirateprotector.extension.stopAnimatingAndHide
 import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.pppshared.presenter.CreateAccountPresenter
 import no.bakkenbaeck.pppshared.view.CreateAccountView
@@ -43,7 +45,6 @@ class CreateAccountFragment: Fragment(), CreateAccountView {
         text_input_username.editText?.setOnFocusChangeListener(::handleFocusChange)
         text_input_password.editText?.setOnFocusChangeListener(::handleFocusChange)
         text_input_confirm_password.editText?.setOnFocusChangeListener(::handleFocusChange)
-
     }
 
     // CREATE ACCOUNT VIEW OVERRIDES
@@ -83,13 +84,11 @@ class CreateAccountFragment: Fragment(), CreateAccountView {
 
     override fun startLoadingIndicator() {
         button_create_account_submit.isEnabled = false
-        progress_bar_create_account.visibility = View.VISIBLE
-        progress_bar_create_account.animate()
+        progress_bar_create_account.showAndStartAnimating()
     }
 
     override fun stopLoadingIndicator() {
         button_create_account_submit.isEnabled = true
-        progress_bar_create_account.clearAnimation()
-        progress_bar_create_account.visibility = View.GONE
+        progress_bar_create_account.stopAnimatingAndHide()
     }
 }

@@ -19,6 +19,12 @@ class TextInputContainer: NibContainer {
         return self.contentView as? TextInputView
     }
     
+    @IBOutlet var textFieldDelegate: UITextFieldDelegate? {
+        didSet {
+            self.textInputView?.textField.delegate = self.textFieldDelegate
+        }
+    }
+    
     @IBInspectable
     var text: String? {
         get {
@@ -52,9 +58,9 @@ class TextInputContainer: NibContainer {
     }
     
     @IBInspectable
-    var isSecureTextEntry: Bool = false {
+    var useSecureTextEntry: Bool = false {
         didSet {
-            self.textInputView?.textField?.isSecureTextEntry = self.isSecureTextEntry
+            self.textInputView?.textField?.isSecureTextEntry = self.useSecureTextEntry
         }
     }
     

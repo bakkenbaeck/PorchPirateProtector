@@ -24,6 +24,11 @@
 		9B7D969A2239760B001FA669 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D96992239760B001FA669 /* Keychain.swift */; };
 		9BADA4D522413FA3002F8060 /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4D422413FA3002F8060 /* KeychainTests.swift */; };
 		9BADA4D72241462A002F8060 /* Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4D62241462A002F8060 /* Segue.swift */; };
+		9BADA4D92241482A002F8060 /* DeviceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4D82241482A002F8060 /* DeviceListViewController.swift */; };
+		9BADA4DB22415070002F8060 /* DeviceAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4DA22415070002F8060 /* DeviceAddViewController.swift */; };
+		9BADA4DD2241507C002F8060 /* DeviceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4DC2241507C002F8060 /* DeviceDetailViewController.swift */; };
+		9BADA4E022415C77002F8060 /* IPAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4DF22415C77002F8060 /* IPAddressCell.swift */; };
+		9BADA4E222415D96002F8060 /* DeviceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4E122415D96002F8060 /* DeviceCell.swift */; };
 		9BC870282236E46800976CAD /* Optional+Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC870272236E46800976CAD /* Optional+Empty.swift */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +77,11 @@
 		9B7D96992239760B001FA669 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		9BADA4D422413FA3002F8060 /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		9BADA4D62241462A002F8060 /* Segue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Segue.swift; sourceTree = "<group>"; };
+		9BADA4D82241482A002F8060 /* DeviceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceListViewController.swift; sourceTree = "<group>"; };
+		9BADA4DA22415070002F8060 /* DeviceAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAddViewController.swift; sourceTree = "<group>"; };
+		9BADA4DC2241507C002F8060 /* DeviceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetailViewController.swift; sourceTree = "<group>"; };
+		9BADA4DF22415C77002F8060 /* IPAddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPAddressCell.swift; sourceTree = "<group>"; };
+		9BADA4E122415D96002F8060 /* DeviceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCell.swift; sourceTree = "<group>"; };
 		9BC870272236E46800976CAD /* Optional+Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Empty.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,6 +110,9 @@
 				9B3E9A402236B1F10026EBD1 /* WelcomeViewController.swift */,
 				9B3E9A422236B2000026EBD1 /* LoginViewController.swift */,
 				9B3E9A442236B27A0026EBD1 /* CreateAccountViewController.swift */,
+				9BADA4D82241482A002F8060 /* DeviceListViewController.swift */,
+				9BADA4DA22415070002F8060 /* DeviceAddViewController.swift */,
+				9BADA4DC2241507C002F8060 /* DeviceDetailViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -107,6 +120,7 @@
 		9B3E9A4B2236B31C0026EBD1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9BADA4DE22415C64002F8060 /* Cells */,
 				9B3E9A472236B29A0026EBD1 /* TextInputView.swift */,
 				9B3E9A492236B3040026EBD1 /* TextInputView.xib */,
 				9B3E9A4C2236BC8F0026EBD1 /* NibContainer.swift */,
@@ -166,6 +180,15 @@
 				9B4C883E222D285A00638F1F /* Info.plist */,
 			);
 			path = PorchPirateProtectorTests;
+			sourceTree = "<group>";
+		};
+		9BADA4DE22415C64002F8060 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				9BADA4DF22415C77002F8060 /* IPAddressCell.swift */,
+				9BADA4E122415D96002F8060 /* DeviceCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		9BC870262236E44D00976CAD /* Extension */ = {
@@ -304,10 +327,15 @@
 			files = (
 				9B3E9A452236B27A0026EBD1 /* CreateAccountViewController.swift in Sources */,
 				9B3E9A4F2236BCE50026EBD1 /* NibLoadable.swift in Sources */,
+				9BADA4DD2241507C002F8060 /* DeviceDetailViewController.swift in Sources */,
 				9B3E9A432236B2000026EBD1 /* LoginViewController.swift in Sources */,
 				9B3E9A482236B29A0026EBD1 /* TextInputView.swift in Sources */,
+				9BADA4DB22415070002F8060 /* DeviceAddViewController.swift in Sources */,
 				9B3E9A412236B1F10026EBD1 /* WelcomeViewController.swift in Sources */,
+				9BADA4E022415C77002F8060 /* IPAddressCell.swift in Sources */,
+				9BADA4E222415D96002F8060 /* DeviceCell.swift in Sources */,
 				9B3E9A4D2236BC8F0026EBD1 /* NibContainer.swift in Sources */,
+				9BADA4D92241482A002F8060 /* DeviceListViewController.swift in Sources */,
 				9BADA4D72241462A002F8060 /* Segue.swift in Sources */,
 				9BC870282236E46800976CAD /* Optional+Empty.swift in Sources */,
 				9B7D969A2239760B001FA669 /* Keychain.swift in Sources */,

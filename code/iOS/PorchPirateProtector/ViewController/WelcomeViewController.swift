@@ -6,8 +6,49 @@
 //  Copyright © 2019 Bakken & Bæck. All rights reserved.
 //
 
+import PPPShared
 import UIKit
 
 class WelcomeViewController: UIViewController {
+    enum WelcomeSegue: String, Segue {
+        case showLogin
+        case showCreateAccount
+        case showDeviceList
+    }
     
+    private lazy var presenter = WelcomePresenter(view: self, storage: Keychain.shared)
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.presenter.skipWelcomeIfLoggedIn()
+    }
+    
+    deinit {
+        self.presenter.onDestroy()
+    }
+    
+    @IBAction
+    private func tappedLogin() {
+        self.presenter.selectedLoginButton()
+    }
+    
+    @IBAction
+    private func tappedCreateAccount() {
+        self.presenter.selectedCreateAccountButton()
+    }
+}
+
+extension WelcomeViewController: WelcomeView {
+    
+    func navigateToLogin() {
+        self.perform(segue: WelcomeSegue.showLogin)
+    }
+    
+    func navigateToCreateAccount() {
+        self.perform(segue: WelcomeSegue.showCreateAccount)
+    }
+    
+    func navigateToDeviceList() {
+        self.perform(segue: WelcomeSegue.showDeviceList)
+    }
 }

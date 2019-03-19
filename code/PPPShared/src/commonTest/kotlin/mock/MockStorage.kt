@@ -1,4 +1,4 @@
-package no.bakkenbaeck.pppshared
+package no.bakkenbaeck.pppshared.mock
 
 import no.bakkenbaeck.pppshared.interfaces.SecureStorage
 

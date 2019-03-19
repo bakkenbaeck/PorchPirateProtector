@@ -1,7 +1,7 @@
-package no.bakkenbaeck.pppshared
+package no.bakkenbaeck.pppshared.presenter
 
-import no.bakkenbaeck.pppshared.presenter.WelcomePresenter
 import no.bakkenbaeck.pppshared.view.WelcomeView
+import no.bakkenbaeck.pppshared.mock.*
 import kotlin.test.*
 
 class WelcomeTests {

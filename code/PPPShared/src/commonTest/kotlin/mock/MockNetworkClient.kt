@@ -1,11 +1,10 @@
-package no.bakkenbaeck.pppshared
+package no.bakkenbaeck.pppshared.mock
 
 import no.bakkenbaeck.pppshared.api.Header
 import no.bakkenbaeck.pppshared.api.NetworkClient
 import no.bakkenbaeck.pppshared.api.RequestMethod
 import no.bakkenbaeck.pppshared.model.*
 import kotlinx.serialization.json.*
-import kotlin.text.*
 
 class MockNetworkClient: NetworkClient("") {
 

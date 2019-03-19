@@ -1,9 +1,10 @@
-package no.bakkenbaeck.pppshared
+package no.bakkenbaeck.pppshared.presenter
 
+import no.bakkenbaeck.pppshared.platformRunBlocking
 import no.bakkenbaeck.pppshared.manager.DeviceManager
+import no.bakkenbaeck.pppshared.mock.*
 import no.bakkenbaeck.pppshared.model.LockState
 import no.bakkenbaeck.pppshared.model.PairedDevice
-import no.bakkenbaeck.pppshared.presenter.DeviceDetailPresenter
 import no.bakkenbaeck.pppshared.view.DeviceDetailView
 import kotlin.test.*
 

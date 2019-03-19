@@ -1,9 +1,9 @@
-package no.bakkenbaeck.pppshared
+package no.bakkenbaeck.pppshared.presenter
 
-import no.bakkenbaeck.pppshared.presenter.*
+import no.bakkenbaeck.pppshared.platformRunBlocking
 import no.bakkenbaeck.pppshared.view.LoginView
 import no.bakkenbaeck.pppshared.validator.*
-import kotlinx.coroutines.*
+import no.bakkenbaeck.pppshared.mock.*
 import kotlin.test.*
 import no.bakkenbaeck.pppshared.manager.TokenManager
 

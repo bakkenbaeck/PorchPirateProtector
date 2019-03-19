@@ -1,10 +1,10 @@
-package no.bakkenbaeck.pppshared
+package no.bakkenbaeck.pppshared.presenter
 
-import no.bakkenbaeck.pppshared.presenter.*
+import no.bakkenbaeck.pppshared.platformRunBlocking
+import no.bakkenbaeck.pppshared.mock.*
 import no.bakkenbaeck.pppshared.view.CreateAccountView
 import no.bakkenbaeck.pppshared.validator.*
 import kotlin.test.*
-import kotlinx.coroutines.*
 import no.bakkenbaeck.pppshared.manager.TokenManager
 
 class CreateAccountTests {
@@ -125,7 +125,7 @@ class CreateAccountTests {
     }
 
     @Test
-    fun checkingValidityWithoutChangesTriggersErrors() = runBlocking {
+    fun checkingValidityWithoutChangesTriggersErrors() = platformRunBlocking {
         val view = TestCreateAccountView()
         val presenter = CreateAccountPresenter(view, MockStorage())
         val expectedEmailError = ValidationResult.Invalid.WasNull("email")
@@ -152,7 +152,7 @@ class CreateAccountTests {
     }
 
     @Test
-    fun attemptingToCreateAccountWithoutChangesTriggersErrorsAndFails() = runBlocking {
+    fun attemptingToCreateAccountWithoutChangesTriggersErrorsAndFails() = platformRunBlocking {
         val view = TestCreateAccountView()
         val presenter = CreateAccountPresenter(view, MockStorage())
 
@@ -181,7 +181,7 @@ class CreateAccountTests {
     }
 
     @Test
-    fun attemptingToCreateAccountWithValidCredsSucceeds() = runBlocking {
+    fun attemptingToCreateAccountWithValidCredsSucceeds() = platformRunBlocking {
         val view = TestCreateAccountView()
         val storage = MockStorage()
         val presenter = CreateAccountPresenter(view, storage)
@@ -212,7 +212,7 @@ class CreateAccountTests {
     }
 
     @Test
-    fun attemptingToCreateAccountWithExistingCredsFails() = runBlocking {
+    fun attemptingToCreateAccountWithExistingCredsFails() = platformRunBlocking {
         val view = TestCreateAccountView()
         val storage = MockStorage()
         val presenter = CreateAccountPresenter(view, storage)

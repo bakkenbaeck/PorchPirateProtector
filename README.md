@@ -217,6 +217,7 @@ docker ps
 
 This will print the status of all your currently running containers. You should see the two containers, `ppp` (containing the server) and `mysql1` (containing the database) in the list. 
 
+>**NOTE**: The way this is set up right now, you can only access things via `localhost`. If you are better at dealing with Docker crap than I am, you should be able to get this deployed as a container...somewhere, and then point to your deployed container in the [`API.kt`](code/PPPShared/src/commonMain/kotlin/api/Api.kt) file.
 
 
 

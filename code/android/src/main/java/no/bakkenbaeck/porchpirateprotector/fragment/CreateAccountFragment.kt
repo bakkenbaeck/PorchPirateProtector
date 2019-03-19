@@ -47,6 +47,11 @@ class CreateAccountFragment: Fragment(), CreateAccountView {
         text_input_confirm_password.editText?.setOnFocusChangeListener(::handleFocusChange)
     }
 
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
+    }
+
     // CREATE ACCOUNT VIEW OVERRIDES
 
     override var email: String?

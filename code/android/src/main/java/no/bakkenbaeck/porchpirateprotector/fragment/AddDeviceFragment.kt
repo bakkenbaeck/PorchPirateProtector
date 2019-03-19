@@ -39,6 +39,13 @@ class AddDeviceFragment: Fragment(), DeviceAddView, IpSelectionListener {
         presenter.updateAvailableIPAddresses()
     }
 
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
+    }
+
+    // IP SELECTION LISTENER
+
     override fun selectedIpAddress(ipAddress: String) {
         presenter.addDevice(ipAddress)
     }

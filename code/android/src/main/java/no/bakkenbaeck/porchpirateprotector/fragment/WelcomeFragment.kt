@@ -30,6 +30,11 @@ class WelcomeFragment: Fragment(), WelcomeView {
         presenter.skipWelcomeIfLoggedIn()
     }
 
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
+    }
+
     // WELCOME VIEW
 
     override fun navigateToLogin() {

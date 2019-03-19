@@ -47,6 +47,11 @@ class DeviceListFragment: Fragment(), DeviceListView, DeviceSelectionListener {
         presenter.updateDeviceList()
     }
 
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
+    }
+
     // DEVICE SELECTION LISTENER
 
     override fun deviceSelected(device: PairedDevice) {

@@ -47,6 +47,11 @@ class LoginFragment: Fragment(), LoginView {
         text_input_password.editText?.setOnFocusChangeListener(::handleFocusChange)
     }
 
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
+    }
+
     // LOGIN VIEW
 
     override var email: String?

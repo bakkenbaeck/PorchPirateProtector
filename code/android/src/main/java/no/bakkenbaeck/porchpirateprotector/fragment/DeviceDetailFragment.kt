@@ -48,6 +48,11 @@ class DeviceDetailFragment: Fragment(), DeviceDetailView {
         button_unlock.setOnClickListener { presenter.unlock() }
     }
 
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
+    }
+
     // DEVICE DETAIL VIEW
 
     override fun setTitle(toString: String) {

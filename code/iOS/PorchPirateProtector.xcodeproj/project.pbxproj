@@ -23,6 +23,7 @@
 		9B4C8851222D347F00638F1F /* PPPShared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4C884F222D347F00638F1F /* PPPShared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9B7D969A2239760B001FA669 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D96992239760B001FA669 /* Keychain.swift */; };
 		9BADA4D522413FA3002F8060 /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4D422413FA3002F8060 /* KeychainTests.swift */; };
+		9BADA4D72241462A002F8060 /* Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4D62241462A002F8060 /* Segue.swift */; };
 		9BC870282236E46800976CAD /* Optional+Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC870272236E46800976CAD /* Optional+Empty.swift */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,7 @@
 		9B4C884F222D347F00638F1F /* PPPShared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PPPShared.framework; path = "../PPPShared/build/xcode-frameworks/PPPShared.framework"; sourceTree = "<group>"; };
 		9B7D96992239760B001FA669 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		9BADA4D422413FA3002F8060 /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
+		9BADA4D62241462A002F8060 /* Segue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Segue.swift; sourceTree = "<group>"; };
 		9BC870272236E46800976CAD /* Optional+Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Empty.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -116,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				9B3E9A4E2236BCE50026EBD1 /* NibLoadable.swift */,
+				9BADA4D62241462A002F8060 /* Segue.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				9B3E9A482236B29A0026EBD1 /* TextInputView.swift in Sources */,
 				9B3E9A412236B1F10026EBD1 /* WelcomeViewController.swift in Sources */,
 				9B3E9A4D2236BC8F0026EBD1 /* NibContainer.swift in Sources */,
+				9BADA4D72241462A002F8060 /* Segue.swift in Sources */,
 				9BC870282236E46800976CAD /* Optional+Empty.swift in Sources */,
 				9B7D969A2239760B001FA669 /* Keychain.swift in Sources */,
 				9B4C8828222D285800638F1F /* AppDelegate.swift in Sources */,

@@ -17,7 +17,7 @@ import no.bakkenbaeck.pppshared.view.CreateAccountView
 
 class CreateAccountFragment: Fragment(), CreateAccountView {
 
-    private val presenter by lazy { CreateAccountPresenter(this, KeyStoreManager) }
+    private val presenter by lazy { CreateAccountPresenter(this, KeyStoreManager(this.context!!)) }
 
     private fun handleFocusChange(forView: View, hasFocus: Boolean) {
         if (hasFocus) {

@@ -15,7 +15,7 @@ import no.bakkenbaeck.pppshared.view.WelcomeView
 
 class WelcomeFragment: Fragment(), WelcomeView {
 
-    private val presenter by lazy { WelcomePresenter(this, KeyStoreManager) }
+    private val presenter by lazy { WelcomePresenter(this, KeyStoreManager(this.context!!)) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_welcome, container, false)

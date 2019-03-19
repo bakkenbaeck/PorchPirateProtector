@@ -21,7 +21,7 @@ import no.bakkenbaeck.pppshared.view.DeviceAddView
 
 class AddDeviceFragment: Fragment(), DeviceAddView, IpSelectionListener {
 
-    private val presenter by lazy { DeviceAddPresenter(this, KeyStoreManager) }
+    private val presenter by lazy { DeviceAddPresenter(this, KeyStoreManager(this.context!!)) }
     private val adapter by lazy { IpListAdapter(this) }
 
     // FRAGMENT LIFECYCLE

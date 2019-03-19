@@ -17,7 +17,7 @@ import java.lang.RuntimeException
 
 class DeviceDetailFragment: Fragment(), DeviceDetailView {
 
-    private val presenter by lazy { DeviceDetailPresenter(this, currentDevice, KeyStoreManager) }
+    private val presenter by lazy { DeviceDetailPresenter(this, currentDevice, KeyStoreManager(this.context!!)) }
 
     private lateinit var currentDevice: PairedDevice
 

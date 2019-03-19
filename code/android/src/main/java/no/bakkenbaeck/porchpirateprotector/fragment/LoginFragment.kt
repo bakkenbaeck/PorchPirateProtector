@@ -19,7 +19,7 @@ import no.bakkenbaeck.pppshared.view.LoginView
 
 class LoginFragment: Fragment(), LoginView {
 
-    private val presenter by lazy { LoginPresenter(this, KeyStoreManager) }
+    private val presenter by lazy { LoginPresenter(this, KeyStoreManager(this.context!!)) }
 
     private fun handleFocusChange(forView: View, hasFocus: Boolean) {
         if (hasFocus) {

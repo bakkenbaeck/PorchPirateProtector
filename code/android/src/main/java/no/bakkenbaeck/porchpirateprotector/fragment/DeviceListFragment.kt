@@ -25,7 +25,7 @@ import no.bakkenbaeck.pppshared.presenter.DeviceListPresenter
 class DeviceListFragment: Fragment(), DeviceListView, DeviceSelectionListener {
 
     private val adapter by lazy { DeviceListAdapter(this) }
-    private val presenter by lazy { DeviceListPresenter(this, KeyStoreManager) }
+    private val presenter by lazy { DeviceListPresenter(this, KeyStoreManager(this.context!!)) }
 
     // FRAGMENT LIFECYCLE
 

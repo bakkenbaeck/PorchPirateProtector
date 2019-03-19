@@ -12,6 +12,10 @@ class DeviceDetailPresenter(
     storage: SecureStorage
 ): BaseCoroutinePresenter(secureStorage = storage) {
 
+    init {
+        view.setTitle("Device #${device.deviceId}")
+    }
+
     suspend fun getStatusAsync(): LockState? {
         view.startLoadingIndicator()
         view.setLockButtonEnabled(false)

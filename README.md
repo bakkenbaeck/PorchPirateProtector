@@ -25,7 +25,7 @@ Specifically, this includes iOS, Mac, Windows, and assorted flavors of Linux (in
 
 A multiplatform project is a project which allows you to build shared code for both JVM-based projects and Native projects (as well as Javascript projects, but we won't be working with that here). 
 
-**Kotlin/Native and Multiplatform projects are still in beta**. Things are going to break. This is a super-exciting ecosystem 
+**Kotlin/Native and Multiplatform projects are still in beta**. Things are going to break. This is a super-exciting ecosystem and there's a lot that works well, but there's a lot that doesn't, or can be broken at any point. Please bear that in mind as you think about writing something with this.
 
 ## Project Overview
 

@@ -22,6 +22,7 @@
 		9B4C8850222D347F00638F1F /* PPPShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4C884F222D347F00638F1F /* PPPShared.framework */; };
 		9B4C8851222D347F00638F1F /* PPPShared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4C884F222D347F00638F1F /* PPPShared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9B7D969A2239760B001FA669 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D96992239760B001FA669 /* Keychain.swift */; };
+		9BADA4D522413FA3002F8060 /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4D422413FA3002F8060 /* KeychainTests.swift */; };
 		9BC870282236E46800976CAD /* Optional+Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC870272236E46800976CAD /* Optional+Empty.swift */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,7 @@
 		9B4C883E222D285A00638F1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B4C884F222D347F00638F1F /* PPPShared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PPPShared.framework; path = "../PPPShared/build/xcode-frameworks/PPPShared.framework"; sourceTree = "<group>"; };
 		9B7D96992239760B001FA669 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		9BADA4D422413FA3002F8060 /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		9BC870272236E46800976CAD /* Optional+Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Empty.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				9B4C883C222D285A00638F1F /* PorchPirateProtectorTests.swift */,
+				9BADA4D422413FA3002F8060 /* KeychainTests.swift */,
 				9B4C883E222D285A00638F1F /* Info.plist */,
 			);
 			path = PorchPirateProtectorTests;
@@ -313,6 +316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B4C883D222D285A00638F1F /* PorchPirateProtectorTests.swift in Sources */,
+				9BADA4D522413FA3002F8060 /* KeychainTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

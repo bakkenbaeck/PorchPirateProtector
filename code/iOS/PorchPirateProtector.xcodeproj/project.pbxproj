@@ -11,6 +11,9 @@
 		9B3E1D6A224283B200E7AD81 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E1D69224283B200E7AD81 /* Identifiable.swift */; };
 		9B3E1D6C224285CD00E7AD81 /* PairedDeviceDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E1D6B224285CD00E7AD81 /* PairedDeviceDataSource.swift */; };
 		9B3E1D6E22428DCB00E7AD81 /* IPAddressDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E1D6D22428DCB00E7AD81 /* IPAddressDataSource.swift */; };
+		9B3E1D70224290BB00E7AD81 /* UIViewController+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E1D6F224290BB00E7AD81 /* UIViewController+Error.swift */; };
+		9B3E1D722242912C00E7AD81 /* BannerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B3E1D712242912C00E7AD81 /* BannerView.xib */; };
+		9B3E1D742242913B00E7AD81 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E1D732242913B00E7AD81 /* BannerView.swift */; };
 		9B3E9A412236B1F10026EBD1 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E9A402236B1F10026EBD1 /* WelcomeViewController.swift */; };
 		9B3E9A432236B2000026EBD1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E9A422236B2000026EBD1 /* LoginViewController.swift */; };
 		9B3E9A452236B27A0026EBD1 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E9A442236B27A0026EBD1 /* CreateAccountViewController.swift */; };
@@ -65,6 +68,9 @@
 		9B3E1D69224283B200E7AD81 /* Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
 		9B3E1D6B224285CD00E7AD81 /* PairedDeviceDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairedDeviceDataSource.swift; sourceTree = "<group>"; };
 		9B3E1D6D22428DCB00E7AD81 /* IPAddressDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPAddressDataSource.swift; sourceTree = "<group>"; };
+		9B3E1D6F224290BB00E7AD81 /* UIViewController+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Error.swift"; sourceTree = "<group>"; };
+		9B3E1D712242912C00E7AD81 /* BannerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BannerView.xib; sourceTree = "<group>"; };
+		9B3E1D732242913B00E7AD81 /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
 		9B3E9A402236B1F10026EBD1 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		9B3E9A422236B2000026EBD1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9B3E9A442236B27A0026EBD1 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
@@ -142,6 +148,8 @@
 				9B3E9A472236B29A0026EBD1 /* TextInputView.swift */,
 				9B3E9A492236B3040026EBD1 /* TextInputView.xib */,
 				9B3E9A4C2236BC8F0026EBD1 /* NibContainer.swift */,
+				9B3E1D732242913B00E7AD81 /* BannerView.swift */,
+				9B3E1D712242912C00E7AD81 /* BannerView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -216,6 +224,7 @@
 			children = (
 				9BC870272236E46800976CAD /* Optional+Empty.swift */,
 				9B7D96992239760B001FA669 /* Keychain.swift */,
+				9B3E1D6F224290BB00E7AD81 /* UIViewController+Error.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -303,6 +312,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B3E1D722242912C00E7AD81 /* BannerView.xib in Resources */,
 				9B4C8832222D285A00638F1F /* LaunchScreen.storyboard in Resources */,
 				9B4C882F222D285A00638F1F /* Assets.xcassets in Resources */,
 				9B3E9A4A2236B3040026EBD1 /* TextInputView.xib in Resources */,
@@ -346,6 +356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B3E1D6A224283B200E7AD81 /* Identifiable.swift in Sources */,
+				9B3E1D70224290BB00E7AD81 /* UIViewController+Error.swift in Sources */,
 				9B3E9A452236B27A0026EBD1 /* CreateAccountViewController.swift in Sources */,
 				9B3E9A4F2236BCE50026EBD1 /* NibLoadable.swift in Sources */,
 				9BADA4DD2241507C002F8060 /* DeviceDetailViewController.swift in Sources */,
@@ -358,6 +369,7 @@
 				9BADA4E222415D96002F8060 /* DeviceCell.swift in Sources */,
 				9B3E9A4D2236BC8F0026EBD1 /* NibContainer.swift in Sources */,
 				9BADA4D92241482A002F8060 /* DeviceListViewController.swift in Sources */,
+				9B3E1D742242913B00E7AD81 /* BannerView.swift in Sources */,
 				9BADA4D72241462A002F8060 /* Segue.swift in Sources */,
 				9BC870282236E46800976CAD /* Optional+Empty.swift in Sources */,
 				9B3E1D682242830200E7AD81 /* SingleSelectionDataSource.swift in Sources */,

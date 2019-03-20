@@ -82,7 +82,9 @@ extension DeviceListViewController: DeviceListView {
     }
     
     func apiErrorUpdated(toString: String?) {
-        // TODO: Show error
+        if let error = toString {
+            self.showErrorBanner(with: error)
+        } // else nothing to show
     }
     
     func startLoadingIndicator() {

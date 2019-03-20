@@ -5,4 +5,5 @@
     <color name="colorAccent">#FB5502</color>
 
     <color name="errorRed">@android:color/holo_red_light</color>
+    <color name="successGreen">#0d9b2a</color>
 </resources>

@@ -55,12 +55,14 @@ extension DeviceAddViewController: DeviceAddView {
     }
     
     func deviceAddedSuccessfully(device: PairedDevice) {
-        // TODO: success message
+        self.navigationController?.showBanner(with: "Device added successfully!", backgroundColor: UIColor(red: 13.0 / 255.0, green: 155.0 / 255.0, blue: 42.0 / 255.0, alpha: 1))
         self.navigationController?.popViewController(animated: true)
     }
     
     func pairingErrorUpdated(toString: String?) {
-        // TODO: Show error
+        if let error = toString {
+            self.showErrorBanner(with: error)
+        } // else nothing to show
     }
     
     func startLoadingIndicator() {

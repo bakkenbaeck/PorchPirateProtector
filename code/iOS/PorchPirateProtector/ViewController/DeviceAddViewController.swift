@@ -15,11 +15,13 @@ class DeviceAddViewController: UIViewController {
     @IBOutlet private var loadingSpinner: UIActivityIndicatorView!
     
     private lazy var presenter = DeviceAddPresenter(view: self, storage: Keychain.shared)
+    private lazy var dataSource = IPAddressDataSource(tableView: self.tableView, addresses: [], delegate: self)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Select Device For Pairing"
+        self.dataSource.reloadData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -33,14 +35,23 @@ class DeviceAddViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         super.viewWillDisappear(animated)
     }
+}
+
+// MARK: - IPAddressSelectionDelegate
+
+extension DeviceAddViewController: IPAddressSelectionDelegate {
     
+    func didSelectIPAddress(_ ipAddress: String) {
+        self.presenter.addDevice(deviceIpAddress: ipAddress)
+    }
 }
 
 // MARK: - DeviceAddView
 
 extension DeviceAddViewController: DeviceAddView {
+    
     func updatedAvailableDeviceIPAddresses(toList: [String]) {
-        // TODO: Setup table view data source
+        self.dataSource.updateItems(to: toList)
     }
     
     func deviceAddedSuccessfully(device: PairedDevice) {

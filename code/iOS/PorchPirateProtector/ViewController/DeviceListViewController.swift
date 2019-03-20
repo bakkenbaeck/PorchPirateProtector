@@ -20,14 +20,15 @@ class DeviceListViewController: UIViewController {
     @IBOutlet private var loadingSpinner: UIActivityIndicatorView!
     
     private lazy var presenter = DeviceListPresenter(view: self, storage: Keychain.shared)
+    private lazy var dataSource = PairedDeviceDataSource(tableView: self.tableView, devices: [], delegate: self)
     
     private var selectedDevice: PairedDevice?
     
-    @IBAction
-    private func tappedAdd() {
-        self.presenter.selectedAddDevice()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.dataSource.reloadData()
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let listSegue = DeviceListSegue.from(storyboardSegue: segue)
         switch listSegue {
@@ -47,6 +48,18 @@ class DeviceListViewController: UIViewController {
             self.selectedDevice = nil
         }
     }
+    
+    @IBAction
+    private func tappedAdd() {
+        self.presenter.selectedAddDevice()
+    }
+}
+
+extension DeviceListViewController: DeviceSelectionDelegate {
+    
+    func didSelectDevice(_ device: PairedDevice) {
+        self.presenter.selectedDevice(device: device)
+    }
 }
 
 extension DeviceListViewController: DeviceListView {
@@ -60,7 +73,7 @@ extension DeviceListViewController: DeviceListView {
     }
     
     func deviceListUpdated(toDeviceList: [PairedDevice]) {
-        // TODO: Update data source
+        self.dataSource.updateItems(to: toDeviceList)
     }
     
     func showDetailForDevice(device: PairedDevice) {

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B3E1D682242830200E7AD81 /* SingleSelectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E1D672242830200E7AD81 /* SingleSelectionDataSource.swift */; };
+		9B3E1D6A224283B200E7AD81 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E1D69224283B200E7AD81 /* Identifiable.swift */; };
+		9B3E1D6C224285CD00E7AD81 /* PairedDeviceDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E1D6B224285CD00E7AD81 /* PairedDeviceDataSource.swift */; };
+		9B3E1D6E22428DCB00E7AD81 /* IPAddressDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E1D6D22428DCB00E7AD81 /* IPAddressDataSource.swift */; };
 		9B3E9A412236B1F10026EBD1 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E9A402236B1F10026EBD1 /* WelcomeViewController.swift */; };
 		9B3E9A432236B2000026EBD1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E9A422236B2000026EBD1 /* LoginViewController.swift */; };
 		9B3E9A452236B27A0026EBD1 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E9A442236B27A0026EBD1 /* CreateAccountViewController.swift */; };
@@ -57,6 +61,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9B3E1D672242830200E7AD81 /* SingleSelectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleSelectionDataSource.swift; sourceTree = "<group>"; };
+		9B3E1D69224283B200E7AD81 /* Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
+		9B3E1D6B224285CD00E7AD81 /* PairedDeviceDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairedDeviceDataSource.swift; sourceTree = "<group>"; };
+		9B3E1D6D22428DCB00E7AD81 /* IPAddressDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPAddressDataSource.swift; sourceTree = "<group>"; };
 		9B3E9A402236B1F10026EBD1 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		9B3E9A422236B2000026EBD1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9B3E9A442236B27A0026EBD1 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +112,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B3E1D66224282EE00E7AD81 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				9B3E1D672242830200E7AD81 /* SingleSelectionDataSource.swift */,
+				9B3E1D6B224285CD00E7AD81 /* PairedDeviceDataSource.swift */,
+				9B3E1D6D22428DCB00E7AD81 /* IPAddressDataSource.swift */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
 		9B3E9A462236B2830026EBD1 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +151,7 @@
 			children = (
 				9B3E9A4E2236BCE50026EBD1 /* NibLoadable.swift */,
 				9BADA4D62241462A002F8060 /* Segue.swift */,
+				9B3E1D69224283B200E7AD81 /* Identifiable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -164,6 +183,7 @@
 				9B4C882E222D285A00638F1F /* Assets.xcassets */,
 				9B4C8830222D285A00638F1F /* LaunchScreen.storyboard */,
 				9B4C8833222D285A00638F1F /* Info.plist */,
+				9B3E1D66224282EE00E7AD81 /* DataSource */,
 				9BC870262236E44D00976CAD /* Extension */,
 				9B3E9A502236BCEA0026EBD1 /* Protocol */,
 				9B3E9A462236B2830026EBD1 /* ViewController */,
@@ -325,6 +345,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B3E1D6A224283B200E7AD81 /* Identifiable.swift in Sources */,
 				9B3E9A452236B27A0026EBD1 /* CreateAccountViewController.swift in Sources */,
 				9B3E9A4F2236BCE50026EBD1 /* NibLoadable.swift in Sources */,
 				9BADA4DD2241507C002F8060 /* DeviceDetailViewController.swift in Sources */,
@@ -333,13 +354,16 @@
 				9BADA4DB22415070002F8060 /* DeviceAddViewController.swift in Sources */,
 				9B3E9A412236B1F10026EBD1 /* WelcomeViewController.swift in Sources */,
 				9BADA4E022415C77002F8060 /* IPAddressCell.swift in Sources */,
+				9B3E1D6C224285CD00E7AD81 /* PairedDeviceDataSource.swift in Sources */,
 				9BADA4E222415D96002F8060 /* DeviceCell.swift in Sources */,
 				9B3E9A4D2236BC8F0026EBD1 /* NibContainer.swift in Sources */,
 				9BADA4D92241482A002F8060 /* DeviceListViewController.swift in Sources */,
 				9BADA4D72241462A002F8060 /* Segue.swift in Sources */,
 				9BC870282236E46800976CAD /* Optional+Empty.swift in Sources */,
+				9B3E1D682242830200E7AD81 /* SingleSelectionDataSource.swift in Sources */,
 				9B7D969A2239760B001FA669 /* Keychain.swift in Sources */,
 				9B4C8828222D285800638F1F /* AppDelegate.swift in Sources */,
+				9B3E1D6E22428DCB00E7AD81 /* IPAddressDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,13 +25,15 @@ data class PairedDevice(
         return Json.stringify(PairedDevice.serializer(), this)
     }
 
-    val lockStateEmoji: String
-        get() = when (lockState?.isLocked) {
-        true -> "🔐"
-        false -> "🔓"
-        null -> "❓"
+    fun lockStateEmoji(): String {
+        return when (lockState?.isLocked) {
+            true -> "🔐"
+            false -> "🔓"
+            null -> "❓"
+        }
     }
 
-    val deviceName: String
-        get() = "Device #$deviceId"
+    fun displayName(): String {
+        return "Device #$deviceId"
+    }
 }

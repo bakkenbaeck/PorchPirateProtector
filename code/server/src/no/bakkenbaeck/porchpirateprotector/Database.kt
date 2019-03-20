@@ -4,8 +4,6 @@ import no.bakkenbaeck.porchpirateprotector.model.*
 import no.bakkenbaeck.pppshared.model.DeviceRequest
 import no.bakkenbaeck.pppshared.model.LockState
 import no.bakkenbaeck.pppshared.model.UserCredentials
-import no.bakkenbaeck.pppshared.model.UserToken
-import org.jetbrains.exposed.dao.*
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction

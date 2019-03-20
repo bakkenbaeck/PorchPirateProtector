@@ -36,14 +36,8 @@ class DeviceListAdapter(private val listener: DeviceSelectionListener): Recycler
 
     override fun onBindViewHolder(holder: DeviceHolder, position: Int) {
         val item = list.get(position)
-        holder.nameTextView.text = "Device #${item.deviceId}"
-
-        when (item.lockState?.isLocked) {
-            true -> holder.lockedTextView.text = "🔐"
-            false -> holder.lockedTextView.text = "🔓"
-            null -> holder.lockedTextView.text = "❓"
-        }
-
+        holder.nameTextView.text = item.deviceName
+        holder.lockedTextView.text = item.lockStateEmoji
         holder.itemView.setOnClickListener { listener.deviceSelected(item) }
     }
 }

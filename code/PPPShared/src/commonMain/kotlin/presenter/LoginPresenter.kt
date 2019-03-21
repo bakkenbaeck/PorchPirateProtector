@@ -9,7 +9,7 @@ import no.bakkenbaeck.pppshared.validator.ValidationResult
 import no.bakkenbaeck.pppshared.view.LoginView
 import kotlin.properties.Delegates
 
-class  LoginPresenter(
+class LoginPresenter(
     val view: LoginView,
     storage: SecureStorage
 ): BaseCoroutinePresenter(secureStorage = storage) {

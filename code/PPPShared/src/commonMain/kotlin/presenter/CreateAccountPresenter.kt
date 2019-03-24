@@ -2,7 +2,6 @@ package no.bakkenbaeck.pppshared.presenter
 
 import kotlinx.coroutines.launch
 import no.bakkenbaeck.pppshared.interfaces.SecureStorage
-import no.bakkenbaeck.pppshared.manager.TokenManager
 import no.bakkenbaeck.pppshared.model.UserCredentials
 import no.bakkenbaeck.pppshared.validator.InputValidator
 import no.bakkenbaeck.pppshared.validator.ValidationResult
@@ -92,7 +91,7 @@ class CreateAccountPresenter(
         var result = false
         try {
             val token = api.createAccount(creds)
-            TokenManager.storeToken(token, secureStorage)
+            secureStorage.storeTokenString(token.token)
             view.accountSuccessfullyCreated()
             result = true
         } catch (exception: Exception) {

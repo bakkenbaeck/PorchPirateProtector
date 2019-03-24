@@ -5,7 +5,6 @@ import no.bakkenbaeck.pppshared.view.LoginView
 import no.bakkenbaeck.pppshared.validator.*
 import no.bakkenbaeck.pppshared.mock.*
 import kotlin.test.*
-import no.bakkenbaeck.pppshared.manager.TokenManager
 
 class LoginTests {
 
@@ -153,8 +152,8 @@ class LoginTests {
         assertTrue(view.submitEnabled)
         assertTrue(view.submitWasDisabled)
 
-        assertNotNull(TokenManager.currentToken(storage))
-        assertEquals(MockNetworkClient.mockToken, TokenManager.currentToken(storage)?.token)
+        assertNotNull(storage.tokenString)
+        assertEquals(MockNetworkClient.mockToken, storage.tokenString)
     }
 
     @Test
@@ -183,6 +182,6 @@ class LoginTests {
         assertTrue(view.submitEnabled)
         assertTrue(view.submitWasDisabled)
 
-        assertNull(TokenManager.currentToken(storage))
+        assertNull(storage.tokenString)
     }
 }

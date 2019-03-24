@@ -4,7 +4,6 @@ import kotlinx.coroutines.*
 import no.bakkenbaeck.pppshared.ApplicationDispatcher
 import no.bakkenbaeck.pppshared.api.Api
 import no.bakkenbaeck.pppshared.interfaces.SecureStorage
-import no.bakkenbaeck.pppshared.manager.TokenManager
 import kotlin.coroutines.CoroutineContext
 
 // Ganked from https://github.com/JetBrains/kotlinconf-app/blob/master/common/src/commonMain/kotlin/org/jetbrains/kotlinconf/presentation/CoroutinePresenter.kt
@@ -28,13 +27,13 @@ open class BaseCoroutinePresenter(
     }
 
     fun throwingToken(): String {
-        TokenManager.currentToken(secureStorage)?.let {
-            return it.token
+        secureStorage.fetchTokenString()?.let {
+            return it
         } ?: throw RuntimeException("Couldn't find token!")
     }
 
     fun optionalToken(): String? {
-        return TokenManager.currentToken(secureStorage)?.token
+        return secureStorage.fetchTokenString()
     }
 
     open fun handleError(error: Throwable) {

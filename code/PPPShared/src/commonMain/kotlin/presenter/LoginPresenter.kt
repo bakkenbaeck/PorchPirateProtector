@@ -2,7 +2,6 @@ package no.bakkenbaeck.pppshared.presenter
 
 import kotlinx.coroutines.launch
 import no.bakkenbaeck.pppshared.interfaces.SecureStorage
-import no.bakkenbaeck.pppshared.manager.TokenManager
 import no.bakkenbaeck.pppshared.model.UserCredentials
 import no.bakkenbaeck.pppshared.validator.InputValidator
 import no.bakkenbaeck.pppshared.validator.ValidationResult
@@ -70,7 +69,7 @@ class LoginPresenter(
         var success = false
         try {
             val token = api.login(creds)
-            TokenManager.storeToken(token, secureStorage)
+            secureStorage.storeTokenString(token.token)
             view.loginSucceeded()
             success = true
         } catch (exception: Exception) {

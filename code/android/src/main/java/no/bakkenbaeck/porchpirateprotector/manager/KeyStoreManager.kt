@@ -14,6 +14,13 @@ class KeyStoreManager(
     private val context: Context
 ): SecureStorage {
 
+    private val sharedPrefs: SharedPreferencesManager
+
+    init {
+        sharedPrefs = SharedPreferencesManager(context)
+    }
+
+
     private val keystoreName = "AndroidKeyStore"
     private val masterKeyName = "MASTER_KEY"
 
@@ -84,25 +91,18 @@ class KeyStoreManager(
 
     override fun storeTokenString(token: String) {
         val encrypted = encrypt(token, masterKey?.public)
-        SharedPreferencesManager.storeString(
+        sharedPrefs.storeString(
             encrypted,
-            SharedPreferencesManager.KeyName.EncryptedToken,
-            context
+            SharedPreferencesManager.KeyName.EncryptedToken
         )
     }
 
     override fun clearTokenString() {
-        SharedPreferencesManager.clearValue(
-            SharedPreferencesManager.KeyName.EncryptedToken,
-            context
-        )
+        sharedPrefs.clearValue(SharedPreferencesManager.KeyName.EncryptedToken)
     }
 
     override fun fetchTokenString(): String? {
-        val encrypted = SharedPreferencesManager.retrieveString(
-            SharedPreferencesManager.KeyName.EncryptedToken,
-            context
-        )
+        val encrypted = sharedPrefs.retrieveString(SharedPreferencesManager.KeyName.EncryptedToken)
 
         return encrypted?.let {
             decrypt(it, masterKey?.private)

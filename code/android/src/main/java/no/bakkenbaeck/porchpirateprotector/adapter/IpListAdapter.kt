@@ -16,11 +16,12 @@ class IpHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 }
 
 class IpListAdapter(private val listener: IpSelectionListener): RecyclerView.Adapter<IpHolder>() {
-    var ipAddresses: List<String> = listOf()
-        set(value) {
-            field = value
-            this@IpListAdapter.notifyDataSetChanged()
-        }
+    private var ipAddresses: MutableList<String> = mutableListOf()
+    fun updateAddresses(toList: List<String>) {
+        ipAddresses.clear()
+        ipAddresses.addAll(toList)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IpHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -29,7 +30,7 @@ class IpListAdapter(private val listener: IpSelectionListener): RecyclerView.Ada
     }
 
     override fun getItemCount(): Int {
-        return ipAddresses.count()
+        return ipAddresses.size
     }
 
     override fun onBindViewHolder(holder: IpHolder, position: Int) {

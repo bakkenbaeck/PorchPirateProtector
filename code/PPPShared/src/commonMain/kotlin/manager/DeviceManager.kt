@@ -1,32 +1,58 @@
 package no.bakkenbaeck.pppshared.manager
 
 import no.bakkenbaeck.pppshared.api.Api
-import no.bakkenbaeck.pppshared.extension.indexOrNull
+import no.bakkenbaeck.pppshared.db.MobileDb
+import no.bakkenbaeck.pppshared.db.StoredDevice
+import no.bakkenbaeck.pppshared.model.LockState
 import no.bakkenbaeck.pppshared.model.PairedDevice
+
+fun List<StoredDevice>.toPairedDevices(): List<PairedDevice> {
+    return this.map { stored: StoredDevice ->
+        var lockState: LockState? = null
+        stored.lastKnownLockState?.let {
+            lockState = LockState(stored.id, it)
+        }
+        PairedDevice(
+            deviceId = stored.id,
+            ipAddress = stored.address,
+            pairingKey = stored.pairingKey,
+            lockState  = lockState
+        )
+    }
+}
 
 object DeviceManager {
 
-    var pairedDevices: MutableList<PairedDevice> = mutableListOf()
-    var unpairedDeviceIpAddresses: MutableList<String> = mutableListOf("10.0.0.3")
-
-    private fun isAlreadyPaired(deviceIpAddress: String): Boolean {
-        val paired = pairedDevices.firstOrNull { it.ipAddress == deviceIpAddress }
-        return (paired != null)
+    fun loadPairedDevicesFromDatabase(): List<PairedDevice> {
+        val deviceQueries = MobileDb.instance.storedDeviceQueries
+        val storedDevices = deviceQueries.selectAll().executeAsList()
+        return storedDevices.toPairedDevices()
     }
 
-    private fun pairedDeviceWithId(deviceIpAddress: String): PairedDevice {
-        return pairedDevices.first { it.ipAddress == deviceIpAddress }
+    internal fun storeDeviceToDatabase(device: PairedDevice): List<PairedDevice> {
+        val deviceQueries = MobileDb.instance.storedDeviceQueries
+        deviceQueries.insertOrUpdate(
+            id = device.deviceId,
+            address = device.ipAddress,
+            pairingKey = device.pairingKey,
+            lastKnownLockState = device.lockState?.isLocked
+        )
+
+        return loadPairedDevicesFromDatabase()
+    }
+
+    private fun updateLockState(deviceID: Int, state: LockState?): List<PairedDevice> {
+        val deviceQueries = MobileDb.instance.storedDeviceQueries
+        deviceQueries.updateLastKnownLockState(state?.isLocked, deviceID)
+
+        return loadPairedDevicesFromDatabase()
     }
 
     suspend fun pair(
         api: Api,
         deviceIpAddress: String,
         token: String
-    ): PairedDevice {
-        if (isAlreadyPaired(deviceIpAddress)) {
-            return pairedDeviceWithId(deviceIpAddress)
-        }
-
+    ): List<PairedDevice> {
         // TODO: Make this actually do some bluetooth pairing. For now, play nice with the server:
         val deviceRequest = api.addDevice(deviceIpAddress, token)
         val pairedDevice = PairedDevice(deviceRequest.deviceId,
@@ -34,12 +60,7 @@ object DeviceManager {
             deviceRequest.pairingKey,
             deviceRequest.lockState)
 
-        unpairedDeviceIpAddresses.indexOrNull(deviceIpAddress)?.let {
-            unpairedDeviceIpAddresses.removeAt(it)
-        }
-
-        pairedDevices.add(pairedDevice)
-        return pairedDevice
+        return storeDeviceToDatabase(pairedDevice)
     }
 
     suspend fun updateStatus(
@@ -48,15 +69,6 @@ object DeviceManager {
         token: String
     ): List<PairedDevice> {
         val lockState = api.getCurrentLockState(device.deviceId, device.pairingKey, token)
-        device.lockState = lockState
-        val index = pairedDevices.indexOfFirst { it.deviceId == device.deviceId }
-        if (index >= 0) {
-            pairedDevices.removeAt(index)
-            pairedDevices.add(index, device)
-        } else {
-            pairedDevices.add(device)
-        }
-
-        return pairedDevices.toList()
+        return updateLockState(device.deviceId, lockState)
     }
 }

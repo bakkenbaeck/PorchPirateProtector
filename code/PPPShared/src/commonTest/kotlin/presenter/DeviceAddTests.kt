@@ -5,6 +5,7 @@ import no.bakkenbaeck.pppshared.mock.*
 import no.bakkenbaeck.pppshared.manager.DeviceManager
 import no.bakkenbaeck.pppshared.model.PairedDevice
 import no.bakkenbaeck.pppshared.view.DeviceAddView
+import no.bakkenbaeck.pppshared.db.MobileDb
 import kotlin.test.*
 
 class DeviceAddTests {
@@ -39,32 +40,40 @@ class DeviceAddTests {
         }
     }
 
+    @BeforeTest
+    fun setup() {
+        MobileDb.clearDatabase()
+    }
+
     @Test
     fun callingUpdatePassesBackCorrectIPAddresses() {
-        DeviceManager.unpairedDeviceIpAddresses = mutableListOf("1.2.3", "4.5.6")
-        val expectedInitialList = listOf("1.2.3", "4.5.6")
+        val insecureStorage = MockInsecureStorage()
+        val initialList = listOf("1.2.3", "4.5.6")
+        insecureStorage.storeIPAddresses(initialList)
 
         val view = TestAddView()
         val storage = MockSecureStorage()
         storage.tokenString = "MOCK TOKEN"
-        val presenter = DeviceAddPresenter(view, storage)
+
+        val presenter = DeviceAddPresenter(view, storage, insecureStorage)
 
         assertNull(view.ipAddresses)
 
         presenter.updateAvailableIPAddresses()
 
         assertNotNull(view.ipAddresses)
-        assertEquals(expectedInitialList, view.ipAddresses)
+        assertEquals(initialList, view.ipAddresses)
 
-        DeviceManager.unpairedDeviceIpAddresses.removeAt(0)
+        val updatedList = listOf("4.5.6")
+        insecureStorage.storeIPAddresses(updatedList)
 
         // Actual stuff on the view shouldn't have changed yet
-        assertEquals(expectedInitialList, view.ipAddresses)
+        assertEquals(initialList, view.ipAddresses)
 
         presenter.updateAvailableIPAddresses()
 
-        assertNotEquals(expectedInitialList, view.ipAddresses)
-        assertEquals(mutableListOf("4.5.6"), view.ipAddresses)
+        assertNotEquals(initialList, view.ipAddresses)
+        assertEquals(updatedList, view.ipAddresses)
     }
 
     @Test
@@ -73,10 +82,10 @@ class DeviceAddTests {
         val storage = MockSecureStorage()
         storage.tokenString = "Nooooope"
 
-        DeviceManager.unpairedDeviceIpAddresses = mutableListOf(MockNetworkClient.lockedIP)
-        DeviceManager.pairedDevices = mutableListOf()
+        val insecureStorage = MockInsecureStorage()
+        insecureStorage.storeIPAddresses(listOf(MockNetworkClient.lockedIP))
 
-        val presenter = DeviceAddPresenter(view, storage)
+        val presenter = DeviceAddPresenter(view, storage, insecureStorage)
         presenter.api.client = MockNetworkClient()
 
         presenter.addDeviceAsync(MockNetworkClient.lockedIP)
@@ -94,10 +103,10 @@ class DeviceAddTests {
         val storage = MockSecureStorage()
         storage.tokenString = MockNetworkClient.mockToken
 
-        DeviceManager.unpairedDeviceIpAddresses = mutableListOf(MockNetworkClient.lockedIP)
-        DeviceManager.pairedDevices = mutableListOf()
+        val insecureStorage = MockInsecureStorage()
+        insecureStorage.storeIPAddresses(listOf(MockNetworkClient.lockedIP))
 
-        val presenter = DeviceAddPresenter(view, storage)
+        val presenter = DeviceAddPresenter(view, storage, insecureStorage)
         presenter.api.client = MockNetworkClient()
 
         presenter.addDeviceAsync(MockNetworkClient.lockedIP)
@@ -112,8 +121,8 @@ class DeviceAddTests {
             assertEquals(MockNetworkClient.validPairingKey, it.pairingKey)
             assertNotNull(it.lockState)
             assertEquals(true, it.lockState?.isLocked)
-            assertEquals(listOf(it), DeviceManager.pairedDevices)
-            assertEquals(listOf<String>(), DeviceManager.unpairedDeviceIpAddresses)
+            assertEquals(listOf(it), DeviceManager.loadPairedDevicesFromDatabase())
+            assertEquals(listOf<String>(), insecureStorage.loadIPAddresses())
         } ?: fail("Device was not successfully added!")
     }
 
@@ -125,10 +134,10 @@ class DeviceAddTests {
 
         val unlockedIPAddress = MockNetworkClient.lockedIP + ".1"
 
-        DeviceManager.unpairedDeviceIpAddresses = mutableListOf(unlockedIPAddress)
-        DeviceManager.pairedDevices = mutableListOf()
+        val insecureStorage = MockInsecureStorage()
+        insecureStorage.storeIPAddresses(listOf(unlockedIPAddress))
 
-        val presenter = DeviceAddPresenter(view, storage)
+        val presenter = DeviceAddPresenter(view, storage, insecureStorage)
         presenter.api.client = MockNetworkClient()
 
         presenter.addDeviceAsync(unlockedIPAddress)
@@ -143,8 +152,8 @@ class DeviceAddTests {
             assertEquals(MockNetworkClient.validPairingKey, it.pairingKey)
             assertNotNull(it.lockState)
             assertEquals(false, it.lockState?.isLocked)
-            assertEquals(listOf(it), DeviceManager.pairedDevices)
-            assertEquals(listOf<String>(), DeviceManager.unpairedDeviceIpAddresses)
+            assertEquals(listOf(it), DeviceManager.loadPairedDevicesFromDatabase())
+            assertEquals(listOf<String>(), insecureStorage.loadIPAddresses())
         } ?: fail("Device was not successfully added!")
     }
 }

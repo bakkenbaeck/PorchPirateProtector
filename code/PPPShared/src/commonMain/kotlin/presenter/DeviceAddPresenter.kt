@@ -1,6 +1,7 @@
 package no.bakkenbaeck.pppshared.presenter
 
 import kotlinx.coroutines.launch
+import no.bakkenbaeck.pppshared.interfaces.InsecureStorage
 import no.bakkenbaeck.pppshared.interfaces.SecureStorage
 import no.bakkenbaeck.pppshared.manager.DeviceManager
 import no.bakkenbaeck.pppshared.model.PairedDevice
@@ -8,27 +9,35 @@ import no.bakkenbaeck.pppshared.view.DeviceAddView
 
 class DeviceAddPresenter(
     val view: DeviceAddView,
-    storage: SecureStorage
+    storage: SecureStorage,
+    private val insecureStorage: InsecureStorage
 ): BaseCoroutinePresenter(secureStorage = storage) {
 
     fun updateAvailableIPAddresses() {
-        view.updatedAvailableDeviceIPAddresses(DeviceManager.unpairedDeviceIpAddresses.toList())
+        val addresses = insecureStorage.loadIPAddresses() ?: emptyList()
+        view.updatedAvailableDeviceIPAddresses(addresses)
     }
 
-    suspend fun addDeviceAsync(deviceIpAddress: String): PairedDevice? {
+    suspend fun addDeviceAsync(deviceIpAddress: String): List<PairedDevice> {
         view.startLoadingIndicator()
         view.pairingErrorUpdated(null)
-        var pairedDevice: PairedDevice? = null
+        var pairedDevices: List<PairedDevice>? = null
         try {
-            pairedDevice = DeviceManager.pair(api, deviceIpAddress, throwingToken())
+            pairedDevices = DeviceManager.pair(api, deviceIpAddress, throwingToken())
+            insecureStorage.removeIPAddress(deviceIpAddress)
         } catch (exception: Exception) {
             view.pairingErrorUpdated(exception.message)
         }
 
         view.stopLoadingIndicator()
-        view.updatedAvailableDeviceIPAddresses(DeviceManager.unpairedDeviceIpAddresses.toList())
-        pairedDevice?.let { view.deviceAddedSuccessfully(it) }
-        return pairedDevice
+
+        pairedDevices?.let { devices ->
+            view.updatedAvailableDeviceIPAddresses(insecureStorage.loadIPAddresses() ?: emptyList())
+            val addedDevice = devices.first { it.ipAddress == deviceIpAddress}
+            view.deviceAddedSuccessfully(addedDevice)
+
+            return@addDeviceAsync devices
+        } ?: throw RuntimeException("Couldn't access added devices")
     }
 
     fun addDevice(deviceIpAddress: String) {

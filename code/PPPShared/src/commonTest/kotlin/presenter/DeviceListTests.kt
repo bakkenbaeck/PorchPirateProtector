@@ -1,5 +1,6 @@
 package no.bakkenbaeck.pppshared.presenter
 
+import no.bakkenbaeck.pppshared.interfaces.InsecureStorage
 import no.bakkenbaeck.pppshared.platformRunBlocking
 import no.bakkenbaeck.pppshared.manager.DeviceManager
 import no.bakkenbaeck.pppshared.mock.*
@@ -53,13 +54,14 @@ class DeviceListTests {
     fun updatingDeviceListSetsProperListAndEnablesOrDisablesButton() {
         val mockIPAddresses = listOf("1.2.3", "4.5.6")
 
-        DeviceManager.unpairedDeviceIpAddresses = mockIPAddresses.toMutableList()
-        DeviceManager.pairedDevices = mutableListOf()
+        val insecureStorage = MockInsecureStorage()
+        insecureStorage.storeIPAddresses(mockIPAddresses)
 
         val view = TestDeviceListView()
         val storage = MockSecureStorage()
+
         storage.storeTokenString("TESTING_TOKEN")
-        val presenter = DeviceListPresenter(view, storage)
+        val presenter = DeviceListPresenter(view, storage, insecureStorage)
 
         presenter.updateDeviceList()
 
@@ -73,8 +75,9 @@ class DeviceListTests {
             "fake_pairing_key",
             null)
 
-        DeviceManager.pairedDevices.add(fakeDevice)
-        DeviceManager.unpairedDeviceIpAddresses.removeAt(0)
+
+        DeviceManager.storeDeviceToDatabase(fakeDevice)
+        insecureStorage.removeIPAddress("1.2.3")
 
         presenter.updateDeviceList()
 
@@ -94,11 +97,12 @@ class DeviceListTests {
 
         val storage = MockSecureStorage()
         storage.storeTokenString(MockNetworkClient.mockToken)
-        val presenter = DeviceListPresenter(view, storage)
-        presenter.api.client = MockNetworkClient()
 
-        DeviceManager.pairedDevices = mutableListOf()
-        DeviceManager.unpairedDeviceIpAddresses = mutableListOf(MockNetworkClient.lockedIP)
+        val insecureStorage = MockInsecureStorage()
+        insecureStorage.storeIPAddresses(listOf(MockNetworkClient.lockedIP))
+
+        val presenter = DeviceListPresenter(view, storage, insecureStorage)
+        presenter.api.client = MockNetworkClient()
 
         val device = PairedDevice(
             deviceId = MockNetworkClient.lockedDeviceId,
@@ -146,7 +150,8 @@ class DeviceListTests {
 
         val storage = MockSecureStorage()
         storage.storeTokenString("TESTING_TOKEN")
-        val presenter = DeviceListPresenter(view, storage)
+
+        val presenter = DeviceListPresenter(view, storage, MockInsecureStorage())
 
         assertNull(view.selectedDevice)
 
@@ -161,7 +166,7 @@ class DeviceListTests {
         val view = TestDeviceListView()
         val storage = MockSecureStorage()
         storage.storeTokenString("TESTING_TOKEN")
-        val presenter = DeviceListPresenter(view, storage)
+        val presenter = DeviceListPresenter(view, storage, MockInsecureStorage())
 
         assertFalse(view.navigatedToAdd)
 

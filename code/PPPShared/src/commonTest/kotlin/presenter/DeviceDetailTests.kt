@@ -66,8 +66,7 @@ class DeviceDetailTests {
             lockState = null
         )
 
-        DeviceManager.unpairedDeviceIpAddresses = mutableListOf<String>()
-        DeviceManager.pairedDevices = mutableListOf(device)
+        DeviceManager.storeDeviceToDatabase(device)
 
         val presenter = DeviceDetailPresenter(view, device, storage)
         presenter.api.client = MockNetworkClient()
@@ -95,7 +94,7 @@ class DeviceDetailTests {
         }?: fail("Did not get lock state with valid login info!")
 
         // Was the device updated in the device list as well?
-        val firstDevice = DeviceManager.pairedDevices.first()
+        val firstDevice = DeviceManager.loadPairedDevicesFromDatabase().first()
         firstDevice.lockState?.let {
             assertTrue(it.isLocked)
             assertEquals(device.deviceId, it.deviceId)
@@ -115,8 +114,7 @@ class DeviceDetailTests {
             lockState = null
         )
 
-        DeviceManager.unpairedDeviceIpAddresses = mutableListOf<String>()
-        DeviceManager.pairedDevices = mutableListOf(device)
+        DeviceManager.storeDeviceToDatabase(device)
 
         val presenter = DeviceDetailPresenter(view, device, storage)
         presenter.api.client = MockNetworkClient()
@@ -153,8 +151,7 @@ class DeviceDetailTests {
             lockState = LockState(MockNetworkClient.unlockedDeviceId, false)
         )
 
-        DeviceManager.unpairedDeviceIpAddresses = mutableListOf<String>()
-        DeviceManager.pairedDevices = mutableListOf(device)
+        DeviceManager.storeDeviceToDatabase(device)
 
         val presenter = DeviceDetailPresenter(view, device, storage)
         presenter.api.client = MockNetworkClient()
@@ -183,7 +180,7 @@ class DeviceDetailTests {
         }?: fail("Did not get lock state with valid login info!")
 
         // Was the device updated in the device list as well?
-        val firstDevice = DeviceManager.pairedDevices.first()
+        val firstDevice = DeviceManager.loadPairedDevicesFromDatabase().first()
         firstDevice.lockState?.let {
             assertTrue(it.isLocked)
             assertEquals(device.deviceId, it.deviceId)
@@ -203,8 +200,7 @@ class DeviceDetailTests {
             lockState = LockState(MockNetworkClient.unlockedDeviceId, false)
         )
 
-        DeviceManager.unpairedDeviceIpAddresses = mutableListOf()
-        DeviceManager.pairedDevices = mutableListOf(device)
+        DeviceManager.storeDeviceToDatabase(device)
 
         val presenter = DeviceDetailPresenter(view, device, storage)
         presenter.api.client = MockNetworkClient()
@@ -228,7 +224,7 @@ class DeviceDetailTests {
 
         // We should still think the device is unlocked.
         assertEquals(false, presenter.device.lockState?.isLocked)
-        assertEquals(false, DeviceManager.pairedDevices.first().lockState?.isLocked)
+        assertEquals(false, DeviceManager.loadPairedDevicesFromDatabase().first().lockState?.isLocked)
     }
 
     @Test
@@ -244,8 +240,7 @@ class DeviceDetailTests {
             lockState = LockState(MockNetworkClient.unlockedDeviceId, true)
         )
 
-        DeviceManager.unpairedDeviceIpAddresses = mutableListOf<String>()
-        DeviceManager.pairedDevices = mutableListOf(device)
+        DeviceManager.storeDeviceToDatabase(device)
 
         val presenter = DeviceDetailPresenter(view, device, storage)
         presenter.api.client = MockNetworkClient()
@@ -274,7 +269,7 @@ class DeviceDetailTests {
         }?: fail("Did not get lock state with valid login info!")
 
         // Was the device updated in the device list as well?
-        val firstDevice = DeviceManager.pairedDevices.first()
+        val firstDevice = DeviceManager.loadPairedDevicesFromDatabase().first()
         firstDevice.lockState?.let {
             assertFalse(it.isLocked)
             assertEquals(device.deviceId, it.deviceId)
@@ -294,8 +289,7 @@ class DeviceDetailTests {
             lockState = LockState(MockNetworkClient.lockedDeviceId, true)
         )
 
-        DeviceManager.unpairedDeviceIpAddresses = mutableListOf()
-        DeviceManager.pairedDevices = mutableListOf(device)
+        DeviceManager.storeDeviceToDatabase(device)
 
         val presenter = DeviceDetailPresenter(view, device, storage)
         presenter.api.client = MockNetworkClient()
@@ -319,6 +313,6 @@ class DeviceDetailTests {
 
         // We should still think the device is locked.
         assertEquals(true, presenter.device.lockState?.isLocked)
-        assertEquals(true, DeviceManager.pairedDevices.first().lockState?.isLocked)
+        assertEquals(true, DeviceManager.loadPairedDevicesFromDatabase().first().lockState?.isLocked)
     }
 }

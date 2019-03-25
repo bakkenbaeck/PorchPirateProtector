@@ -1,15 +1,21 @@
 CREATE TABLE storedDevice (
-  id INTEGER NOT NULL PRIMARY KEY,
+  id INTEGER as Integer NOT NULL PRIMARY KEY,
   address TEXT NOT NULL,
-  pairing_key TEXT NOT NULL
+  pairingKey TEXT NOT NULL,
+  lastKnownLockState INTEGER as Boolean
 );
 
 insertOrUpdate:
-INSERT OR REPLACE INTO storedDevice (id, address, pairing_key)
-VALUES (?, ?, ?);
+INSERT OR REPLACE INTO storedDevice (id, address, pairingKey, lastKnownLockState)
+VALUES (?, ?, ?, ?);
 
 deviceById:
 SELECT * FROM storedDevice WHERE id = ?;
 
 selectAll:
 SELECT * FROM storedDevice;
+
+updateLastKnownLockState:
+UPDATE storedDevice
+SET lastKnownLockState = ?
+WHERE id = ?;

@@ -24,6 +24,7 @@ kotlin {
             implementation "io.ktor:ktor-client-core:$ktor_version"
             implementation "io.ktor:ktor-client-json:$ktor_version"
             implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serialization_version"
+            implementation "com.squareup.sqldelight:runtime:$sqldelight_version"
         }
 
         commonTest.dependencies {
@@ -39,7 +40,6 @@ kotlin {
             implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
             implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
             implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
-            implementation "com.squareup.sqldelight:android-driver:$sqldelight_version"
         }
 
         androidTest.dependencies {

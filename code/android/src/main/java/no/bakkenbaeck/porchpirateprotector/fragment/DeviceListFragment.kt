@@ -20,12 +20,13 @@ import no.bakkenbaeck.porchpirateprotector.extension.showAndStartAnimating
 import no.bakkenbaeck.porchpirateprotector.extension.stopAnimatingAndHide
 import no.bakkenbaeck.porchpirateprotector.fragment.DeviceDetailFragment.Companion.ARG_DEVICE
 import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
+import no.bakkenbaeck.porchpirateprotector.manager.SharedPreferencesManager
 import no.bakkenbaeck.pppshared.presenter.DeviceListPresenter
 
 class DeviceListFragment: Fragment(), DeviceListView, DeviceSelectionListener {
 
     private val adapter by lazy { DeviceListAdapter(this) }
-    private val presenter by lazy { DeviceListPresenter(this, KeyStoreManager(this.context!!)) }
+    private val presenter by lazy { DeviceListPresenter(this, KeyStoreManager(this.context!!), SharedPreferencesManager(this.context!!)) }
 
     // FRAGMENT LIFECYCLE
 

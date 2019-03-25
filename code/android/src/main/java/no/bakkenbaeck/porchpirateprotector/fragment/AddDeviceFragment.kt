@@ -15,13 +15,14 @@ import no.bakkenbaeck.porchpirateprotector.adapter.IpSelectionListener
 import no.bakkenbaeck.porchpirateprotector.extension.showAndStartAnimating
 import no.bakkenbaeck.porchpirateprotector.extension.stopAnimatingAndHide
 import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
+import no.bakkenbaeck.porchpirateprotector.manager.SharedPreferencesManager
 import no.bakkenbaeck.pppshared.model.PairedDevice
 import no.bakkenbaeck.pppshared.presenter.DeviceAddPresenter
 import no.bakkenbaeck.pppshared.view.DeviceAddView
 
 class AddDeviceFragment: Fragment(), DeviceAddView, IpSelectionListener {
 
-    private val presenter by lazy { DeviceAddPresenter(this, KeyStoreManager(this.context!!)) }
+    private val presenter by lazy { DeviceAddPresenter(this, KeyStoreManager(this.context!!), SharedPreferencesManager(this.context!!)) }
     private val adapter by lazy { IpListAdapter(this) }
 
     // FRAGMENT LIFECYCLE
@@ -53,7 +54,7 @@ class AddDeviceFragment: Fragment(), DeviceAddView, IpSelectionListener {
     // DEVICE ADD VIEW
 
     override fun updatedAvailableDeviceIPAddresses(toList: List<String>) {
-        adapter.ipAddresses = toList
+        adapter.updateAddresses(toList)
     }
 
     override fun deviceAddedSuccessfully(device: PairedDevice) {

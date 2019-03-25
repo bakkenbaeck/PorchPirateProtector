@@ -60,7 +60,7 @@ class LoginTests {
     @Test
     fun validationSetsProperErrorsThenClearsThemAfterChangesMade() {
         val view = TestLoginView()
-        val presenter = LoginPresenter(view, MockStorage())
+        val presenter = LoginPresenter(view, MockSecureStorage())
 
         presenter.validateAllInput()
 
@@ -90,7 +90,7 @@ class LoginTests {
     @Test
     fun checkingValidityWithoutChangesTriggersErrors() {
         val view = TestLoginView()
-        val presenter = LoginPresenter(view, MockStorage())
+        val presenter = LoginPresenter(view, MockSecureStorage())
 
         val isValid = presenter.isCurrentInputValid()
 
@@ -105,7 +105,7 @@ class LoginTests {
     @Test
     fun attemptingToLoginWithoutChangesTriggersErrorsAndFails() = platformRunBlocking {
         val view = TestLoginView()
-        val presenter = LoginPresenter(view, MockStorage())
+        val presenter = LoginPresenter(view, MockSecureStorage())
         val expectedEmailError = ValidationResult.Invalid.WasNull("email")
         val expectedPasswordError = ValidationResult.Invalid.WasNull("password")
 
@@ -130,7 +130,7 @@ class LoginTests {
     @Test
     fun attemptingToLoginWithValidCredsSucceeds() = platformRunBlocking {
         val view = TestLoginView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         val presenter = LoginPresenter(view, storage)
         presenter.api.client = MockNetworkClient()
 
@@ -159,7 +159,7 @@ class LoginTests {
     @Test
     fun attemptingToLoginWithInvalidCredsFails() = platformRunBlocking {
         val view = TestLoginView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         val presenter = LoginPresenter(view, storage)
         presenter.api.client = MockNetworkClient()
 

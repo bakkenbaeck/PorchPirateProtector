@@ -56,7 +56,7 @@ class DeviceDetailTests {
     @Test
     fun fetchingCurrentStateWithValidKeySucceeds() = platformRunBlocking {
         val view = TestDetailView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         storage.tokenString = MockNetworkClient.mockToken
 
         val device = PairedDevice(
@@ -105,7 +105,7 @@ class DeviceDetailTests {
     @Test
     fun fetchingCurrentStateWithInvalidKeyFails() = platformRunBlocking {
         val view = TestDetailView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         storage.tokenString = MockNetworkClient.mockToken
 
         val device = PairedDevice(
@@ -143,7 +143,7 @@ class DeviceDetailTests {
     @Test
     fun lockingUnlockedDeviceWithValidKeySucceeds() = platformRunBlocking {
         val view = TestDetailView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         storage.tokenString = MockNetworkClient.mockToken
 
         val device = PairedDevice(
@@ -193,7 +193,7 @@ class DeviceDetailTests {
     @Test
     fun lockingUnlockedDeviceWithInvalidKeyFails() = platformRunBlocking {
         val view = TestDetailView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         storage.tokenString = MockNetworkClient.mockToken
 
         val device = PairedDevice(
@@ -234,7 +234,7 @@ class DeviceDetailTests {
     @Test
     fun unlockingLockedDeviceWithValidKeySucceeds() = platformRunBlocking {
         val view = TestDetailView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         storage.tokenString = MockNetworkClient.mockToken
 
         val device = PairedDevice(
@@ -284,7 +284,7 @@ class DeviceDetailTests {
     @Test
     fun unlockingLockedDeviceWithInvalidKeyFails() = platformRunBlocking {
         val view = TestDetailView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         storage.tokenString = MockNetworkClient.mockToken
 
         val device = PairedDevice(

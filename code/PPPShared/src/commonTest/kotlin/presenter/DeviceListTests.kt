@@ -57,7 +57,7 @@ class DeviceListTests {
         DeviceManager.pairedDevices = mutableListOf()
 
         val view = TestDeviceListView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         storage.storeTokenString("TESTING_TOKEN")
         val presenter = DeviceListPresenter(view, storage)
 
@@ -91,7 +91,8 @@ class DeviceListTests {
     @Test
     fun fetchingDeviceDetails() = platformRunBlocking {
         val view = TestDeviceListView()
-        val storage = MockStorage()
+
+        val storage = MockSecureStorage()
         storage.storeTokenString(MockNetworkClient.mockToken)
         val presenter = DeviceListPresenter(view, storage)
         presenter.api.client = MockNetworkClient()
@@ -142,7 +143,8 @@ class DeviceListTests {
             lockState = null)
 
         val view = TestDeviceListView()
-        val storage = MockStorage()
+
+        val storage = MockSecureStorage()
         storage.storeTokenString("TESTING_TOKEN")
         val presenter = DeviceListPresenter(view, storage)
 
@@ -157,7 +159,7 @@ class DeviceListTests {
     @Test
     fun selectingAddButtonTellsViewToNavigateToAdd() {
         val view = TestDeviceListView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         storage.storeTokenString("TESTING_TOKEN")
         val presenter = DeviceListPresenter(view, storage)
 

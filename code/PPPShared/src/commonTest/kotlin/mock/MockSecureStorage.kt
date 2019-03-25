@@ -2,7 +2,7 @@ package no.bakkenbaeck.pppshared.mock
 
 import no.bakkenbaeck.pppshared.interfaces.SecureStorage
 
-class MockStorage: SecureStorage {
+class MockSecureStorage: SecureStorage {
 
     var tokenString: String? = null
 

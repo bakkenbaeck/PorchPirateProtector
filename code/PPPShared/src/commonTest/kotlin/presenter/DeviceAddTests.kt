@@ -45,7 +45,7 @@ class DeviceAddTests {
         val expectedInitialList = listOf("1.2.3", "4.5.6")
 
         val view = TestAddView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         storage.tokenString = "MOCK TOKEN"
         val presenter = DeviceAddPresenter(view, storage)
 
@@ -70,7 +70,7 @@ class DeviceAddTests {
     @Test
     fun attemptingToAddDeviceWithIncorrectLoginTokenFails() = platformRunBlocking {
         val view = TestAddView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         storage.tokenString = "Nooooope"
 
         DeviceManager.unpairedDeviceIpAddresses = mutableListOf(MockNetworkClient.lockedIP)
@@ -91,7 +91,7 @@ class DeviceAddTests {
     @Test
     fun addingLockedDeviceSucceeds() = platformRunBlocking {
         val view = TestAddView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         storage.tokenString = MockNetworkClient.mockToken
 
         DeviceManager.unpairedDeviceIpAddresses = mutableListOf(MockNetworkClient.lockedIP)
@@ -120,7 +120,7 @@ class DeviceAddTests {
     @Test
     fun addingUnlockedDeviceSucceeds() = platformRunBlocking {
         val view = TestAddView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         storage.tokenString = MockNetworkClient.mockToken
 
         val unlockedIPAddress = MockNetworkClient.lockedIP + ".1"

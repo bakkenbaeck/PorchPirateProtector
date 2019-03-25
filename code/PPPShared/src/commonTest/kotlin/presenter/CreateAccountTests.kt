@@ -66,7 +66,7 @@ class CreateAccountTests {
     @Test
     fun validationSetsProperErrorsThenClearsThemAfterChangesMade() {
         val view = TestCreateAccountView()
-        val presenter = CreateAccountPresenter(view, MockStorage())
+        val presenter = CreateAccountPresenter(view, MockSecureStorage())
 
         presenter.validateAllInput()
 
@@ -126,7 +126,7 @@ class CreateAccountTests {
     @Test
     fun checkingValidityWithoutChangesTriggersErrors() = platformRunBlocking {
         val view = TestCreateAccountView()
-        val presenter = CreateAccountPresenter(view, MockStorage())
+        val presenter = CreateAccountPresenter(view, MockSecureStorage())
         val expectedEmailError = ValidationResult.Invalid.WasNull("email")
         val expectedPasswordError = ValidationResult.Invalid.WasNull("password")
         val expectedConfirmPasswordError = ValidationResult.Invalid.WasNull("confirm password")
@@ -153,7 +153,7 @@ class CreateAccountTests {
     @Test
     fun attemptingToCreateAccountWithoutChangesTriggersErrorsAndFails() = platformRunBlocking {
         val view = TestCreateAccountView()
-        val presenter = CreateAccountPresenter(view, MockStorage())
+        val presenter = CreateAccountPresenter(view, MockSecureStorage())
 
         val expectedEmailError = ValidationResult.Invalid.WasNull("email")
         val expectedPasswordError = ValidationResult.Invalid.WasNull("password")
@@ -182,7 +182,7 @@ class CreateAccountTests {
     @Test
     fun attemptingToCreateAccountWithValidCredsSucceeds() = platformRunBlocking {
         val view = TestCreateAccountView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         val presenter = CreateAccountPresenter(view, storage)
         presenter.api.client = MockNetworkClient()
 
@@ -213,7 +213,7 @@ class CreateAccountTests {
     @Test
     fun attemptingToCreateAccountWithExistingCredsFails() = platformRunBlocking {
         val view = TestCreateAccountView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         val presenter = CreateAccountPresenter(view, storage)
         presenter.api.client = MockNetworkClient()
 

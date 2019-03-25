@@ -26,7 +26,7 @@ class WelcomeTests {
     @Test
     fun skipsWelcomeIfTokenPresent() {
         val view = TestWelcomeView()
-        val storage = MockStorage()
+        val storage = MockSecureStorage()
         storage.tokenString = "literally anything"
 
         val presenter = WelcomePresenter(view, storage)
@@ -41,7 +41,7 @@ class WelcomeTests {
     @Test
     fun doesNotSkipWelcomeIfNoToken() {
         val view = TestWelcomeView()
-        val presenter = WelcomePresenter(view, MockStorage())
+        val presenter = WelcomePresenter(view, MockSecureStorage())
 
         presenter.skipWelcomeIfLoggedIn()
 
@@ -53,7 +53,7 @@ class WelcomeTests {
     @Test
     fun navigatingToLogin() {
         val view = TestWelcomeView()
-        val presenter = WelcomePresenter(view, MockStorage())
+        val presenter = WelcomePresenter(view, MockSecureStorage())
 
         presenter.selectedLoginButton()
 
@@ -65,7 +65,7 @@ class WelcomeTests {
     @Test
     fun navigatingToCreateAccount() {
         val view = TestWelcomeView()
-        val presenter = WelcomePresenter(view, MockStorage())
+        val presenter = WelcomePresenter(view, MockSecureStorage())
 
         presenter.selectedCreateAccountButton()
 

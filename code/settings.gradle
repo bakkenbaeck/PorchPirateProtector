@@ -1,4 +1,5 @@
+rootProject.name="code"
 include ':android'
-include ':PPPShared'
 include ':server'
+include ':PPPShared'
 enableFeaturePreview('GRADLE_METADATA')

@@ -119,6 +119,8 @@ Through either method, results of your tests will be output to [`code/PPPShared/
 
 ### Android App
 
+> **NOTE**: Currently this is not working with Instant Run, working on whether there's any way around that. In the meantime, to run the Android app, go to `Preferences > Build, Execution, Deployment >
+
 In Android Studio, you should have an `app` configuration created by default when AS recognizes that the project contains an Android application target. 
 
 If this does not get created, go to `Edit Configurations...`, add a new Android app configuration, and set it to use the `android` module. Once that's set up, you should be able to use the Run button in Android studio to run the application.

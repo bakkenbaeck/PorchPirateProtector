@@ -1,0 +1,15 @@
+CREATE TABLE storedDevice (
+  id INTEGER NOT NULL PRIMARY KEY,
+  address TEXT NOT NULL,
+  pairing_key TEXT NOT NULL
+);
+
+insertOrUpdate:
+INSERT OR REPLACE INTO storedDevice (id, address, pairing_key)
+VALUES (?, ?, ?);
+
+deviceById:
+SELECT * FROM storedDevice WHERE id = ?;
+
+selectAll:
+SELECT * FROM storedDevice;

@@ -1,5 +1,6 @@
 apply plugin: 'kotlin-multiplatform'
 apply plugin: 'kotlinx-serialization'
+apply plugin: 'com.squareup.sqldelight'
 
 kotlin {
 
@@ -38,6 +39,7 @@ kotlin {
             implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
             implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
             implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
+            implementation "com.squareup.sqldelight:android-driver:$sqldelight_version"
         }
 
         androidTest.dependencies {
@@ -51,12 +53,19 @@ kotlin {
             implementation "io.ktor:ktor-client-core-native:$ktor_version"
             implementation "io.ktor:ktor-client-json-native:$ktor_version"
             implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serialization_version"
+            implementation "com.squareup.sqldelight:ios-driver:$sqldelight_version"
         }
     }
 }
 
 configurations {
     compileClasspath
+}
+
+sqldelight {
+    PPPDb {
+        packageName = "no.bakkenbaeck.pppshared.db"
+    }
 }
 
 task packForXcode(type: Sync) {

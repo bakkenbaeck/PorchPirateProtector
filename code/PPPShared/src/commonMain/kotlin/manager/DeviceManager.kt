@@ -41,7 +41,7 @@ object DeviceManager {
         return loadPairedDevicesFromDatabase()
     }
 
-    private fun updateLockState(deviceID: Int, state: LockState?): List<PairedDevice> {
+    private fun updateStoredLockState(deviceID: Int, state: LockState?): List<PairedDevice> {
         val deviceQueries = MobileDb.instance.storedDeviceQueries
         deviceQueries.updateLastKnownLockState(state?.isLocked, deviceID)
 
@@ -69,6 +69,16 @@ object DeviceManager {
         token: String
     ): List<PairedDevice> {
         val lockState = api.getCurrentLockState(device.deviceId, device.pairingKey, token)
-        return updateLockState(device.deviceId, lockState)
+        return updateStoredLockState(device.deviceId, lockState)
+    }
+
+    suspend fun updateLockState(
+        api: Api,
+        device: PairedDevice,
+        token: String,
+        wantedLocked: Boolean
+    ): List<PairedDevice> {
+        val lockState = api.updateDeviceLockState(device.createRequest(wantedLocked), token)
+        return updateStoredLockState(device.deviceId, lockState)
     }
 }

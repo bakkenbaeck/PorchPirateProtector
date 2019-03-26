@@ -5,7 +5,7 @@ import no.bakkenbaeck.pppshared.mock.*
 import no.bakkenbaeck.pppshared.manager.DeviceManager
 import no.bakkenbaeck.pppshared.model.PairedDevice
 import no.bakkenbaeck.pppshared.view.DeviceAddView
-import no.bakkenbaeck.pppshared.db.MobileDb
+import no.bakkenbaeck.pppshared.TestDb
 import kotlin.test.*
 
 class DeviceAddTests {
@@ -42,7 +42,12 @@ class DeviceAddTests {
 
     @BeforeTest
     fun setup() {
-        MobileDb.clearDatabase()
+        TestDb.setupIfNeeded()
+    }
+
+    @AfterTest
+    fun tearDown(){
+        TestDb.clearDatabase()
     }
 
     @Test

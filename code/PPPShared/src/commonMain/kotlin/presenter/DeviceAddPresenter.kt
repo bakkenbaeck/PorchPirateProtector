@@ -18,7 +18,7 @@ class DeviceAddPresenter(
         view.updatedAvailableDeviceIPAddresses(addresses)
     }
 
-    suspend fun addDeviceAsync(deviceIpAddress: String): List<PairedDevice> {
+    suspend fun addDeviceAsync(deviceIpAddress: String): List<PairedDevice>? {
         view.startLoadingIndicator()
         view.pairingErrorUpdated(null)
         var pairedDevices: List<PairedDevice>? = null
@@ -31,13 +31,13 @@ class DeviceAddPresenter(
 
         view.stopLoadingIndicator()
 
-        pairedDevices?.let { devices ->
+        return pairedDevices?.let { devices ->
             view.updatedAvailableDeviceIPAddresses(insecureStorage.loadIPAddresses() ?: emptyList())
             val addedDevice = devices.first { it.ipAddress == deviceIpAddress}
             view.deviceAddedSuccessfully(addedDevice)
 
             return@addDeviceAsync devices
-        } ?: throw RuntimeException("Couldn't access added devices")
+        }
     }
 
     fun addDevice(deviceIpAddress: String) {

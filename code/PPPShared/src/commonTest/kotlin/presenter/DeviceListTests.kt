@@ -1,5 +1,6 @@
 package no.bakkenbaeck.pppshared.presenter
 
+import no.bakkenbaeck.pppshared.TestDb
 import no.bakkenbaeck.pppshared.interfaces.InsecureStorage
 import no.bakkenbaeck.pppshared.platformRunBlocking
 import no.bakkenbaeck.pppshared.manager.DeviceManager
@@ -49,6 +50,17 @@ class DeviceListTests {
             navigatedToAdd = true
         }
     }
+
+    @BeforeTest
+    fun setup() {
+        TestDb.setupIfNeeded()
+    }
+
+    @AfterTest
+    fun tearDown(){
+        TestDb.clearDatabase()
+    }
+
 
     @Test
     fun updatingDeviceListSetsProperListAndEnablesOrDisablesButton() {
@@ -109,6 +121,7 @@ class DeviceListTests {
             ipAddress = MockNetworkClient.lockedIP,
             pairingKey = MockNetworkClient.validPairingKey,
             lockState = null)
+        DeviceManager.storeDeviceToDatabase(device)
 
         assertFalse(view.loadingIndicatorStarted)
         assertFalse(view.loadingIndicatorStopped)

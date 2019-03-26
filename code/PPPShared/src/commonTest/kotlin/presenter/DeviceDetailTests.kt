@@ -1,5 +1,6 @@
 package no.bakkenbaeck.pppshared.presenter
 
+import no.bakkenbaeck.pppshared.TestDb
 import no.bakkenbaeck.pppshared.platformRunBlocking
 import no.bakkenbaeck.pppshared.manager.DeviceManager
 import no.bakkenbaeck.pppshared.mock.*
@@ -52,6 +53,17 @@ class DeviceDetailTests {
             loadingIndicatorStopped = true
         }
     }
+
+    @BeforeTest
+    fun setup() {
+        TestDb.setupIfNeeded()
+    }
+
+    @AfterTest
+    fun tearDown(){
+        TestDb.clearDatabase()
+    }
+
 
     @Test
     fun fetchingCurrentStateWithValidKeySucceeds() = platformRunBlocking {

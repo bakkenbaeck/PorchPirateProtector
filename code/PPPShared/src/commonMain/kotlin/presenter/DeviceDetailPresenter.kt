@@ -2,6 +2,7 @@ package no.bakkenbaeck.pppshared.presenter
 
 import kotlinx.coroutines.launch
 import no.bakkenbaeck.pppshared.interfaces.SecureStorage
+import no.bakkenbaeck.pppshared.manager.DeviceManager
 import no.bakkenbaeck.pppshared.model.LockState
 import no.bakkenbaeck.pppshared.model.PairedDevice
 import no.bakkenbaeck.pppshared.view.DeviceDetailView
@@ -16,6 +17,20 @@ class DeviceDetailPresenter(
         view.setTitle("Device #${device.deviceId}")
     }
 
+
+    private fun updateLocalLockState(fromDevices: List<PairedDevice>): LockState? {
+        val updatedDevice = fromDevices.first { it.deviceId == device.deviceId }
+        device.lockState = updatedDevice.lockState
+        var lockState: LockState? = null
+        updatedDevice.lockState?.let {
+            lockState = it
+            view.setLockButtonEnabled(!it.isLocked)
+            view.setUnlockButtonEnabled(it.isLocked)
+        }
+
+        return lockState
+    }
+
     suspend fun getStatusAsync(): LockState? {
         view.startLoadingIndicator()
         view.setLockButtonEnabled(false)
@@ -23,10 +38,8 @@ class DeviceDetailPresenter(
         view.setApiError(null)
         var lockState: LockState? = null
         try {
-            lockState = api.getCurrentLockState(device.deviceId, device.pairingKey, throwingToken())
-            device.lockState = lockState
-            view.setLockButtonEnabled(!lockState.isLocked)
-            view.setUnlockButtonEnabled(lockState.isLocked)
+            val pairedDevices = DeviceManager.updateStatus(api, device, throwingToken())
+            lockState = updateLocalLockState(pairedDevices)
         } catch (exception: Exception) {
             view.setApiError(exception.message)
         }
@@ -42,9 +55,8 @@ class DeviceDetailPresenter(
         view.setApiError(null)
         var lockState: LockState? = null
         try {
-            lockState = api.updateDeviceLockState(device.createRequest(true), throwingToken())
-            device.lockState = lockState
-            view.setUnlockButtonEnabled(true)
+            val updatedDevices = DeviceManager.updateLockState(api, device, throwingToken(), true)
+            lockState = updateLocalLockState(updatedDevices)
         } catch (exception: Exception) {
             view.setApiError(exception.message)
             view.setLockButtonEnabled(true)
@@ -61,9 +73,8 @@ class DeviceDetailPresenter(
         view.setApiError(null)
         var lockState: LockState? = null
         try {
-            lockState = api.updateDeviceLockState(device.createRequest(false), throwingToken())
-            device.lockState = lockState
-            view.setLockButtonEnabled(true)
+            val updatedDevices = DeviceManager.updateLockState(api, device, throwingToken(), false)
+            lockState = updateLocalLockState(updatedDevices)
         } catch (exception: Exception) {
             view.setApiError(exception.message)
             view.setUnlockButtonEnabled(true)

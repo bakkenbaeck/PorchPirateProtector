@@ -32,6 +32,14 @@ class DeviceDetailViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         super.viewWillDisappear(animated)
     }
+    
+    @IBAction private func lockTapped() {
+        self.presenter.lock()
+    }
+    
+    @IBAction private func unlockTapped() {
+        self.presenter.unlock()
+    }
 }
 
 // MARK: - DeviceDetailView

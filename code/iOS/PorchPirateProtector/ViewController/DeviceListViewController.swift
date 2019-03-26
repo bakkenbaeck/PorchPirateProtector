@@ -19,7 +19,10 @@ class DeviceListViewController: UIViewController {
     @IBOutlet private var addButton: UIButton!
     @IBOutlet private var loadingSpinner: UIActivityIndicatorView!
     
-    private lazy var presenter = DeviceListPresenter(view: self, storage: Keychain.shared)
+    private lazy var presenter = DeviceListPresenter(view: self,
+                                                     storage: Keychain.shared,
+                                                     insecureStorage: UserDefaultsWrapper.shared)
+    
     private lazy var dataSource = PairedDeviceDataSource(tableView: self.tableView, devices: [], delegate: self)
     
     private var selectedDevice: PairedDevice?

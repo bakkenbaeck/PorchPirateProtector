@@ -14,7 +14,10 @@ class DeviceAddViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var loadingSpinner: UIActivityIndicatorView!
     
-    private lazy var presenter = DeviceAddPresenter(view: self, storage: Keychain.shared)
+    private lazy var presenter = DeviceAddPresenter(view: self,
+                                                    storage: Keychain.shared,
+                                                    insecureStorage: UserDefaultsWrapper.shared)
+    
     private lazy var dataSource = IPAddressDataSource(tableView: self.tableView, addresses: [], delegate: self)
     
     override func viewDidLoad() {

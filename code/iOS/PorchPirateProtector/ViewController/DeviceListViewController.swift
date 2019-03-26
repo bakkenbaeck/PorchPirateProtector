@@ -29,7 +29,7 @@ class DeviceListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.dataSource.reloadData()
+        self.presenter.updateDeviceList()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

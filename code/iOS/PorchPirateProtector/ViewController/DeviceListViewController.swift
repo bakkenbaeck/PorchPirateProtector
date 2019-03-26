@@ -69,6 +69,7 @@ extension DeviceListViewController: DeviceListView {
     
     func setAddButtonEnabled(enabled: Bool) {
         self.addButton.isEnabled = enabled
+        self.addButton.alpha = enabled ? 1.0 : 0.5
     }
     
     func showAddDevice() {

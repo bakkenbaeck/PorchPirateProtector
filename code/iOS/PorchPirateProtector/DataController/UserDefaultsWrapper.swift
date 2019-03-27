@@ -63,7 +63,7 @@ extension UserDefaultsWrapper: InsecureStorage {
     func removeIPAddress(address: String) {
         guard
             var addresses = self.loadIPAddresses(),
-            let index = addresses.index(of: address) else {
+            let index = addresses.firstIndex(of: address) else {
                 // Nothing to remove
                 return
         }

@@ -88,4 +88,19 @@ task packForXcode(type: Sync) {
     }
 }
 
+// CODE GENERATION
+
+task regenerateColorsiOS(type: Exec) {
+    commandLine './../codegen/ColorGeniOS.kts'
+}
+
+task regenerateColorsAndroid(type: Exec) {
+    commandLine './../codegen/ColorGenAndroid.kts'
+}
+
+task regenerateColors {
+    dependsOn regenerateColorsiOS
+    dependsOn regenerateColorsAndroid
+}
+
 tasks.build.dependsOn packForXcode

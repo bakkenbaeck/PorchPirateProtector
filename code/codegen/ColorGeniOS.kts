@@ -46,3 +46,5 @@ for (color in colors) {
 
     colorJSONFile.writeText(json)
 }
+
+println("Generated iOS Colors!")

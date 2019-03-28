@@ -24,3 +24,5 @@ val xmlString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + colorResXML.toS
 val currentDirectory = File("").getAbsoluteFile()
 val colorXMLPath = File(currentDirectory, "../android/src/main/res/values/colors.xml")
 colorXMLPath.writeText(xmlString)
+
+println("Generated Android colors!")

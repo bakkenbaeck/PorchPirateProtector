@@ -1,7 +1,7 @@
 #!/usr/bin/env kscript
 
 //DEPS org.redundent:kotlin-xml-builder:1.4.5
-//INCLUDE PPPShared/src/commonMain/kotlin/ui/PPPColor.kt
+//INCLUDE ../PPPShared/src/commonMain/kotlin/ui/PPPColor.kt
 
 import org.redundent.kotlin.xml.*
 import java.io.File
@@ -23,7 +23,5 @@ val colorResXML = xml("resources") {
 val xmlString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + colorResXML.toString()
 
 val currentDirectory = File("").getAbsoluteFile()
-val colorXMLPath = File(currentDirectory, "android/src/main/res/values/colors.xml")
-
-println(xmlString)
+val colorXMLPath = File(currentDirectory, "../android/src/main/res/values/colors.xml")
 colorXMLPath.writeText(xmlString)

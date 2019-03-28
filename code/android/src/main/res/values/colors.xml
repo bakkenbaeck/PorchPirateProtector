@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#05C1FD</color>
-    <color name="colorPrimaryDark">#5848F4</color>
-    <color name="colorAccent">#FB5502</color>
-
-    <color name="errorRed">@android:color/holo_red_light</color>
-    <color name="successGreen">#0d9b2a</color>
+	<color name="colorPrimary">
+		#05C1FD
+	</color>
+	<color name="colorPrimaryDark">
+		#5848F4
+	</color>
+	<color name="colorAccent">
+		#fb5502
+	</color>
+	<color name="errorRed">
+		#cc0000
+	</color>
+	<color name="success">
+		#0d9b2a
+	</color>
 </resources>

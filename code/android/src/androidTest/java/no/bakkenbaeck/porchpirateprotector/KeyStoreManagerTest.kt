@@ -25,8 +25,8 @@ class KeyStoreManagerTest {
             manager.storeTokenString(fakeToken)
 
             // Did the token get encrypted and stored in fake preferences?
-            val storedString =
-                SharedPreferencesManager.retrieveString(SharedPreferencesManager.KeyName.EncryptedToken, activity)
+            val prefsManager = SharedPreferencesManager(activity)
+            val storedString = prefsManager.retrieveString(SharedPreferencesManager.KeyName.EncryptedToken)
             assertNotNull(storedString)
             assertNotEquals(fakeToken, storedString)
 

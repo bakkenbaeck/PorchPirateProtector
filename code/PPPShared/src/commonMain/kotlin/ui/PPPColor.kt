@@ -4,6 +4,10 @@ enum class PPPColor(val hexColor: String) {
     ColorPrimary("#05C1FD"),
     ColorPrimaryDark("#5848F4"),
     ColorAccent("#fb5502"),
+    ColorAccentSelected("#c94402"),
+    TextLight("#ffffff"),
+    TextMiddle("#777777"),
+    TextDark("#000000"),
     ErrorRed("#cc0000"),
     Success("#0d9b2a");
 

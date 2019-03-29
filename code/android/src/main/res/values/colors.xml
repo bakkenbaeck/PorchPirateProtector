@@ -9,6 +9,18 @@
 	<color name="colorAccent">
 		#fb5502
 	</color>
+	<color name="colorAccentSelected">
+		#c94402
+	</color>
+	<color name="textLight">
+		#ffffff
+	</color>
+	<color name="textMiddle">
+		#777777
+	</color>
+	<color name="textDark">
+		#000000
+	</color>
 	<color name="errorRed">
 		#cc0000
 	</color>

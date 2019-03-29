@@ -39,6 +39,8 @@ class TextInputContainer: NibContainer {
     var errorText: String? {
         didSet {
             self.textInputView?.errorLabel?.text = self.errorText
+            self.textInputView?.invalidateIntrinsicContentSize()
+            self.invalidateIntrinsicContentSize()
         }
     }
     
@@ -79,6 +81,10 @@ class TextInputContainer: NibContainer {
             self.errorText = "Test Error"
         }
     }
+    
+    override var intrinsicContentSize: CGSize {
+        return self.textInputView?.intrinsicContentSize ?? .zero
+    }
 }
 
 class TextInputView: UIView {
@@ -87,6 +93,7 @@ class TextInputView: UIView {
     @IBOutlet private(set) var errorLabel: UILabel!
     @IBOutlet private(set) var fieldLabel: UILabel!
     @IBOutlet private(set) var underline: UIView!
+    @IBOutlet private(set) var underlineHeightConstraint: NSLayoutConstraint!
     
     private let margin: CGFloat = 4
     
@@ -108,13 +115,20 @@ class TextInputView: UIView {
             return .zero
         }
         
+        var errorHeightToAdd: CGFloat
+        if (self.errorLabel.text.isNullOrEmpty) {
+            errorHeightToAdd = 0
+        } else {
+            errorHeightToAdd = self.margin
+                + self.errorLabel.intrinsicContentSize.height
+        }
+        
         let height = self.fieldLabel.intrinsicContentSize.height
             + self.margin
             + self.textField.intrinsicContentSize.height
             + self.margin
-            + self.underline.intrinsicContentSize.height
-            + self.margin
-            + self.errorLabel.intrinsicContentSize.height
+            + self.underlineHeightConstraint.constant
+            + errorHeightToAdd
         
         return CGSize(width: UIView.noIntrinsicMetric,
                       height: height)

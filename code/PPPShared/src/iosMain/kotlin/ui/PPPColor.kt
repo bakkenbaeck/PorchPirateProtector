@@ -4,9 +4,9 @@ import platform.UIKit.UIColor
 
 fun PPPColor.toUIColor(): UIColor {
     return UIColor(
-        red = this.red.toDouble(),
-        green = this.green.toDouble(),
-        blue = this.blue.toDouble(),
+        red = this.red.toDouble() / 255.0f,
+        green = this.green.toDouble() / 255.0f,
+        blue = this.blue.toDouble() / 255.0f,
         alpha = 1.0
     )
 }

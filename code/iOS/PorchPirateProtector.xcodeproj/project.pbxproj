@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B1F9987224E724900FE55F3 /* UIImage+BackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1F9986224E724900FE55F3 /* UIImage+BackgroundColor.swift */; };
 		9B3E1D682242830200E7AD81 /* SingleSelectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E1D672242830200E7AD81 /* SingleSelectionDataSource.swift */; };
 		9B3E1D6A224283B200E7AD81 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E1D69224283B200E7AD81 /* Identifiable.swift */; };
 		9B3E1D6C224285CD00E7AD81 /* PairedDeviceDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E1D6B224285CD00E7AD81 /* PairedDeviceDataSource.swift */; };
@@ -29,6 +30,8 @@
 		9B4C883D222D285A00638F1F /* PorchPirateProtectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4C883C222D285A00638F1F /* PorchPirateProtectorTests.swift */; };
 		9B4C8850222D347F00638F1F /* PPPShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4C884F222D347F00638F1F /* PPPShared.framework */; };
 		9B4C8851222D347F00638F1F /* PPPShared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4C884F222D347F00638F1F /* PPPShared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9B52894C224E737C008C8304 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52894B224E737C008C8304 /* Buttons.swift */; };
+		9B52894E224E7A2D008C8304 /* CGFloat+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52894D224E7A2D008C8304 /* CGFloat+Conversion.swift */; };
 		9B7D969A2239760B001FA669 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D96992239760B001FA669 /* Keychain.swift */; };
 		9BADA4D522413FA3002F8060 /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4D422413FA3002F8060 /* KeychainTests.swift */; };
 		9BADA4D72241462A002F8060 /* Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4D62241462A002F8060 /* Segue.swift */; };
@@ -65,6 +68,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9B1F9986224E724900FE55F3 /* UIImage+BackgroundColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+BackgroundColor.swift"; sourceTree = "<group>"; };
 		9B3E1D672242830200E7AD81 /* SingleSelectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleSelectionDataSource.swift; sourceTree = "<group>"; };
 		9B3E1D69224283B200E7AD81 /* Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
 		9B3E1D6B224285CD00E7AD81 /* PairedDeviceDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairedDeviceDataSource.swift; sourceTree = "<group>"; };
@@ -90,6 +94,8 @@
 		9B4C883C222D285A00638F1F /* PorchPirateProtectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorchPirateProtectorTests.swift; sourceTree = "<group>"; };
 		9B4C883E222D285A00638F1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B4C884F222D347F00638F1F /* PPPShared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PPPShared.framework; path = "../PPPShared/build/xcode-frameworks/PPPShared.framework"; sourceTree = "<group>"; };
+		9B52894B224E737C008C8304 /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
+		9B52894D224E7A2D008C8304 /* CGFloat+Conversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Conversion.swift"; sourceTree = "<group>"; };
 		9B7D96992239760B001FA669 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		9BADA4D422413FA3002F8060 /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		9BADA4D62241462A002F8060 /* Segue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Segue.swift; sourceTree = "<group>"; };
@@ -152,6 +158,7 @@
 				9B3E9A4C2236BC8F0026EBD1 /* NibContainer.swift */,
 				9B3E1D732242913B00E7AD81 /* BannerView.swift */,
 				9B3E1D712242912C00E7AD81 /* BannerView.xib */,
+				9B52894B224E737C008C8304 /* Buttons.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -236,6 +243,8 @@
 			children = (
 				9BC870272236E46800976CAD /* Optional+Empty.swift */,
 				9B3E1D6F224290BB00E7AD81 /* UIViewController+Error.swift */,
+				9B1F9986224E724900FE55F3 /* UIImage+BackgroundColor.swift */,
+				9B52894D224E7A2D008C8304 /* CGFloat+Conversion.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -368,6 +377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B52894E224E7A2D008C8304 /* CGFloat+Conversion.swift in Sources */,
 				9B3E1D6A224283B200E7AD81 /* Identifiable.swift in Sources */,
 				9B3E1D70224290BB00E7AD81 /* UIViewController+Error.swift in Sources */,
 				9B3E9A452236B27A0026EBD1 /* CreateAccountViewController.swift in Sources */,
@@ -381,7 +391,9 @@
 				9BADA4E022415C77002F8060 /* IPAddressCell.swift in Sources */,
 				9B3E1D6C224285CD00E7AD81 /* PairedDeviceDataSource.swift in Sources */,
 				9BADA4E222415D96002F8060 /* DeviceCell.swift in Sources */,
+				9B1F9987224E724900FE55F3 /* UIImage+BackgroundColor.swift in Sources */,
 				9B3E9A4D2236BC8F0026EBD1 /* NibContainer.swift in Sources */,
+				9B52894C224E737C008C8304 /* Buttons.swift in Sources */,
 				9BADA4D92241482A002F8060 /* DeviceListViewController.swift in Sources */,
 				9B3E1D742242913B00E7AD81 /* BannerView.swift in Sources */,
 				9BADA4D72241462A002F8060 /* Segue.swift in Sources */,

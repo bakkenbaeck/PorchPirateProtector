@@ -30,6 +30,7 @@ class DeviceListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.presenter.updateDeviceList()
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

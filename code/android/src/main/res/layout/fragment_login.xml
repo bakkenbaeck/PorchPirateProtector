@@ -7,7 +7,7 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_outer_margin"
+            android:layout_margin="@dimen/margin_default_outer"
             android:orientation="vertical"
             android:gravity="center">
 
@@ -15,7 +15,7 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/header_font_size"
+                android:textSize="@dimen/font_size_header"
                 android:gravity="center"
                 android:text="@string/log_in_title"/>
 
@@ -52,7 +52,7 @@
                 android:id="@+id/button_login_submit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/font_big_button_size"
+                android:textSize="@dimen/font_size_big_button_title"
                 android:text="@string/log_in_button_title"/>
 
         <!-- LOADING SPINNER -->

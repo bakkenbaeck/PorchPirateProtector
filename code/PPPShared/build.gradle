@@ -98,6 +98,10 @@ task regenerateColorsAndroid(type: Exec) {
     commandLine './../codegen/ColorGenAndroid.kts'
 }
 
+task regenerateDimensAndroid(type: Exec) {
+    commandLine './../codegen/DimenGenAndroid.kts'
+}
+
 task regenerateColors {
     dependsOn regenerateColorsiOS
     dependsOn regenerateColorsAndroid

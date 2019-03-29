@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="font_big_button_size">20sp</dimen>
-    <dimen name="header_font_size">30sp</dimen>
-
-    <dimen name="default_outer_margin">20dp</dimen>
+	<dimen name="margin_object_padding">
+		8dp
+	</dimen>
+	<dimen name="margin_between_items">
+		16dp
+	</dimen>
+	<dimen name="margin_default_outer">
+		20dp
+	</dimen>
+	<dimen name="font_size_generic_text">
+		15sp
+	</dimen>
+	<dimen name="font_size_big_button_title">
+		20sp
+	</dimen>
+	<dimen name="font_size_header">
+		30sp
+	</dimen>
 </resources>

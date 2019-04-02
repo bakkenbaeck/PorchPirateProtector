@@ -2,7 +2,6 @@ package no.bakkenbaeck.porchpirateprotector.manager
 
 import android.content.Context
 import android.content.SharedPreferences
-import no.bakkenbaeck.pppshared.extension.removeIfPresent
 import no.bakkenbaeck.pppshared.interfaces.InsecureStorage
 
 class SharedPreferencesManager(
@@ -67,7 +66,7 @@ class SharedPreferencesManager(
 
     override fun removeIPAddress(address: String) {
         loadIPAddresses()?.let { initialAddresses ->
-            val updated = initialAddresses.removeIfPresent(address)
+            val updated = initialAddresses.filter { it == address }
             storeIPAddresses(updated)
         }
     }

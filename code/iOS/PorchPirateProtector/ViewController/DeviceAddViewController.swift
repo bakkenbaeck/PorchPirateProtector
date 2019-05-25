@@ -55,7 +55,7 @@ extension DeviceAddViewController: DeviceAddView {
     }
     
     func deviceAddedSuccessfully(device: PairedDevice) {
-        self.navigationController?.showBanner(with: "Device added successfully!", backgroundColor: UIColor(red: 13.0 / 255.0, green: 155.0 / 255.0, blue: 42.0 / 255.0, alpha: 1))
+        self.navigationController?.showBanner(with: "Device added successfully!", backgroundColor: PPPColor.colorprimarydark.toUIColor())
         self.navigationController?.popViewController(animated: true)
     }
     

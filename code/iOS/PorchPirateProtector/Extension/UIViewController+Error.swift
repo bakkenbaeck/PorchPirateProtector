@@ -30,37 +30,43 @@ extension UIViewController {
         banner.messageLabel.text = message
         self.view.addSubview(banner)
         
-        let topConstraint = banner.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        let topConstraint = banner.topAnchor.constraint(equalTo: view.topAnchor)
+        
+        let bannerHeight = self.view.safeAreaInsets.top + 44
         
         self.view.addConstraints([
             topConstraint,
             banner.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             banner.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            banner.heightAnchor.constraint(equalToConstant: bannerHeight)
         ])
         
         view.layoutIfNeeded()
         
-        topConstraint.constant = -banner.frame.height
+        topConstraint.constant = -bannerHeight
         view.layoutIfNeeded()
         
         let animationDuration: TimeInterval = animated ? 0.3 : 0.0
         
         topConstraint.constant = 0
+        banner.alpha = 0
         UIView.animate(
             withDuration: animationDuration,
             delay: 0,
             options: [.curveEaseOut],
             animations: {
+                banner.alpha = 1
                 self.view.layoutIfNeeded()
             },
             completion: { [weak self] _ in
                 guard let self = self else { return }
-                topConstraint.constant = -banner.frame.height
+                topConstraint.constant = -bannerHeight
                 UIView.animate(
                     withDuration: animationDuration,
                     delay: showDuration,
                     options: [.curveEaseIn],
                     animations: {
+                        banner.alpha = 0
                         self.view.layoutIfNeeded()
                     },
                     completion: { _ in

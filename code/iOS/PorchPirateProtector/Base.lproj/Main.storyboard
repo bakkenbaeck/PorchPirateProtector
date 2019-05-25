@@ -179,10 +179,10 @@
             </objects>
             <point key="canvasLocation" x="1480.8" y="453.82308845577217"/>
         </scene>
-        <!--Device List View Controller-->
+        <!--My Devices-->
         <scene sceneID="APv-p1-vtb">
             <objects>
-                <viewController id="fTm-Gi-xNw" customClass="DeviceListViewController" customModule="PorchPirateProtector" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="My Devices" id="fTm-Gi-xNw" customClass="DeviceListViewController" customModule="PorchPirateProtector" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3FC-dz-Wns">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -190,14 +190,26 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Pj7-rE-Jdc">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Xem-jY-aq6" customClass="DefaultStyleButton" customModule="PorchPirateProtector" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="94" width="375" height="34"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="pFS-pP-bmJ">
+                                    <rect key="frame" x="0.0" y="94" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="+ Add Device"/>
-                                    <connections>
-                                        <action selector="tappedAdd" destination="fTm-Gi-xNw" eventType="touchUpInside" id="p7y-JU-h9B"/>
-                                    </connections>
-                                </button>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ey8-DE-a9F" customClass="DefaultStyleButton" customModule="PorchPirateProtector" customModuleProvider="target">
+                                            <rect key="frame" x="16" y="5" width="343" height="34"/>
+                                            <state key="normal" title="+ Add Device"/>
+                                            <connections>
+                                                <action selector="tappedAdd" destination="fTm-Gi-xNw" eventType="touchUpInside" id="KLc-jL-WWj"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstItem="ey8-DE-a9F" firstAttribute="leading" secondItem="pFS-pP-bmJ" secondAttribute="leading" constant="16" id="M51-kB-p9G"/>
+                                        <constraint firstAttribute="bottom" secondItem="ey8-DE-a9F" secondAttribute="bottom" constant="5" id="R2o-9H-VNx"/>
+                                        <constraint firstAttribute="trailing" secondItem="ey8-DE-a9F" secondAttribute="trailing" constant="16" id="Rba-6p-gw6"/>
+                                        <constraint firstItem="ey8-DE-a9F" firstAttribute="top" secondItem="pFS-pP-bmJ" secondAttribute="top" constant="5" id="rEM-wp-5w9"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DeviceCell" rowHeight="66" id="Pol-SN-lnw" customClass="DeviceCell" customModule="PorchPirateProtector" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="66"/>
@@ -255,7 +267,7 @@
                         <viewLayoutGuide key="safeArea" id="N83-xy-zDr"/>
                     </view>
                     <connections>
-                        <outlet property="addButton" destination="Xem-jY-aq6" id="KF2-jx-1rf"/>
+                        <outlet property="addButton" destination="ey8-DE-a9F" id="8La-pD-Wx8"/>
                         <outlet property="loadingSpinner" destination="hk0-YN-Rp4" id="V46-V0-NVp"/>
                         <outlet property="tableView" destination="Pj7-rE-Jdc" id="5W7-4I-z4V"/>
                         <segue destination="g3r-hk-WZs" kind="show" identifier="showAddDevice" id="glf-K8-xU1"/>
@@ -508,6 +520,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="H31-Gf-C6k"/>
+        <segue reference="zsl-zA-Ee8"/>
     </inferredMetricsTieBreakers>
 </document>

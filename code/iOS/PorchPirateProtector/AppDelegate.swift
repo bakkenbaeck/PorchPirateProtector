@@ -25,7 +25,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             ])
         }
         
+        self.styleNavigation()
         return true
+    }
+    
+    private func styleNavigation() {
+        let navAppearance = UINavigationBar.appearance(whenContainedInInstancesOf: [SeriouslyIFiledARadarAboutThisIn2013NavigationController.self])
+
+        let navTextColor = PPPColor.textlight.toUIColor()
+        navAppearance.barTintColor = PPPColor.colorprimary.toUIColor()
+        navAppearance.titleTextAttributes = [
+            .foregroundColor: navTextColor
+        ]
+        
+        let buttonAppearance = UIBarButtonItem.appearance(whenContainedInInstancesOf: [SeriouslyIFiledARadarAboutThisIn2013NavigationController.self])
+        buttonAppearance.tintColor = navTextColor
     }
 }
 

@@ -489,10 +489,10 @@
             </objects>
             <point key="canvasLocation" x="1480.8" y="-399.85007496251876"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--SeriouslyI FiledA Radar About This In2013 Navigation Controller-->
         <scene sceneID="iqs-aD-QeL">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="X6N-1N-tcd" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="X6N-1N-tcd" customClass="SeriouslyIFiledARadarAboutThisIn2013NavigationController" customModule="PorchPirateProtector" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="nXx-zW-gQR">
                         <autoresizingMask key="autoresizingMask"/>

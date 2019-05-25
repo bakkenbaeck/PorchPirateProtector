@@ -33,6 +33,7 @@
 		9B52894C224E737C008C8304 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52894B224E737C008C8304 /* Buttons.swift */; };
 		9B52894E224E7A2D008C8304 /* CGFloat+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52894D224E7A2D008C8304 /* CGFloat+Conversion.swift */; };
 		9B7D969A2239760B001FA669 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D96992239760B001FA669 /* Keychain.swift */; };
+		9BA037312299650800714594 /* SeriouslyIFiledARadarAboutThisIn2013NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA037302299650800714594 /* SeriouslyIFiledARadarAboutThisIn2013NavigationController.swift */; };
 		9BADA4D522413FA3002F8060 /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4D422413FA3002F8060 /* KeychainTests.swift */; };
 		9BADA4D72241462A002F8060 /* Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4D62241462A002F8060 /* Segue.swift */; };
 		9BADA4D92241482A002F8060 /* DeviceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4D82241482A002F8060 /* DeviceListViewController.swift */; };
@@ -97,6 +98,7 @@
 		9B52894B224E737C008C8304 /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 		9B52894D224E7A2D008C8304 /* CGFloat+Conversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Conversion.swift"; sourceTree = "<group>"; };
 		9B7D96992239760B001FA669 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		9BA037302299650800714594 /* SeriouslyIFiledARadarAboutThisIn2013NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriouslyIFiledARadarAboutThisIn2013NavigationController.swift; sourceTree = "<group>"; };
 		9BADA4D422413FA3002F8060 /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		9BADA4D62241462A002F8060 /* Segue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Segue.swift; sourceTree = "<group>"; };
 		9BADA4D82241482A002F8060 /* DeviceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceListViewController.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				9BADA4D82241482A002F8060 /* DeviceListViewController.swift */,
 				9BADA4DA22415070002F8060 /* DeviceAddViewController.swift */,
 				9BADA4DC2241507C002F8060 /* DeviceDetailViewController.swift */,
+				9BA037302299650800714594 /* SeriouslyIFiledARadarAboutThisIn2013NavigationController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 			files = (
 				9B52894E224E7A2D008C8304 /* CGFloat+Conversion.swift in Sources */,
 				9B3E1D6A224283B200E7AD81 /* Identifiable.swift in Sources */,
+				9BA037312299650800714594 /* SeriouslyIFiledARadarAboutThisIn2013NavigationController.swift in Sources */,
 				9B3E1D70224290BB00E7AD81 /* UIViewController+Error.swift in Sources */,
 				9B3E9A452236B27A0026EBD1 /* CreateAccountViewController.swift in Sources */,
 				9B3E9A4F2236BCE50026EBD1 /* NibLoadable.swift in Sources */,

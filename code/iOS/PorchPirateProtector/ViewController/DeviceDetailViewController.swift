@@ -21,16 +21,13 @@ class DeviceDetailViewController: UIViewController {
     
     private lazy var presenter = DeviceDetailPresenter(view: self, device: self.pairedDevice, storage: Keychain.shared)
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-        
-        self.presenter.getStatus()
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        super.viewWillDisappear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)        
+        self.presenter.getStatus()
     }
     
     @IBAction private func lockTapped() {

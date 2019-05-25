@@ -20,6 +20,10 @@ class DeviceAddViewController: UIViewController {
     
     private lazy var dataSource = IPAddressDataSource(tableView: self.tableView, addresses: [], delegate: self)
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,14 +33,7 @@ class DeviceAddViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
-
         self.presenter.updateAvailableIPAddresses()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        super.viewWillDisappear(animated)
     }
 }
 

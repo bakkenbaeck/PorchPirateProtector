@@ -27,6 +27,15 @@ class DeviceListViewController: UIViewController {
     
     private var selectedDevice: PairedDevice?
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationController?.setViewControllers([self], animated: true)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.presenter.updateDeviceList()

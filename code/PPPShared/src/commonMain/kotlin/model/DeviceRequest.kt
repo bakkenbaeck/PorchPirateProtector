@@ -9,6 +9,7 @@ data class DeviceCreateRequest(
 ) {
 
     companion object {
+        @kotlinx.serialization.UnstableDefault
         fun fromJSONString(string: String): DeviceCreateRequest? {
             return try {
                 Json.parse(DeviceCreateRequest.serializer(), string)
@@ -19,6 +20,7 @@ data class DeviceCreateRequest(
         }
     }
 
+    @kotlinx.serialization.UnstableDefault
     fun toJSONString(): String {
         return Json.stringify(DeviceCreateRequest.serializer(), this)
     }
@@ -31,6 +33,7 @@ data class DeviceRequest(
     val lockState: LockState?
 ) {
     companion object {
+        @kotlinx.serialization.UnstableDefault
         fun fromJSONString(string: String): DeviceRequest? {
             return try {
                 Json.parse(DeviceRequest.serializer(), string)
@@ -41,6 +44,7 @@ data class DeviceRequest(
         }
     }
 
+    @kotlinx.serialization.UnstableDefault
     fun toJSONString(): String {
         return Json.stringify(DeviceRequest.serializer(), this)
     }

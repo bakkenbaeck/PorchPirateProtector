@@ -9,12 +9,14 @@ data class LockState(
     val isLocked: Boolean
 ) {
     companion object {
+        @kotlinx.serialization.UnstableDefault
         fun fromJSONString(string: String): LockState {
             val serializer = LockState.serializer()
             return Json.parse(serializer, string)
         }
     }
 
+    @kotlinx.serialization.UnstableDefault
     fun toJSONString(): String {
         return Json.stringify(LockState.serializer(), this)
     }

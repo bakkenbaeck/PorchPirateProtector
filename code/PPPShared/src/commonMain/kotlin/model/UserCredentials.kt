@@ -10,6 +10,7 @@ data class UserCredentials(
 ) {
 
     companion object {
+        @kotlinx.serialization.UnstableDefault
         fun fromString(string: String): UserCredentials? {
             return Json.parse(UserCredentials.serializer(), string)
         }

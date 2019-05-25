@@ -17,6 +17,7 @@ class Api {
      * @param credentials: The credentials to use to create the account
      * @return The user token on a successful account creation.
      */
+    @kotlinx.serialization.UnstableDefault
     suspend fun createAccount(credentials: UserCredentials): UserToken {
         val tokenJSON = client.execute(
             method = RequestMethod.Post(Json.stringify(UserCredentials.serializer(), credentials)),
@@ -35,6 +36,7 @@ class Api {
      * @param credentials The credentials to use to log the user in
      * @return The user token on a successful login
      */
+    @kotlinx.serialization.UnstableDefault
     suspend fun login(credentials: UserCredentials): UserToken {
         val tokenJSON = client.execute(
             method = RequestMethod.Post(Json.stringify(UserCredentials.serializer(), credentials)),
@@ -49,6 +51,7 @@ class Api {
         return Json.parse(UserToken.serializer(), tokenJSON)
     }
 
+    @kotlinx.serialization.UnstableDefault
     suspend fun addDevice(
         ipAddress: String,
         token: String
@@ -68,6 +71,7 @@ class Api {
         return Json.parse(DeviceRequest.serializer(), addDeviceJSON)
     }
 
+    @kotlinx.serialization.UnstableDefault
     suspend fun getCurrentLockState(
         deviceId: Int,
         pairingKey: String,
@@ -95,6 +99,7 @@ class Api {
      * @param token The current user's token.
      * @return The updated lock state of the device
      */
+    @kotlinx.serialization.UnstableDefault
     suspend fun updateDeviceLockState(
         request: DeviceRequest,
         token: String

@@ -8,6 +8,7 @@ data class UserToken(
     val token: String
 ) {
 
+    @kotlinx.serialization.UnstableDefault
     fun toJSONString(): String {
         return Json.stringify(UserToken.serializer(), this)
     }

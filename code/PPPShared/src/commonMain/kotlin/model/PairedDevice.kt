@@ -12,6 +12,7 @@ data class PairedDevice(
 ) {
 
     companion object {
+        @kotlinx.serialization.UnstableDefault
         fun fromJSONString(string: String): PairedDevice? {
             return Json.parse(PairedDevice.serializer(), string)
         }
@@ -21,6 +22,7 @@ data class PairedDevice(
         return DeviceRequest(this.deviceId, this.pairingKey, LockState(this.deviceId, wantedLocked))
     }
 
+    @kotlinx.serialization.UnstableDefault
     fun toJSONString(): String {
         return Json.stringify(PairedDevice.serializer(), this)
     }

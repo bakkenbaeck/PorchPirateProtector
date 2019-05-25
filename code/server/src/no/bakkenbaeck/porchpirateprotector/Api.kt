@@ -2,30 +2,18 @@ package no.bakkenbaeck.porchpirateprotector
 
 import io.ktor.application.*
 import io.ktor.auth.*
-import io.ktor.features.*
 import io.ktor.html.respondHtml
 import io.ktor.http.*
-import io.ktor.http.cio.websocket.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.pipeline.*
-import io.ktor.websocket.*
-import kotlinx.coroutines.channels.*
 import kotlinx.html.body
 import kotlinx.html.head
 import kotlinx.html.p
 import kotlinx.html.title
-import kotlinx.serialization.json.*
-import kotlinx.serialization.parse
 import no.bakkenbaeck.porchpirateprotector.model.User
 import no.bakkenbaeck.pppshared.model.*
-import org.apache.http.HttpResponse
-import org.apache.http.HttpStatus
-import java.time.*
-import java.time.format.*
-import java.util.*
-import java.util.concurrent.*
 
 internal fun Routing.helloWorld() {
     route("/") {

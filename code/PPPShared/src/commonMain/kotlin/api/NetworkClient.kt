@@ -2,10 +2,6 @@ package no.bakkenbaeck.pppshared.api
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.*
-import io.ktor.http.HeadersBuilder
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import no.bakkenbaeck.pppshared.ApplicationDispatcher
 
 sealed class RequestMethod(val stringValue: String) {
     class Get: RequestMethod("GET")

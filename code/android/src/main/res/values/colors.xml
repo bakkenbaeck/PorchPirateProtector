@@ -1,30 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="colorPrimary">
-		#05C1FD
-	</color>
-	<color name="colorPrimaryDark">
-		#5848F4
-	</color>
-	<color name="colorAccent">
-		#fb5502
-	</color>
-	<color name="colorAccentSelected">
-		#c94402
-	</color>
-	<color name="textLight">
-		#ffffff
-	</color>
-	<color name="textMiddle">
-		#777777
-	</color>
-	<color name="textDark">
-		#000000
-	</color>
-	<color name="errorRed">
-		#cc0000
-	</color>
-	<color name="success">
-		#0d9b2a
-	</color>
+	<color name="colorPrimary">#05C1FD</color>
+	<color name="colorPrimaryDark">#5848F4</color>
+	<color name="colorAccent">#fb5502</color>
+	<color name="colorAccentSelected">#c94402</color>
+	<color name="textLight">#ffffff</color>
+	<color name="textMiddle">#777777</color>
+	<color name="textDark">#000000</color>
+	<color name="errorRed">#cc0000</color>
+	<color name="success">#0d9b2a</color>
 </resources>

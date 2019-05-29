@@ -22,6 +22,10 @@ class LoginViewController: UIViewController {
     
     private lazy var presenter = LoginPresenter(view: self, storage: Keychain.shared)
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)

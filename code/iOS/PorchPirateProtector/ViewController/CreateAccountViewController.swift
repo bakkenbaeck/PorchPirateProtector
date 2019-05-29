@@ -32,19 +32,13 @@ class CreateAccountViewController: UIViewController {
         return .lightContent
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        super.viewWillDisappear(animated)
+    deinit {
+        self.presenter.onDestroy()
     }
 }
 
 extension CreateAccountViewController: UITextFieldDelegate {
-    
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         switch textField {
         case self.emailInput.textInputView?.textField:
@@ -63,28 +57,28 @@ extension CreateAccountViewController: CreateAccountView {
     func emailErrorUpdated(toString: String?) {
         self.emailInput.errorText = toString
     }
-    
+
     func passwordErrorUpdated(toString: String?) {
         self.passwordInput.errorText = toString
     }
-    
+
     func confirmPasswordErrorUpdated(toString: String?) {
         self.confirmPasswordInput.errorText = toString
     }
-    
+
     func apiErrorUpdated(toString: String?) {
         self.errorLabel.text = toString
         self.errorLabel.isHidden = (toString == nil)
     }
-    
+
     func setSubmitButtonEnabled(enabled: Bool) {
         self.createAccountButton.isEnabled = enabled
     }
-    
+
     func accountSuccessfullyCreated() {
         self.perform(segue: CreateAccountSegue.accountCreated)
     }
-    
+
     var email: String? {
         get {
             return self.emailInput.text
@@ -93,7 +87,7 @@ extension CreateAccountViewController: CreateAccountView {
             self.emailInput.text = email
         }
     }
-    
+
     var password: String? {
         get {
             return self.passwordInput.text
@@ -102,7 +96,7 @@ extension CreateAccountViewController: CreateAccountView {
             self.passwordInput.text = password
         }
     }
-    
+
     var confirmPassword: String? {
         get {
             return self.confirmPasswordInput.text
@@ -111,11 +105,11 @@ extension CreateAccountViewController: CreateAccountView {
             self.confirmPasswordInput.text = confirmPassword
         }
     }
-    
+
     func startLoadingIndicator() {
         self.loadingSpinner.startAnimating()
     }
-    
+
     func stopLoadingIndicator() {
         self.loadingSpinner.stopAnimating()
     }

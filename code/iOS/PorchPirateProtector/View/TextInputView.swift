@@ -19,7 +19,7 @@ class TextInputContainer: NibContainer {
         return self.contentView as? TextInputView
     }
     
-    @IBOutlet var textFieldDelegate: UITextFieldDelegate? {
+    @IBOutlet weak var textFieldDelegate: UITextFieldDelegate? {
         didSet {
             self.textInputView?.textField.delegate = self.textFieldDelegate
         }

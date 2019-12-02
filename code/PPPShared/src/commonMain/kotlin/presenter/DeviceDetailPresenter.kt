@@ -3,102 +3,126 @@ package no.bakkenbaeck.pppshared.presenter
 import kotlinx.coroutines.launch
 import no.bakkenbaeck.pppshared.interfaces.SecureStorage
 import no.bakkenbaeck.pppshared.manager.DeviceManager
-import no.bakkenbaeck.pppshared.model.LockState
 import no.bakkenbaeck.pppshared.model.PairedDevice
-import no.bakkenbaeck.pppshared.view.DeviceDetailView
 
 class DeviceDetailPresenter(
-    val view: DeviceDetailView,
-    val device: PairedDevice,
-    storage: SecureStorage
-): BaseCoroutinePresenter(secureStorage = storage) {
+    val device: PairedDevice
+): BaseCoroutinePresenter() {
 
-    init {
-        view.setTitle("Device #${device.deviceId}")
-    }
+    data class DeviceDetailViewModel(
+        val lockButtonEnabled: Boolean,
+        val unlockButtonEnabled: Boolean,
+        val errorMessage: String? = null,
+        val indicatorAnimating: Boolean = false
+    )
 
+    val title: String
+        get() = "Device #${device.deviceId}"
 
-    private fun updateLocalLockState(fromDevices: List<PairedDevice>): LockState? {
+    private fun generateViewModel(fromDevices: List<PairedDevice>): DeviceDetailViewModel {
         val updatedDevice = fromDevices.first { it.deviceId == device.deviceId }
         device.lockState = updatedDevice.lockState
-        var lockState: LockState? = null
-        updatedDevice.lockState?.let {
-            lockState = it
-            view.setLockButtonEnabled(!it.isLocked)
-            view.setUnlockButtonEnabled(it.isLocked)
-        }
-
-        return lockState
+        return device.lockState?.isLocked?.let { isLocked ->
+            DeviceDetailViewModel(
+                lockButtonEnabled = !isLocked,
+                unlockButtonEnabled = isLocked
+            )
+        } ?: DeviceDetailViewModel(
+            lockButtonEnabled = false,
+            unlockButtonEnabled = false,
+            errorMessage = "Lock state unknown"
+        )
     }
 
-    suspend fun getStatusAsync(): LockState? {
-        view.startLoadingIndicator()
-        view.setLockButtonEnabled(false)
-        view.setUnlockButtonEnabled(false)
-        view.setApiError(null)
-        var lockState: LockState? = null
-        try {
-            val pairedDevices = DeviceManager.updateStatus(api, device, throwingToken())
-            lockState = updateLocalLockState(pairedDevices)
+    suspend fun getStatusAsync(initialViewModelHandler: (DeviceDetailViewModel) -> Unit,
+                               secureStorage: SecureStorage): DeviceDetailViewModel {
+        initialViewModelHandler(DeviceDetailViewModel(
+                lockButtonEnabled = false,
+                unlockButtonEnabled = false,
+                indicatorAnimating = true
+            )
+        )
+
+        return try {
+            val token = throwingToken(secureStorage)
+            val pairedDevices = DeviceManager.updateStatus(api, device, token)
+            generateViewModel(pairedDevices)
         } catch (exception: Exception) {
-            view.setApiError(exception.message)
+            DeviceDetailViewModel(
+                lockButtonEnabled = false,
+                unlockButtonEnabled = false,
+                errorMessage = exception.message
+            )
         }
-
-        view.stopLoadingIndicator()
-        return lockState
     }
 
-    suspend fun lockAsync(): LockState? {
-        view.startLoadingIndicator()
-        view.setLockButtonEnabled(false)
-        view.setUnlockButtonEnabled(false)
-        view.setApiError(null)
-        var lockState: LockState? = null
-        try {
-            val updatedDevices = DeviceManager.updateLockState(api, device, throwingToken(), true)
-            lockState = updateLocalLockState(updatedDevices)
+    suspend fun lockAsync(initialViewModelHandler: (DeviceDetailViewModel) -> Unit,
+                          secureStorage: SecureStorage): DeviceDetailViewModel {
+        initialViewModelHandler(DeviceDetailViewModel(
+                lockButtonEnabled = false,
+                unlockButtonEnabled = false,
+                indicatorAnimating = true
+            )
+        )
+
+        return try {
+            val token = throwingToken(secureStorage)
+            val updatedDevices = DeviceManager.updateLockState(api, device, token, true)
+            generateViewModel(updatedDevices)
         } catch (exception: Exception) {
-            view.setApiError(exception.message)
-            view.setLockButtonEnabled(true)
+            DeviceDetailViewModel(
+                lockButtonEnabled = true,
+                unlockButtonEnabled = false,
+                errorMessage = exception.message
+            )
         }
-
-        view.stopLoadingIndicator()
-        return lockState
     }
 
-    suspend fun unlockAsync(): LockState? {
-        view.startLoadingIndicator()
-        view.setLockButtonEnabled(false)
-        view.setUnlockButtonEnabled(false)
-        view.setApiError(null)
-        var lockState: LockState? = null
-        try {
-            val updatedDevices = DeviceManager.updateLockState(api, device, throwingToken(), false)
-            lockState = updateLocalLockState(updatedDevices)
+    suspend fun unlockAsync(initialViewModelHandler: (DeviceDetailViewModel) -> Unit,
+                            secureStorage: SecureStorage): DeviceDetailViewModel {
+        initialViewModelHandler(DeviceDetailViewModel(
+                lockButtonEnabled = false,
+                unlockButtonEnabled = false,
+                indicatorAnimating = true
+            )
+        )
+        return try {
+            val token = throwingToken(secureStorage)
+            val updatedDevices = DeviceManager.updateLockState(api, device, token, false)
+            generateViewModel(updatedDevices)
         } catch (exception: Exception) {
-            view.setApiError(exception.message)
-            view.setUnlockButtonEnabled(true)
-        }
-
-        view.stopLoadingIndicator()
-        return lockState
-    }
-
-    fun getStatus() {
-        launch {
-            getStatusAsync()
+            DeviceDetailViewModel(
+                lockButtonEnabled = false,
+                unlockButtonEnabled = true,
+                errorMessage = exception.message
+            )
         }
     }
 
-    fun lock() {
+    fun getStatus(initialViewModelHandler: (DeviceDetailViewModel) -> Unit,
+                  secureStorage: SecureStorage,
+                  completion: (DeviceDetailViewModel) -> Unit) {
         launch {
-            lockAsync()
+            val viewModel = getStatusAsync(initialViewModelHandler, secureStorage)
+            completion(viewModel)
         }
     }
 
-    fun unlock() {
+    fun lock(initialViewModelHandler: (DeviceDetailViewModel) -> Unit,
+             secureStorage: SecureStorage,
+             completion: (DeviceDetailViewModel) -> Unit) {
         launch {
-            unlockAsync()
+            val viewModel = lockAsync(initialViewModelHandler, secureStorage)
+            completion(viewModel)
+        }
+    }
+
+    fun unlock(initialViewModelHandler: (DeviceDetailViewModel) -> Unit,
+               secureStorage: SecureStorage,
+               completion: (DeviceDetailViewModel) -> Unit) {
+        launch {
+            val viewModel = unlockAsync(initialViewModelHandler, secureStorage)
+            completion(viewModel)
         }
     }
 }

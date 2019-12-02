@@ -1,55 +1,17 @@
 package no.bakkenbaeck.pppshared.presenter
 
 import no.bakkenbaeck.pppshared.TestDb
-import no.bakkenbaeck.pppshared.interfaces.InsecureStorage
 import no.bakkenbaeck.pppshared.platformRunBlocking
 import no.bakkenbaeck.pppshared.manager.DeviceManager
 import no.bakkenbaeck.pppshared.mock.*
 import no.bakkenbaeck.pppshared.model.PairedDevice
-import no.bakkenbaeck.pppshared.view.DeviceListView
 import kotlin.test.*
 
 class DeviceListTests {
 
-    class TestDeviceListView: DeviceListView {
-        var addEnabled = false
-        override fun setAddButtonEnabled(enabled: Boolean) {
-            addEnabled = enabled
-        }
-
-        var deviceList: List<PairedDevice>? = null
-        override fun deviceListUpdated(toDeviceList: List<PairedDevice>) {
-            deviceList = toDeviceList
-        }
-
-        var selectedDevice: PairedDevice? = null
-        override fun showDetailForDevice(device: PairedDevice) {
-            selectedDevice = device
-        }
-
-        var apiError: String? = null
-        override fun apiErrorUpdated(toString: String?) {
-            apiError = toString
-        }
-
-        var loadingIndicatorStarted = false
-        var loadingIndicatorGoing = false
-        override fun startLoadingIndicator() {
-            loadingIndicatorGoing = true
-            loadingIndicatorStarted = true
-        }
-
-        var loadingIndicatorStopped = false
-        override fun stopLoadingIndicator() {
-            loadingIndicatorGoing = false
-            loadingIndicatorStopped = true
-        }
-
-        var navigatedToAdd = false
-        override fun showAddDevice() {
-            navigatedToAdd = true
-        }
-    }
+    val insecureStorage = MockInsecureStorage()
+    val storage = MockSecureStorage()
+    val presenter = DeviceListPresenter()
 
     @BeforeTest
     fun setup() {
@@ -66,125 +28,90 @@ class DeviceListTests {
     fun updatingDeviceListSetsProperListAndEnablesOrDisablesButton() {
         val mockIPAddresses = listOf("1.2.3", "4.5.6")
 
-        val insecureStorage = MockInsecureStorage()
         insecureStorage.storeIPAddresses(mockIPAddresses)
-
-        val view = TestDeviceListView()
-        val storage = MockSecureStorage()
-
         storage.storeTokenString("TESTING_TOKEN")
-        val presenter = DeviceListPresenter(view, storage, insecureStorage)
 
-        presenter.updateDeviceList()
+        val viewModel = presenter.updateViewModel(
+            insecureStorage = insecureStorage,
+            isLoading = false
+        )
 
-        assertNotNull(view.deviceList)
-        assertEquals(view.deviceList?.isEmpty(), true)
-        assertNull(view.apiError)
-        assertTrue(view.addEnabled)
+        assertNotNull(viewModel.pairedDeviceList)
+        assertTrue(viewModel.pairedDeviceList.isEmpty())
+        assertEquals(viewModel.unpairedIPAddresses.count(), 2)
+        assertEquals(viewModel.unpairedIPAddresses, mockIPAddresses)
+        assertNull(viewModel.apiError)
+        assertFalse(viewModel.indicatorAnimating)
+        assertTrue(viewModel.addButtonEnabled)
+
+        val addressToAdd = mockIPAddresses.first()
 
         val fakeDevice = PairedDevice(1,
-            mockIPAddresses.first(),
+            addressToAdd,
             "fake_pairing_key",
             null)
 
 
         DeviceManager.storeDeviceToDatabase(fakeDevice)
-        insecureStorage.removeIPAddress("1.2.3")
+        insecureStorage.removeIPAddress(addressToAdd)
 
-        presenter.updateDeviceList()
+        val updatedViewModel = presenter.updateViewModel(
+            insecureStorage = insecureStorage,
+            isLoading = false
+        )
 
-        assertNotNull(view.deviceList)
-        assertEquals(view.deviceList?.count(), 1)
-        assertNull(view.apiError)
-
-        assertFalse(view.navigatedToAdd)
-        assertFalse(view.loadingIndicatorStarted)
-        assertFalse(view.loadingIndicatorStopped)
-        assertFalse(view.loadingIndicatorGoing)
+        assertNotNull(updatedViewModel.pairedDeviceList)
+        assertEquals(updatedViewModel.pairedDeviceList.count(), 1)
+        assertEquals(updatedViewModel.pairedDeviceList, listOf(fakeDevice))
+        assertEquals(updatedViewModel.unpairedIPAddresses.count(), 1)
+        assertEquals(updatedViewModel.unpairedIPAddresses, mockIPAddresses.drop(1))
+        assertNull(updatedViewModel.apiError)
+        assertFalse(updatedViewModel.indicatorAnimating)
+        assertTrue(updatedViewModel.addButtonEnabled)
     }
 
     @Test
     fun fetchingDeviceDetails() = platformRunBlocking {
-        val view = TestDeviceListView()
-
-        val storage = MockSecureStorage()
         storage.storeTokenString(MockNetworkClient.mockToken)
-
-        val insecureStorage = MockInsecureStorage()
-        insecureStorage.storeIPAddresses(listOf(MockNetworkClient.lockedIP))
-
-        val presenter = DeviceListPresenter(view, storage, insecureStorage)
         presenter.api.client = MockNetworkClient()
 
         val device = PairedDevice(
             deviceId = MockNetworkClient.lockedDeviceId,
             ipAddress = MockNetworkClient.lockedIP,
             pairingKey = MockNetworkClient.validPairingKey,
-            lockState = null)
+            lockState = null
+        )
         DeviceManager.storeDeviceToDatabase(device)
 
-        assertFalse(view.loadingIndicatorStarted)
-        assertFalse(view.loadingIndicatorStopped)
-        assertFalse(view.loadingIndicatorGoing)
+        var initialHit = false
+        val viewModel = presenter.fetchDeviceDetailsAsync(
+            device = device,
+            initialViewModelHandler = { initialViewModel ->
+                initialHit = true
+                assertEquals(listOf(device), initialViewModel.pairedDeviceList)
+                assertTrue(initialViewModel.unpairedIPAddresses.isEmpty())
+                assertTrue(initialViewModel.indicatorAnimating)
+                assertNull(initialViewModel.apiError)
+                assertFalse(initialViewModel.addButtonEnabled)
+            },
+            secureStorage = storage,
+            insecureStorage = insecureStorage
+        )
 
-        val fetched = presenter.fetchDeviceDetailsAsync(device)
+        assertTrue(initialHit)
 
-        assertTrue(view.loadingIndicatorStarted)
-        assertTrue(view.loadingIndicatorStopped)
-        assertFalse(view.loadingIndicatorGoing)
+        assertFalse(viewModel.indicatorAnimating)
+        assertFalse(viewModel.addButtonEnabled)
+        assertNull(viewModel.apiError)
+        assertTrue(viewModel.unpairedIPAddresses.isEmpty())
 
-        assertEquals(1, fetched?.count())
-        assertNull(view.apiError)
 
-        view.deviceList?.let { devices ->
-            assertEquals(fetched, devices)
-            assertEquals(1, devices.count())
-            val firstDevice = devices.first()
-            assertEquals(device.deviceId, firstDevice.deviceId)
-            assertEquals(device.ipAddress, firstDevice.ipAddress)
-            assertEquals(device.pairingKey, firstDevice.pairingKey)
-            assertNotNull(firstDevice.lockState)
-            assertEquals(true, firstDevice.lockState?.isLocked)
-        } ?: fail("Device list was null")
-
-        assertTrue(view.addEnabled)
-        assertFalse(view.navigatedToAdd)
+        val firstDevice = viewModel.pairedDeviceList.first()
+        assertEquals(device.deviceId, firstDevice.deviceId)
+        assertEquals(device.ipAddress, firstDevice.ipAddress)
+        assertEquals(device.pairingKey, firstDevice.pairingKey)
+        assertNotNull(firstDevice.lockState)
+        assertEquals(true, firstDevice.lockState?.isLocked)
     }
 
-    @Test
-    fun selectingADeviceTellsTheViewToNavigateToIt() {
-        val device = PairedDevice(
-            deviceId = MockNetworkClient.lockedDeviceId,
-            ipAddress = MockNetworkClient.lockedIP,
-            pairingKey = MockNetworkClient.validPairingKey,
-            lockState = null)
-
-        val view = TestDeviceListView()
-
-        val storage = MockSecureStorage()
-        storage.storeTokenString("TESTING_TOKEN")
-
-        val presenter = DeviceListPresenter(view, storage, MockInsecureStorage())
-
-        assertNull(view.selectedDevice)
-
-        presenter.selectedDevice(device)
-
-        assertNotNull(view.selectedDevice)
-        assertEquals(device, view.selectedDevice)
-    }
-
-    @Test
-    fun selectingAddButtonTellsViewToNavigateToAdd() {
-        val view = TestDeviceListView()
-        val storage = MockSecureStorage()
-        storage.storeTokenString("TESTING_TOKEN")
-        val presenter = DeviceListPresenter(view, storage, MockInsecureStorage())
-
-        assertFalse(view.navigatedToAdd)
-
-        presenter.selectedAddDevice()
-
-        assertTrue(view.navigatedToAdd)
-    }
 }

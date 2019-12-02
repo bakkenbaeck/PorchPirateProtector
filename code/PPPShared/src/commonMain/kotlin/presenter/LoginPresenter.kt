@@ -5,89 +5,88 @@ import no.bakkenbaeck.pppshared.interfaces.SecureStorage
 import no.bakkenbaeck.pppshared.model.UserCredentials
 import no.bakkenbaeck.pppshared.validator.InputValidator
 import no.bakkenbaeck.pppshared.validator.ValidationResult
-import no.bakkenbaeck.pppshared.view.LoginView
-import kotlin.properties.Delegates
 
-class LoginPresenter(
-    val view: LoginView,
-    storage: SecureStorage
-): BaseCoroutinePresenter(secureStorage = storage) {
+class LoginPresenter: BaseCoroutinePresenter() {
 
-    /// Any error which has occurred in validating the user's email address.
-    private var emailError: String? by Delegates.observable<String?>(null) { _, _, newValue ->
-        view.emailErrorUpdated(newValue)
-    }
+    data class LoginViewModel(
+        val emailError: String? = null,
+        val passwordError: String? = null,
+        val submitButtonEnabled: Boolean = false,
+        val apiError: String? = null,
+        val indicatorAnimating: Boolean = false,
+        val loginSucceeded: Boolean = false
+    )
 
-    /// Any error which has occurred in validating the user's password.
-    private var passwordError: String? by Delegates.observable<String?>(null) { _, _, newValue ->
-        view.passwordErrorUpdated(newValue)
-    }
-
-    private var apiError: String? by Delegates.observable<String?>(null) { _, _, newValue ->
-        view.apiErrorUpdated(newValue)
-    }
-
-    fun validateEmail() {
-        val emailResult = InputValidator.validateIsEmail(view.email, "email")
-        when (emailResult) {
-            is ValidationResult.Invalid -> emailError = emailResult.reason
-            is ValidationResult.Valid -> emailError = null
+    fun validateEmail(email: String?): String? {
+        val emailResult = InputValidator.validateIsEmail(email, "email")
+        return when (emailResult) {
+            is ValidationResult.Invalid -> emailResult.reason
+            is ValidationResult.Valid -> null
         }
     }
 
-    fun validatePassword() {
-        val passwordResult = InputValidator.validateInputAtLeastLength(6, view.password, "password")
-
-        when (passwordResult) {
-            is ValidationResult.Invalid -> passwordError = passwordResult.reason
-            is ValidationResult.Valid -> passwordError = null
+    fun validatePassword(password: String?): String? {
+        val passwordResult = InputValidator.validateInputAtLeastLength(6, password, "password")
+        return when (passwordResult) {
+            is ValidationResult.Invalid -> passwordResult.reason
+            is ValidationResult.Valid -> null
         }
     }
 
-    fun validateAllInput() {
-        validateEmail()
-        validatePassword()
-    }
+    fun validateAllInput(email: String?, password: String?): LoginViewModel {
+        val emailError = validateEmail(email)
+        val passwordError = validatePassword(password)
 
-    fun isCurrentInputValid(): Boolean {
-        validateAllInput()
-        return emailError == null
-                && passwordError == null
+        val enableSubmit = (emailError == null && passwordError == null)
+
+        return LoginViewModel(
+            emailError = emailError,
+            passwordError = passwordError,
+            submitButtonEnabled = enableSubmit
+        )
     }
     
-    suspend fun loginAsync(): Boolean {
-        if (!isCurrentInputValid()) {
-            return false
+    suspend fun loginAsync(email: String?,
+                           password: String?,
+                           initialViewModelHandler: (LoginViewModel) -> Unit,
+                           secureStorage: SecureStorage): LoginViewModel {
+        val validationViewModel = validateAllInput(email, password)
+        if (!validationViewModel.submitButtonEnabled) {
+            return validationViewModel
         }
+
+        initialViewModelHandler(
+            LoginViewModel(
+                indicatorAnimating = true
+            )
+        )
 
         // If input is valid, these will not be null.
-        val creds = UserCredentials(view.email!!, view.password!!)
-        view.startLoadingIndicator()
-        view.setSubmitButtonEnabled(false)
-        apiError = null
+        val creds = UserCredentials(email!!, password!!)
 
-        var success = false
-        try {
+        return try {
             val token = api.login(creds)
             secureStorage.storeTokenString(token.token)
-            view.loginSucceeded()
-            success = true
+            LoginViewModel(
+                loginSucceeded = true
+            )
         } catch (exception: Exception) {
-            apiError = exception.message
+            LoginViewModel(
+                submitButtonEnabled = true,
+                apiError = exception.message
+            )
         }
-
-        view.stopLoadingIndicator()
-        view.setSubmitButtonEnabled(true)
-        return success
     }
 
-    fun login() {
+    fun login(email: String?,
+              password: String?,
+              initialViewModelHandler: (LoginViewModel) -> Unit,
+              secureStorage: SecureStorage,
+              completion: (LoginViewModel) -> Unit) {
         launch {
-            loginAsync()
+            val viewModel = loginAsync(email, password, initialViewModelHandler, secureStorage)
+            completion(viewModel)
         }
     }
 
-    override fun handleError(error: Throwable) {
-        apiError = error.message
-    }
 }

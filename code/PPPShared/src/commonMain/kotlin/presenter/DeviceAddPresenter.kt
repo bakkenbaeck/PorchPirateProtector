@@ -4,45 +4,68 @@ import kotlinx.coroutines.launch
 import no.bakkenbaeck.pppshared.interfaces.InsecureStorage
 import no.bakkenbaeck.pppshared.interfaces.SecureStorage
 import no.bakkenbaeck.pppshared.manager.DeviceManager
-import no.bakkenbaeck.pppshared.model.PairedDevice
-import no.bakkenbaeck.pppshared.view.DeviceAddView
 
-class DeviceAddPresenter(
-    val view: DeviceAddView,
-    storage: SecureStorage,
-    private val insecureStorage: InsecureStorage
-): BaseCoroutinePresenter(secureStorage = storage) {
+class DeviceAddPresenter: BaseCoroutinePresenter() {
 
-    fun updateAvailableIPAddresses() {
-        val addresses = insecureStorage.loadIPAddresses() ?: emptyList()
-        view.updatedAvailableDeviceIPAddresses(addresses)
+    data class DeviceAddViewModel(
+        val availableIPAddresses: List<String>,
+        val indicatorAnimating: Boolean = false,
+        val deviceAdded: Boolean = false,
+        val errorMessage: String? = null
+    )
+
+    private fun currentAvailableIPAddresses(insecureStorage: InsecureStorage): List<String> {
+        return insecureStorage.loadIPAddresses() ?: emptyList()
     }
 
-    suspend fun addDeviceAsync(deviceIpAddress: String): List<PairedDevice>? {
-        view.startLoadingIndicator()
-        view.pairingErrorUpdated(null)
-        var pairedDevices: List<PairedDevice>? = null
-        try {
-            pairedDevices = DeviceManager.pair(api, deviceIpAddress, throwingToken())
+    fun initialViewModel(insecureStorage: InsecureStorage): DeviceAddViewModel {
+        return DeviceAddViewModel(
+            availableIPAddresses = currentAvailableIPAddresses(insecureStorage)
+        )
+    }
+
+    suspend fun addDeviceAsync(deviceIpAddress: String,
+                               initialViewModelHandler: (DeviceAddViewModel) -> Unit,
+                               insecureStorage: InsecureStorage,
+                               secureStorage: SecureStorage): DeviceAddViewModel {
+        initialViewModelHandler(
+            DeviceAddViewModel(
+                availableIPAddresses = currentAvailableIPAddresses(insecureStorage),
+                indicatorAnimating = true
+            )
+        )
+
+        return try {
+            val token = throwingToken(secureStorage)
+            DeviceManager.pair(api, deviceIpAddress, token)
+
+            // On success, remove the IP address from the list of IP addresses
             insecureStorage.removeIPAddress(deviceIpAddress)
+            DeviceAddViewModel(
+                availableIPAddresses = currentAvailableIPAddresses(insecureStorage),
+                deviceAdded = true
+            )
         } catch (exception: Exception) {
-            view.pairingErrorUpdated(exception.message)
-        }
-
-        view.stopLoadingIndicator()
-
-        return pairedDevices?.let { devices ->
-            view.updatedAvailableDeviceIPAddresses(insecureStorage.loadIPAddresses() ?: emptyList())
-            val addedDevice = devices.first { it.ipAddress == deviceIpAddress}
-            view.deviceAddedSuccessfully(addedDevice)
-
-            return@addDeviceAsync devices
+            DeviceAddViewModel(
+                availableIPAddresses = currentAvailableIPAddresses(insecureStorage),
+                errorMessage = exception.message
+            )
         }
     }
 
-    fun addDevice(deviceIpAddress: String) {
+    fun addDevice(deviceIpAddress: String,
+                  initialViewModelHandler: (DeviceAddViewModel) -> Unit,
+                  insecureStorage: InsecureStorage,
+                  secureStorage: SecureStorage,
+                  completion: (DeviceAddViewModel) -> Unit) {
         launch {
-            addDeviceAsync(deviceIpAddress)
+            val viewModel = addDeviceAsync(
+                deviceIpAddress,
+                initialViewModelHandler,
+                insecureStorage,
+                secureStorage
+            )
+            completion(viewModel)
         }
     }
 }

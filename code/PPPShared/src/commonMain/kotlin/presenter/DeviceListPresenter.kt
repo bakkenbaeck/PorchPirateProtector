@@ -5,51 +5,75 @@ import no.bakkenbaeck.pppshared.interfaces.InsecureStorage
 import no.bakkenbaeck.pppshared.interfaces.SecureStorage
 import no.bakkenbaeck.pppshared.manager.DeviceManager
 import no.bakkenbaeck.pppshared.model.PairedDevice
-import no.bakkenbaeck.pppshared.view.DeviceListView
 
-class DeviceListPresenter(
-    val view: DeviceListView,
-    storage: SecureStorage,
-    private val insecureStorage: InsecureStorage
-): BaseCoroutinePresenter(secureStorage = storage) {
+class DeviceListPresenter: BaseCoroutinePresenter() {
 
-    init {
-        updateDeviceList()
-    }
+    data class DeviceListViewModel(
+        val pairedDeviceList: List<PairedDevice>,
+        val unpairedIPAddresses: List<String>,
+        val addButtonEnabled: Boolean = true,
+        val indicatorAnimating: Boolean = false,
+        val apiError: String? = null
+    )
 
-    fun updateDeviceList() {
+    fun updateViewModel(insecureStorage: InsecureStorage,
+                        isLoading: Boolean,
+                        apiError: String? = null): DeviceListViewModel {
         val existingDevices = DeviceManager.loadPairedDevicesFromDatabase()
-        view.deviceListUpdated(existingDevices)
-
         val unpairedDevices = insecureStorage.loadIPAddresses() ?: emptyList()
-        view.setAddButtonEnabled(!unpairedDevices.isEmpty())
+
+        val enableAddButton = unpairedDevices.isNotEmpty() && !isLoading
+
+        return DeviceListViewModel(
+            pairedDeviceList = existingDevices,
+            unpairedIPAddresses = unpairedDevices,
+            addButtonEnabled = enableAddButton,
+            indicatorAnimating = isLoading,
+            apiError = apiError
+        )
     }
 
-    suspend fun fetchDeviceDetailsAsync(device: PairedDevice): List<PairedDevice>? {
-        view.startLoadingIndicator()
-        var devices: List<PairedDevice>? = null
-        try {
-            devices = DeviceManager.updateStatus(api, device, throwingToken())
-            updateDeviceList()
+    suspend fun fetchDeviceDetailsAsync(device: PairedDevice,
+                                        initialViewModelHandler: (DeviceListViewModel) -> Unit,
+                                        secureStorage: SecureStorage,
+                                        insecureStorage: InsecureStorage): DeviceListViewModel {
+        initialViewModelHandler(
+            updateViewModel(
+                insecureStorage = insecureStorage,
+                isLoading = true
+            )
+        )
+
+        return try {
+            val token = throwingToken(secureStorage)
+            DeviceManager.updateStatus(api, device, token)
+            updateViewModel(
+                insecureStorage = insecureStorage,
+                isLoading = false
+            )
         } catch (exception: Exception) {
-            view.apiErrorUpdated(exception.message)
+            updateViewModel(
+                insecureStorage = insecureStorage,
+                isLoading = false,
+                apiError = exception.message
+            )
         }
-
-        view.stopLoadingIndicator()
-        return devices
     }
 
-    fun fetchDeviceDetails(device: PairedDevice) {
+    fun fetchDeviceDetails(device: PairedDevice,
+                           initialViewModelHandler: (DeviceListViewModel) -> Unit,
+                           secureStorage: SecureStorage,
+                           insecureStorage: InsecureStorage,
+                           completion: (DeviceListViewModel) -> Unit) {
         launch {
-            fetchDeviceDetailsAsync(device)
+            val viewModel = fetchDeviceDetailsAsync(
+                device,
+                initialViewModelHandler,
+                secureStorage,
+                insecureStorage
+            )
+
+            completion(viewModel)
         }
-    }
-
-    fun selectedDevice(device: PairedDevice) {
-        view.showDetailForDevice(device)
-    }
-
-    fun selectedAddDevice() {
-        view.showAddDevice()
     }
 }

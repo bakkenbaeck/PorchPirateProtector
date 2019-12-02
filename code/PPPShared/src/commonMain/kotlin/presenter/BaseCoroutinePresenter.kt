@@ -9,14 +9,14 @@ import kotlin.coroutines.CoroutineContext
 // Ganked from https://github.com/JetBrains/kotlinconf-app/blob/master/common/src/commonMain/kotlin/org/jetbrains/kotlinconf/presentation/CoroutinePresenter.kt
 
 open class BaseCoroutinePresenter(
-    private val mainContext: CoroutineContext = ApplicationDispatcher,
-    val api: Api = Api(),
-    val secureStorage: SecureStorage
+    private val mainContext: CoroutineContext = ApplicationDispatcher
 ): CoroutineScope {
+
+    val api = Api()
 
     private val job = Job()
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        handleError(throwable)
+        print(throwable)
     }
 
     override val coroutineContext: CoroutineContext
@@ -26,17 +26,10 @@ open class BaseCoroutinePresenter(
         job.cancel()
     }
 
-    fun throwingToken(): String {
+    fun throwingToken(secureStorage: SecureStorage): String {
         secureStorage.fetchTokenString()?.let {
             return it
         } ?: throw RuntimeException("Couldn't find token!")
     }
-
-    fun optionalToken(): String? {
-        return secureStorage.fetchTokenString()
-    }
-
-    open fun handleError(error: Throwable) {
-        println("ERROR: $error")
-    }
+    
 }

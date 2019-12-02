@@ -7,7 +7,7 @@ import no.bakkenbaeck.pppshared.db.DatabaseSchema
 actual object TestDb {
 
     actual fun setupIfNeeded() {
-        val driver = JdbcSqliteDriver()
+        val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
         DatabaseSchema.create(driver)
         MobileDb.setupDatabase(driver)
     }

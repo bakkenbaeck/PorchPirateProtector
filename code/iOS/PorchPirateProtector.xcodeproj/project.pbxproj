@@ -42,6 +42,7 @@
 		9BADA4E022415C77002F8060 /* IPAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4DF22415C77002F8060 /* IPAddressCell.swift */; };
 		9BADA4E222415D96002F8060 /* DeviceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADA4E122415D96002F8060 /* DeviceCell.swift */; };
 		9BC870282236E46800976CAD /* Optional+Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC870272236E46800976CAD /* Optional+Empty.swift */; };
+		9BFBABED2396C3D400E0D982 /* Weakable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFBABEC2396C3D400E0D982 /* Weakable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 		9BADA4DF22415C77002F8060 /* IPAddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPAddressCell.swift; sourceTree = "<group>"; };
 		9BADA4E122415D96002F8060 /* DeviceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCell.swift; sourceTree = "<group>"; };
 		9BC870272236E46800976CAD /* Optional+Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Empty.swift"; sourceTree = "<group>"; };
+		9BFBABEC2396C3D400E0D982 /* Weakable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weakable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 				9B3E9A4E2236BCE50026EBD1 /* NibLoadable.swift */,
 				9BADA4D62241462A002F8060 /* Segue.swift */,
 				9B3E1D69224283B200E7AD81 /* Identifiable.swift */,
+				9BFBABEC2396C3D400E0D982 /* Weakable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -404,6 +407,7 @@
 				9BC870282236E46800976CAD /* Optional+Empty.swift in Sources */,
 				9B3E1D682242830200E7AD81 /* SingleSelectionDataSource.swift in Sources */,
 				9B7D969A2239760B001FA669 /* Keychain.swift in Sources */,
+				9BFBABED2396C3D400E0D982 /* Weakable.swift in Sources */,
 				9B4C8828222D285800638F1F /* AppDelegate.swift in Sources */,
 				9B3E1D6E22428DCB00E7AD81 /* IPAddressDataSource.swift in Sources */,
 			);

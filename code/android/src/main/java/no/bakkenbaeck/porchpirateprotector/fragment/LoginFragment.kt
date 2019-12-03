@@ -9,17 +9,25 @@ import androidx.navigation.fragment.findNavController
 import no.bakkenbaeck.porchpirateprotector.R
 
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.coroutines.launch
 import no.bakkenbaeck.porchpirateprotector.extension.hideSoftKeyboard
-import no.bakkenbaeck.porchpirateprotector.extension.showAndStartAnimating
-import no.bakkenbaeck.porchpirateprotector.extension.stopAnimatingAndHide
+import no.bakkenbaeck.porchpirateprotector.extension.updateAnimating
 import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.pppshared.presenter.LoginPresenter
-import no.bakkenbaeck.pppshared.view.LoginView
 
 
-class LoginFragment: Fragment(), LoginView {
+class LoginFragment: Fragment() {
 
-    private val presenter by lazy { LoginPresenter(this, KeyStoreManager(this.context!!)) }
+    private val secureStorage by lazy { KeyStoreManager(context!!) }
+    private val presenter = LoginPresenter()
+
+    private var email: String?
+        get() = text_input_username.editText?.text.toString()
+        set(value) { text_input_username.editText?.setText(value) }
+
+    private var password: String?
+        get() = text_input_password.editText?.text.toString()
+        set(value) { text_input_password.editText?.setText(value) }
 
     private fun handleFocusChange(forView: View, hasFocus: Boolean) {
         if (hasFocus) {
@@ -28,8 +36,12 @@ class LoginFragment: Fragment(), LoginView {
         }
 
         when (forView) {
-            text_input_username.editText -> presenter.validateEmail()
-            text_input_password.editText -> presenter.validatePassword()
+            text_input_username.editText -> {
+                text_input_username.error = presenter.validateEmail(email)
+            }
+            text_input_password.editText -> {
+                text_input_password.error = presenter.validatePassword(password)
+            }
         }
     }
 
@@ -42,7 +54,19 @@ class LoginFragment: Fragment(), LoginView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        button_login_submit.setOnClickListener { presenter.login() }
+        button_login_submit.setOnClickListener {
+            presenter.launch {
+                val viewModel = presenter.loginAsync(
+                    email = email,
+                    password = password,
+                    initialViewModelHandler = this@LoginFragment::configureForViewModel,
+                    secureStorage = secureStorage
+                )
+
+                configureForViewModel(viewModel)
+            }
+        }
+
         text_input_username.editText?.setOnFocusChangeListener(::handleFocusChange)
         text_input_password.editText?.setOnFocusChangeListener(::handleFocusChange)
     }
@@ -52,42 +76,24 @@ class LoginFragment: Fragment(), LoginView {
         super.onDestroy()
     }
 
-    // LOGIN VIEW
+    // VIEW MODEL CONFIGURATION
 
-    override var email: String?
-        get() = text_input_username.editText?.text.toString()
-        set(value) { text_input_username.editText?.setText(value) }
+    private fun configureForViewModel(viewModel: LoginPresenter.LoginViewModel) {
+        textview_error_login.text = viewModel.apiError
+        button_login_submit.isEnabled = viewModel.submitButtonEnabled
+        progress_bar_login.updateAnimating(viewModel.indicatorAnimating)
 
-    override var password: String?
-        get() = text_input_password.editText?.text.toString()
-        set(value) { text_input_password.editText?.setText(value) }
+        text_input_username.error = viewModel.emailError
+        text_input_password.error = viewModel.passwordError
 
-    override fun setSubmitButtonEnabled(enabled: Boolean) {
-        button_login_submit.isEnabled = enabled
+        if (viewModel.loginSucceeded) {
+            loginSucceeded()
+        }
+
     }
 
-    override fun emailErrorUpdated(toString: String?) {
-        text_input_username.error = toString
-    }
-
-    override fun apiErrorUpdated(toString: String?) {
-        textview_error_login.text = toString
-    }
-
-    override fun loginSucceeded() {
+    private fun loginSucceeded() {
         hideSoftKeyboard()
         findNavController().navigate(R.id.action_loginFragment_to_deviceListFragment)
-    }
-
-    override fun passwordErrorUpdated(toString: String?) {
-        text_input_password.error = toString
-    }
-
-    override fun startLoadingIndicator() {
-        progress_bar_login.showAndStartAnimating()
-    }
-
-    override fun stopLoadingIndicator() {
-        progress_bar_login.stopAnimatingAndHide()
     }
 }

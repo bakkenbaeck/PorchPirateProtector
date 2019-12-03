@@ -11,22 +11,20 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
 import kotlinx.android.synthetic.main.fragment_device_list.*
 import no.bakkenbaeck.pppshared.model.PairedDevice
-import no.bakkenbaeck.pppshared.view.DeviceListView
 
 import no.bakkenbaeck.porchpirateprotector.R
 import no.bakkenbaeck.porchpirateprotector.adapter.DeviceListAdapter
 import no.bakkenbaeck.porchpirateprotector.adapter.DeviceSelectionListener
-import no.bakkenbaeck.porchpirateprotector.extension.showAndStartAnimating
-import no.bakkenbaeck.porchpirateprotector.extension.stopAnimatingAndHide
+import no.bakkenbaeck.porchpirateprotector.extension.updateAnimating
 import no.bakkenbaeck.porchpirateprotector.fragment.DeviceDetailFragment.Companion.ARG_DEVICE
-import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.porchpirateprotector.manager.SharedPreferencesManager
 import no.bakkenbaeck.pppshared.presenter.DeviceListPresenter
 
-class DeviceListFragment: Fragment(), DeviceListView, DeviceSelectionListener {
+class DeviceListFragment: Fragment(), DeviceSelectionListener {
 
     private val adapter by lazy { DeviceListAdapter(this) }
-    private val presenter by lazy { DeviceListPresenter(this, KeyStoreManager(this.context!!), SharedPreferencesManager(this.context!!)) }
+    private val insecureStorage by lazy { SharedPreferencesManager(this.context!!) }
+    private val presenter = DeviceListPresenter()
 
     // FRAGMENT LIFECYCLE
 
@@ -40,12 +38,13 @@ class DeviceListFragment: Fragment(), DeviceListView, DeviceSelectionListener {
         recyclerview_device_list.layoutManager = LinearLayoutManager(context)
         recyclerview_device_list.adapter = this.adapter
 
-        fab_add_device.setOnClickListener { presenter.selectedAddDevice() }
+        fab_add_device.setOnClickListener { showAddDevice() }
     }
 
     override fun onResume() {
         super.onResume()
-        presenter.updateDeviceList()
+        val viewModel = presenter.updateViewModel(insecureStorage)
+        configureForViewModel(viewModel)
     }
 
     override fun onDestroy() {
@@ -56,24 +55,26 @@ class DeviceListFragment: Fragment(), DeviceListView, DeviceSelectionListener {
     // DEVICE SELECTION LISTENER
 
     override fun deviceSelected(device: PairedDevice) {
-        presenter.selectedDevice(device)
+        showDetailForDevice(device)
     }
 
-    // DEVICE LIST VIEW
+    // VIEW MODEL CONFIGURATION
 
-    override fun setAddButtonEnabled(enabled: Boolean) {
-        fab_add_device.isEnabled = enabled
+    private fun configureForViewModel(viewModel: DeviceListPresenter.DeviceListViewModel) {
+        adapter.list = viewModel.pairedDeviceList
+        progress_bar_device_list.updateAnimating(viewModel.indicatorAnimating)
+        fab_add_device.isEnabled = viewModel.addButtonEnabled
+
+        viewModel.apiError?.let {
+            Snackbar.make(coordinator_device_list, it, LENGTH_LONG).show()
+        }
     }
 
-    override fun showAddDevice() {
+    private fun showAddDevice() {
         findNavController().navigate(R.id.action_deviceListFragment_to_addDeviceFragment)
     }
 
-    override fun deviceListUpdated(toDeviceList: List<PairedDevice>) {
-        adapter.list = toDeviceList
-    }
-
-    override fun showDetailForDevice(device: PairedDevice) {
+    private fun showDetailForDevice(device: PairedDevice) {
         val bundle = Bundle().apply {
             putString(ARG_DEVICE, device.toJSONString())
         }
@@ -81,17 +82,4 @@ class DeviceListFragment: Fragment(), DeviceListView, DeviceSelectionListener {
         findNavController().navigate(R.id.action_deviceListFragment_to_deviceDetailFragment, bundle)
     }
 
-    override fun apiErrorUpdated(toString: String?) {
-        toString?.let {
-            Snackbar.make(coordinator_device_list, it, LENGTH_LONG).show()
-        }
-    }
-
-    override fun startLoadingIndicator() {
-        progress_bar_device_list.showAndStartAnimating()
-    }
-
-    override fun stopLoadingIndicator() {
-        progress_bar_device_list.stopAnimatingAndHide()
-    }
 }

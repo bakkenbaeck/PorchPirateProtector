@@ -11,11 +11,11 @@ import no.bakkenbaeck.porchpirateprotector.R
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.pppshared.presenter.WelcomePresenter
-import no.bakkenbaeck.pppshared.view.WelcomeView
 
-class WelcomeFragment: Fragment(), WelcomeView {
+class WelcomeFragment: Fragment() {
 
-    private val presenter by lazy { WelcomePresenter(this, KeyStoreManager(this.context!!)) }
+    private val secureStorage by lazy { KeyStoreManager(context!!) }
+    private val presenter = WelcomePresenter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_welcome, container, false)
@@ -24,10 +24,12 @@ class WelcomeFragment: Fragment(), WelcomeView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        button_create_account.setOnClickListener { presenter.selectedCreateAccountButton() }
-        button_login.setOnClickListener { presenter.selectedLoginButton() }
+        button_create_account.setOnClickListener { navigateToCreateAccount() }
+        button_login.setOnClickListener { navigateToLogin() }
 
-        presenter.skipWelcomeIfLoggedIn()
+        if (presenter.skipWelcome(secureStorage = secureStorage)) {
+            navigateToDeviceList()
+        }
     }
 
     override fun onDestroy() {
@@ -35,17 +37,17 @@ class WelcomeFragment: Fragment(), WelcomeView {
         super.onDestroy()
     }
 
-    // WELCOME VIEW
+    // NAVIGATION
 
-    override fun navigateToLogin() {
+    private fun navigateToLogin() {
         findNavController().navigate(R.id.action_welcomeFragment_to_loginFragment)
     }
 
-    override fun navigateToCreateAccount() {
+    private fun navigateToCreateAccount() {
         findNavController().navigate(R.id.action_welcomeFragment_to_createAccountFragment)
     }
 
-    override fun navigateToDeviceList() {
+    private fun navigateToDeviceList() {
         findNavController().navigate(R.id.action_welcomeFragment_to_deviceListFragment)
     }
 }

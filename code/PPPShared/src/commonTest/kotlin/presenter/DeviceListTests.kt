@@ -38,8 +38,6 @@ class DeviceListTests {
 
         assertNotNull(viewModel.pairedDeviceList)
         assertTrue(viewModel.pairedDeviceList.isEmpty())
-        assertEquals(viewModel.unpairedIPAddresses.count(), 2)
-        assertEquals(viewModel.unpairedIPAddresses, mockIPAddresses)
         assertNull(viewModel.apiError)
         assertFalse(viewModel.indicatorAnimating)
         assertTrue(viewModel.addButtonEnabled)
@@ -63,8 +61,6 @@ class DeviceListTests {
         assertNotNull(updatedViewModel.pairedDeviceList)
         assertEquals(updatedViewModel.pairedDeviceList.count(), 1)
         assertEquals(updatedViewModel.pairedDeviceList, listOf(fakeDevice))
-        assertEquals(updatedViewModel.unpairedIPAddresses.count(), 1)
-        assertEquals(updatedViewModel.unpairedIPAddresses, mockIPAddresses.drop(1))
         assertNull(updatedViewModel.apiError)
         assertFalse(updatedViewModel.indicatorAnimating)
         assertTrue(updatedViewModel.addButtonEnabled)
@@ -89,7 +85,6 @@ class DeviceListTests {
             initialViewModelHandler = { initialViewModel ->
                 initialHit = true
                 assertEquals(listOf(device), initialViewModel.pairedDeviceList)
-                assertTrue(initialViewModel.unpairedIPAddresses.isEmpty())
                 assertTrue(initialViewModel.indicatorAnimating)
                 assertNull(initialViewModel.apiError)
                 assertFalse(initialViewModel.addButtonEnabled)
@@ -103,7 +98,6 @@ class DeviceListTests {
         assertFalse(viewModel.indicatorAnimating)
         assertFalse(viewModel.addButtonEnabled)
         assertNull(viewModel.apiError)
-        assertTrue(viewModel.unpairedIPAddresses.isEmpty())
 
 
         val firstDevice = viewModel.pairedDeviceList.first()

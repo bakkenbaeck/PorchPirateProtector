@@ -7,17 +7,28 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_create_account.*
+import kotlinx.coroutines.launch
 import no.bakkenbaeck.porchpirateprotector.R
-import no.bakkenbaeck.porchpirateprotector.extension.hideSoftKeyboard
-import no.bakkenbaeck.porchpirateprotector.extension.showAndStartAnimating
-import no.bakkenbaeck.porchpirateprotector.extension.stopAnimatingAndHide
+import no.bakkenbaeck.porchpirateprotector.extension.*
 import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.pppshared.presenter.CreateAccountPresenter
-import no.bakkenbaeck.pppshared.view.CreateAccountView
 
-class CreateAccountFragment: Fragment(), CreateAccountView {
+class CreateAccountFragment: Fragment() {
 
-    private val presenter by lazy { CreateAccountPresenter(this, KeyStoreManager(this.context!!)) }
+    private val presenter = CreateAccountPresenter()
+    private val secureStorage by lazy { KeyStoreManager(context!!) }
+
+    private var email: String?
+        get() = text_input_username.editText?.text.toString()
+        set(value) { text_input_username.editText?.setText(value) }
+
+    private var password: String?
+        get() = text_input_password.editText?.text.toString()
+        set(value) { text_input_password.editText?.setText(value) }
+
+    private var confirmPassword: String?
+        get() = text_input_confirm_password.editText?.text.toString()
+        set(value) { text_input_confirm_password.editText?.setText(value) }
 
     private fun handleFocusChange(forView: View, hasFocus: Boolean) {
         if (hasFocus) {
@@ -26,9 +37,9 @@ class CreateAccountFragment: Fragment(), CreateAccountView {
         }
 
         when (forView) {
-            text_input_username.editText -> presenter.validateEmail()
-            text_input_password.editText -> presenter.validatePassword()
-            text_input_confirm_password.editText -> presenter.validateConfirmPassword()
+            text_input_username.editText -> presenter.validateEmail(email)
+            text_input_password.editText -> presenter.validatePassword(password)
+            text_input_confirm_password.editText -> presenter.validateConfirmPassword(password, confirmPassword)
         }
     }
 
@@ -41,7 +52,20 @@ class CreateAccountFragment: Fragment(), CreateAccountView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        button_create_account_submit.setOnClickListener { presenter.createAccount() }
+        button_create_account_submit.setOnClickListener {
+            presenter.launch {
+                val viewModel = presenter.createAccountAsync(
+                    email = email,
+                    password = password,
+                    confirmPassword = confirmPassword,
+                    initialViewModelHandler = this@CreateAccountFragment::configureForViewModel,
+                    secureStorage = secureStorage
+                )
+
+                configureForViewModel(viewModel)
+            }
+        }
+
         text_input_username.editText?.setOnFocusChangeListener(::handleFocusChange)
         text_input_password.editText?.setOnFocusChangeListener(::handleFocusChange)
         text_input_confirm_password.editText?.setOnFocusChangeListener(::handleFocusChange)
@@ -52,50 +76,23 @@ class CreateAccountFragment: Fragment(), CreateAccountView {
         super.onDestroy()
     }
 
-    // CREATE ACCOUNT VIEW OVERRIDES
+    // VIEW MODEL CONFIGURATION
 
-    override var email: String?
-        get() = text_input_username.editText?.text.toString()
-        set(value) { text_input_username.editText?.setText(value) }
+    private fun configureForViewModel(viewModel: CreateAccountPresenter.CreateAccountViewModel) {
+        text_input_username.error = viewModel.emailError
+        text_input_password.error = viewModel.passwordError
+        text_input_confirm_password.error = viewModel.confirmPasswordError
+        textview_error_create_account.text = viewModel.apiErrorMessage
+        button_create_account_submit.isEnabled = viewModel.submitButtonEnabled
+        progress_bar_create_account.updateAnimating(viewModel.indicatorAnimating)
 
-    override var password: String?
-        get() = text_input_password.editText?.text.toString()
-        set(value) { text_input_password.editText?.setText(value) }
-
-    override var confirmPassword: String?
-        get() = text_input_confirm_password.editText?.text.toString()
-        set(value) { text_input_confirm_password.editText?.setText(value) }
-
-    override fun setSubmitButtonEnabled(enabled: Boolean) {
-        button_create_account_submit.isEnabled = enabled
+        if (viewModel.accountCreated) {
+            accountSuccessfullyCreated()
+        }
     }
 
-    override fun emailErrorUpdated(toString: String?) {
-        text_input_username.error = toString
-    }
-
-    override fun passwordErrorUpdated(toString: String?) {
-        text_input_password.error = toString
-    }
-
-    override fun confirmPasswordErrorUpdated(toString: String?) {
-        text_input_confirm_password.error = toString
-    }
-
-    override fun accountSuccessfullyCreated() {
+    private fun accountSuccessfullyCreated() {
         hideSoftKeyboard()
         findNavController().navigate(R.id.action_createAccountFragment_to_deviceListFragment)
-    }
-
-    override fun apiErrorUpdated(toString: String?) {
-        textview_error_create_account.text = toString
-    }
-
-    override fun startLoadingIndicator() {
-        progress_bar_create_account.showAndStartAnimating()
-    }
-
-    override fun stopLoadingIndicator() {
-        progress_bar_create_account.stopAnimatingAndHide()
     }
 }

@@ -54,6 +54,7 @@ class DeviceAddTests {
                 assertTrue(initialViewModel.indicatorAnimating)
                 assertFalse(initialViewModel.deviceAdded)
                 assertNull(initialViewModel.errorMessage)
+                assertEquals(listOf(MockNetworkClient.lockedIP), initialViewModel.availableIPAddresses)
             },
             insecureStorage = insecureStorage,
             secureStorage = storage
@@ -81,6 +82,7 @@ class DeviceAddTests {
                 assertTrue(initialViewModel.indicatorAnimating)
                 assertFalse(initialViewModel.deviceAdded)
                 assertNull(initialViewModel.errorMessage)
+                assertNull(DeviceManager.loadPairedDevicesFromDatabase().firstOrNull())
             },
             insecureStorage = insecureStorage,
             secureStorage = storage

@@ -10,14 +10,13 @@ class DeviceListPresenter: BaseCoroutinePresenter() {
 
     data class DeviceListViewModel(
         val pairedDeviceList: List<PairedDevice>,
-        val unpairedIPAddresses: List<String>,
         val addButtonEnabled: Boolean = true,
         val indicatorAnimating: Boolean = false,
         val apiError: String? = null
     )
 
     fun updateViewModel(insecureStorage: InsecureStorage,
-                        isLoading: Boolean,
+                        isLoading: Boolean = false,
                         apiError: String? = null): DeviceListViewModel {
         val existingDevices = DeviceManager.loadPairedDevicesFromDatabase()
         val unpairedDevices = insecureStorage.loadIPAddresses() ?: emptyList()
@@ -26,7 +25,6 @@ class DeviceListPresenter: BaseCoroutinePresenter() {
 
         return DeviceListViewModel(
             pairedDeviceList = existingDevices,
-            unpairedIPAddresses = unpairedDevices,
             addButtonEnabled = enableAddButton,
             indicatorAnimating = isLoading,
             apiError = apiError
@@ -48,13 +46,11 @@ class DeviceListPresenter: BaseCoroutinePresenter() {
             val token = throwingToken(secureStorage)
             DeviceManager.updateStatus(api, device, token)
             updateViewModel(
-                insecureStorage = insecureStorage,
-                isLoading = false
+                insecureStorage = insecureStorage
             )
         } catch (exception: Exception) {
             updateViewModel(
                 insecureStorage = insecureStorage,
-                isLoading = false,
                 apiError = exception.message
             )
         }

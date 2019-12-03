@@ -9,20 +9,20 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_device_add.*
+import kotlinx.coroutines.launch
 import no.bakkenbaeck.porchpirateprotector.R
 import no.bakkenbaeck.porchpirateprotector.adapter.IpListAdapter
 import no.bakkenbaeck.porchpirateprotector.adapter.IpSelectionListener
-import no.bakkenbaeck.porchpirateprotector.extension.showAndStartAnimating
-import no.bakkenbaeck.porchpirateprotector.extension.stopAnimatingAndHide
+import no.bakkenbaeck.porchpirateprotector.extension.updateAnimating
 import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.porchpirateprotector.manager.SharedPreferencesManager
-import no.bakkenbaeck.pppshared.model.PairedDevice
 import no.bakkenbaeck.pppshared.presenter.DeviceAddPresenter
-import no.bakkenbaeck.pppshared.view.DeviceAddView
 
-class AddDeviceFragment: Fragment(), DeviceAddView, IpSelectionListener {
+class AddDeviceFragment: Fragment(), IpSelectionListener {
 
-    private val presenter by lazy { DeviceAddPresenter(this, KeyStoreManager(this.context!!), SharedPreferencesManager(this.context!!)) }
+    private val presenter = DeviceAddPresenter()
+    private val insecureStorage by lazy { SharedPreferencesManager(context!!) }
+    private val secureStorage by lazy { KeyStoreManager(context!!) }
     private val adapter by lazy { IpListAdapter(this) }
 
     // FRAGMENT LIFECYCLE
@@ -37,7 +37,8 @@ class AddDeviceFragment: Fragment(), DeviceAddView, IpSelectionListener {
         recyclerview_ip_list.layoutManager = LinearLayoutManager(context)
         recyclerview_ip_list.adapter = adapter
 
-        presenter.updateAvailableIPAddresses()
+        val initialViewModel = presenter.initialViewModel(insecureStorage)
+        configureForViewModel(initialViewModel)
     }
 
     override fun onDestroy() {
@@ -48,30 +49,34 @@ class AddDeviceFragment: Fragment(), DeviceAddView, IpSelectionListener {
     // IP SELECTION LISTENER
 
     override fun selectedIpAddress(ipAddress: String) {
-        presenter.addDevice(ipAddress)
-    }
+        presenter.launch {
+            val viewModel = presenter.addDeviceAsync(
+                deviceIpAddress = ipAddress,
+                initialViewModelHandler = this@AddDeviceFragment::configureForViewModel,
+                secureStorage = secureStorage,
+                insecureStorage = insecureStorage
+            )
 
-    // DEVICE ADD VIEW
-
-    override fun updatedAvailableDeviceIPAddresses(toList: List<String>) {
-        adapter.updateAddresses(toList)
-    }
-
-    override fun deviceAddedSuccessfully(device: PairedDevice) {
-        findNavController().popBackStack(R.id.deviceListFragment, false)
-    }
-
-    override fun pairingErrorUpdated(toString: String?) {
-        toString?.let {
-            Snackbar.make(coordinator_device_add, it, Snackbar.LENGTH_LONG).show()
+            configureForViewModel(viewModel)
         }
     }
 
-    override fun startLoadingIndicator() {
-        progress_bar_add_device.showAndStartAnimating()
+    // VIEW MODEL CONFIGURATION
+
+    private fun configureForViewModel(viewModel: DeviceAddPresenter.DeviceAddViewModel) {
+        adapter.updateAddresses(viewModel.availableIPAddresses)
+        progress_bar_add_device.updateAnimating(viewModel.indicatorAnimating)
+
+        viewModel.errorMessage?.let {
+            Snackbar.make(coordinator_device_add, it, Snackbar.LENGTH_LONG).show()
+        }
+
+        if (viewModel.deviceAdded) {
+            deviceAddedSuccessfully()
+        }
     }
 
-    override fun stopLoadingIndicator() {
-        progress_bar_add_device.stopAnimatingAndHide()
+    private fun deviceAddedSuccessfully() {
+        findNavController().popBackStack(R.id.deviceListFragment, false)
     }
 }

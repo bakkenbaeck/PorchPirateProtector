@@ -6,18 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_device_detail.*
+import kotlinx.coroutines.launch
 import no.bakkenbaeck.porchpirateprotector.R
 import no.bakkenbaeck.porchpirateprotector.extension.showAndStartAnimating
-import no.bakkenbaeck.porchpirateprotector.extension.stopAnimatingAndHide
+import no.bakkenbaeck.porchpirateprotector.extension.updateAnimating
 import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.pppshared.model.PairedDevice
 import no.bakkenbaeck.pppshared.presenter.DeviceDetailPresenter
-import no.bakkenbaeck.pppshared.view.DeviceDetailView
 import java.lang.RuntimeException
 
-class DeviceDetailFragment: Fragment(), DeviceDetailView {
+class DeviceDetailFragment: Fragment() {
 
-    private val presenter by lazy { DeviceDetailPresenter(this, currentDevice, KeyStoreManager(this.context!!)) }
+    private val secureStorage by lazy { KeyStoreManager(context!!) }
+    private val presenter by lazy { DeviceDetailPresenter(currentDevice) }
 
     private lateinit var currentDevice: PairedDevice
 
@@ -43,9 +44,28 @@ class DeviceDetailFragment: Fragment(), DeviceDetailView {
             } ?: throw RuntimeException("JSON not parsable to a device!")
         } ?: throw RuntimeException("JSON not found!")
 
-        presenter.getStatus()
-        button_lock.setOnClickListener { presenter.lock() }
-        button_unlock.setOnClickListener { presenter.unlock() }
+        textview_device_detail_name.text = presenter.title
+        button_lock.setOnClickListener {
+            presenter.launch {
+                val viewModel = presenter.lockAsync(
+                    initialViewModelHandler = this@DeviceDetailFragment::configureForViewModel,
+                    secureStorage = secureStorage
+                )
+
+                configureForViewModel(viewModel)
+            }
+        }
+
+        button_unlock.setOnClickListener {
+            presenter.launch {
+                val viewModel = presenter.unlockAsync(
+                    initialViewModelHandler = this@DeviceDetailFragment::configureForViewModel,
+                    secureStorage = secureStorage
+                )
+
+                configureForViewModel(viewModel)
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -53,29 +73,12 @@ class DeviceDetailFragment: Fragment(), DeviceDetailView {
         super.onDestroy()
     }
 
-    // DEVICE DETAIL VIEW
+    // VIEW MODEL CONFIGURATION
 
-    override fun setTitle(toString: String) {
-        textview_device_detail_name.text = toString
-    }
-
-    override fun setLockButtonEnabled(enabled: Boolean) {
-        button_lock.isEnabled = enabled
-    }
-
-    override fun setUnlockButtonEnabled(enabled: Boolean) {
-        button_unlock.isEnabled = enabled
-    }
-
-    override fun setApiError(toString: String?) {
-        textview_error_device_detail.text = toString
-    }
-
-    override fun startLoadingIndicator() {
-        progress_bar_device_detail.showAndStartAnimating()
-    }
-
-    override fun stopLoadingIndicator() {
-        progress_bar_device_detail.stopAnimatingAndHide()
+    private fun configureForViewModel(viewModel: DeviceDetailPresenter.DeviceDetailViewModel) {
+        button_lock.isEnabled = viewModel.lockButtonEnabled
+        button_unlock.isEnabled = viewModel.unlockButtonEnabled
+        textview_error_device_detail.text = viewModel.errorMessage
+        progress_bar_device_detail.updateAnimating(viewModel.indicatorAnimating)
     }
 }

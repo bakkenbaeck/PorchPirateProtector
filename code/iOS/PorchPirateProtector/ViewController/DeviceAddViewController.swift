@@ -14,9 +14,7 @@ class DeviceAddViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var loadingSpinner: UIActivityIndicatorView!
     
-    private lazy var presenter = DeviceAddPresenter(view: self,
-                                                    storage: Keychain.shared,
-                                                    insecureStorage: UserDefaultsWrapper.shared)
+    private lazy var presenter = DeviceAddPresenter()
     
     private lazy var dataSource = IPAddressDataSource(tableView: self.tableView, addresses: [], delegate: self)
     
@@ -33,7 +31,31 @@ class DeviceAddViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.presenter.updateAvailableIPAddresses()
+        let viewModel = self.presenter.initialViewModel(insecureStorage: UserDefaultsWrapper.shared)
+        self.configureForViewModel(viewModel)
+    }
+    
+    private func configureForViewModel(_ viewModel: DeviceAddPresenter.DeviceAddViewModel) {
+        self.dataSource.updateItems(to: viewModel.availableIPAddresses)
+        
+        if viewModel.indicatorAnimating {
+            self.loadingSpinner.startAnimating()
+        } else {
+            self.loadingSpinner.stopAnimating()
+        }
+        
+        if let error = viewModel.errorMessage {
+            self.showErrorBanner(with: error)
+        } // else nothing to show
+        
+        if viewModel.deviceAdded {
+            self.deviceAddedSuccessfully()
+        }
+    }
+    
+    private func deviceAddedSuccessfully() {
+        self.navigationController?.showBanner(with: "Device added successfully!", backgroundColor: PPPColor.colorprimarydark.toUIColor())
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -42,34 +64,15 @@ class DeviceAddViewController: UIViewController {
 extension DeviceAddViewController: IPAddressSelectionDelegate {
     
     func didSelectIPAddress(_ ipAddress: String) {
-        self.presenter.addDevice(deviceIpAddress: ipAddress)
-    }
-}
-
-// MARK: - DeviceAddView
-
-extension DeviceAddViewController: DeviceAddView {
-    
-    func updatedAvailableDeviceIPAddresses(toList: [String]) {
-        self.dataSource.updateItems(to: toList)
-    }
-    
-    func deviceAddedSuccessfully(device: PairedDevice) {
-        self.navigationController?.showBanner(with: "Device added successfully!", backgroundColor: PPPColor.colorprimarydark.toUIColor())
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    func pairingErrorUpdated(toString: String?) {
-        if let error = toString {
-            self.showErrorBanner(with: error)
-        } // else nothing to show
-    }
-    
-    func startLoadingIndicator() {
-        self.loadingSpinner.startAnimating()
-    }
-    
-    func stopLoadingIndicator() {
-        self.loadingSpinner.stopAnimating()
+        self.presenter.addDevice(
+            deviceIpAddress: ipAddress,
+            initialViewModelHandler: weakify { strongSelf, viewModel in
+                strongSelf.configureForViewModel(viewModel)
+            },
+            insecureStorage: UserDefaultsWrapper.shared,
+            secureStorage: Keychain.shared,
+            completion: weakify { strongSelf, viewModel in
+                strongSelf.configureForViewModel(viewModel)
+            })
     }
 }

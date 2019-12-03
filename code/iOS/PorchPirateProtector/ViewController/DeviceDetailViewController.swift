@@ -19,51 +19,61 @@ class DeviceDetailViewController: UIViewController {
     
     var pairedDevice: PairedDevice!
     
-    private lazy var presenter = DeviceDetailPresenter(view: self, device: self.pairedDevice, storage: Keychain.shared)
+    private lazy var presenter = DeviceDetailPresenter(device: self.pairedDevice)
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)        
-        self.presenter.getStatus()
+        super.viewWillAppear(animated)
+        self.title = self.presenter.title
+        self.presenter.getStatus(
+            initialViewModelHandler: weakify { strongSelf, viewModel in
+                strongSelf.configureForViewModel(viewModel)
+            },
+            secureStorage: Keychain.shared,
+            completion: weakify { strongSelf, viewModel in
+                strongSelf.configureForViewModel(viewModel)
+            })
     }
     
     @IBAction private func lockTapped() {
-        self.presenter.lock()
+        self.presenter.lock(
+            initialViewModelHandler: weakify { strongSelf, viewModel in
+                strongSelf.configureForViewModel(viewModel)
+            },
+            secureStorage: Keychain.shared,
+            completion: weakify { strongSelf, viewModel in
+                strongSelf.configureForViewModel(viewModel)
+            })
     }
     
     @IBAction private func unlockTapped() {
-        self.presenter.unlock()
+        self.presenter.unlock(
+            initialViewModelHandler: weakify { strongSelf, viewModel in
+                strongSelf.configureForViewModel(viewModel)
+            },
+            secureStorage: Keychain.shared, completion: weakify { strongSelf, viewModel in
+                strongSelf.configureForViewModel(viewModel)
+            })
     }
-}
+    
+    private func configureForViewModel(_ viewModel: DeviceDetailPresenter.DeviceDetailViewModel) {
+        self.lockButton.isEnabled = viewModel.lockButtonEnabled
+        self.unlockButton.isEnabled = viewModel.unlockButtonEnabled
 
-// MARK: - DeviceDetailView
-
-extension DeviceDetailViewController: DeviceDetailView {
-    func setTitle(toString: String) {
-        self.title = toString
-    }
-    
-    func setLockButtonEnabled(enabled: Bool) {
-        self.lockButton.isEnabled = enabled
-    }
-    
-    func setUnlockButtonEnabled(enabled: Bool) {
-        self.unlockButton.isEnabled = enabled
-    }
-    
-    func setApiError(toString: String?) {
-        self.errorLabel.text = toString
-        self.errorLabel.isHidden = (toString == nil)
-    }
-    
-    func startLoadingIndicator() {
-        self.loadingSpinner.startAnimating()
-    }
-    
-    func stopLoadingIndicator() {
-        self.loadingSpinner.stopAnimating()
+        if let apiError = viewModel.errorMessage {
+            self.errorLabel.text = apiError
+            self.errorLabel.isHidden = false
+        } else {
+            self.errorLabel.isHidden = true
+        }
+        
+        if viewModel.indicatorAnimating {
+            self.loadingSpinner.startAnimating()
+        } else {
+            self.loadingSpinner.stopAnimating()
+        }
     }
 }

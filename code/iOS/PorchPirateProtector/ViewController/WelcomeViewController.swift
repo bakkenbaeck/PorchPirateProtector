@@ -16,12 +16,15 @@ class WelcomeViewController: UIViewController {
         case showDeviceList
     }
     
-    private lazy var presenter = WelcomePresenter(view: self, storage: Keychain.shared)
+    private lazy var presenter = WelcomePresenter()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        self.presenter.skipWelcomeIfLoggedIn()
+        
+        if self.presenter.skipWelcome(secureStorage: Keychain.shared) {
+            self.perform(segue: WelcomeSegue.showDeviceList)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -35,26 +38,11 @@ class WelcomeViewController: UIViewController {
     
     @IBAction
     private func tappedLogin() {
-        self.presenter.selectedLoginButton()
+        self.perform(segue: WelcomeSegue.showLogin)
     }
     
     @IBAction
     private func tappedCreateAccount() {
-        self.presenter.selectedCreateAccountButton()
-    }
-}
-
-extension WelcomeViewController: WelcomeView {
-    
-    func navigateToLogin() {
-        self.perform(segue: WelcomeSegue.showLogin)
-    }
-    
-    func navigateToCreateAccount() {
         self.perform(segue: WelcomeSegue.showCreateAccount)
-    }
-    
-    func navigateToDeviceList() {
-        self.perform(segue: WelcomeSegue.showDeviceList)
     }
 }

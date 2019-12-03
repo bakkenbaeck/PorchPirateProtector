@@ -19,9 +19,7 @@ class DeviceListViewController: UIViewController {
     @IBOutlet private var addButton: UIButton!
     @IBOutlet private var loadingSpinner: UIActivityIndicatorView!
     
-    private lazy var presenter = DeviceListPresenter(view: self,
-                                                     storage: Keychain.shared,
-                                                     insecureStorage: UserDefaultsWrapper.shared)
+    private lazy var presenter = DeviceListPresenter()
     
     private lazy var dataSource = PairedDeviceDataSource(tableView: self.tableView, devices: [], delegate: self)
     
@@ -38,8 +36,13 @@ class DeviceListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.presenter.updateDeviceList()
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        
+        let viewModel = self.presenter.updateViewModel(
+            insecureStorage: UserDefaultsWrapper.shared,
+            isLoading: false,
+            apiError: nil)
+        self.configureForViewModel(viewModel)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -64,48 +67,38 @@ class DeviceListViewController: UIViewController {
     
     @IBAction
     private func tappedAdd() {
-        self.presenter.selectedAddDevice()
+        self.perform(segue: DeviceListSegue.showAddDevice)
+    }
+    
+    private func configureForViewModel(_ viewModel: DeviceListPresenter.DeviceListViewModel) {
+        self.dataSource.updateItems(to: viewModel.pairedDeviceList)
+        self.setAddButtonEnabled(enabled: viewModel.addButtonEnabled)
+        
+        if let error = viewModel.apiError {
+            self.showErrorBanner(with: error)
+        } // else nothing to show
+        
+        if viewModel.indicatorAnimating {
+            self.loadingSpinner.startAnimating()
+        } else {
+            self.loadingSpinner.stopAnimating()
+        }
+    }
+    
+    private func setAddButtonEnabled(enabled: Bool) {
+        self.addButton.isEnabled = enabled
+        self.addButton.alpha = enabled ? 1.0 : 0.5
     }
 }
 
 extension DeviceListViewController: DeviceSelectionDelegate {
     
     func didSelectDevice(_ device: PairedDevice) {
-        self.presenter.selectedDevice(device: device)
-    }
-}
-
-extension DeviceListViewController: DeviceListView {
-    
-    func setAddButtonEnabled(enabled: Bool) {
-        self.addButton.isEnabled = enabled
-        self.addButton.alpha = enabled ? 1.0 : 0.5
+        self.showDetailForDevice(device: device)
     }
     
-    func showAddDevice() {
-        self.perform(segue: DeviceListSegue.showAddDevice)
-    }
-    
-    func deviceListUpdated(toDeviceList: [PairedDevice]) {
-        self.dataSource.updateItems(to: toDeviceList)
-    }
-    
-    func showDetailForDevice(device: PairedDevice) {
+    private func showDetailForDevice(device: PairedDevice) {
         self.selectedDevice = device
         self.perform(segue: DeviceListSegue.showDeviceDetail)
-    }
-    
-    func apiErrorUpdated(toString: String?) {
-        if let error = toString {
-            self.showErrorBanner(with: error)
-        } // else nothing to show
-    }
-    
-    func startLoadingIndicator() {
-        self.loadingSpinner.startAnimating()
-    }
-    
-    func stopLoadingIndicator() {
-        self.loadingSpinner.stopAnimating()
     }
 }

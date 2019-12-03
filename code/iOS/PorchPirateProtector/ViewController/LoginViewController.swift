@@ -20,14 +20,58 @@ class LoginViewController: UIViewController {
     @IBOutlet private var apiErrorLabel: UILabel!
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     
-    private lazy var presenter = LoginPresenter(view: self, storage: Keychain.shared)
+    private var email: String? {
+        return self.emailTextInput.text
+    }
+    
+    private var password: String? {
+        return self.passwordTextInput.text
+    }
+    
+    private lazy var presenter = LoginPresenter()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     
     @IBAction private func login() {
-        self.presenter.login()
+        self.presenter.login(
+            email: self.email,
+            password: self.password,
+            initialViewModelHandler: weakify { strongSelf, viewModel in
+                strongSelf.configureForViewModel(viewModel)
+            },
+            secureStorage: Keychain.shared,
+            completion: weakify { strongSelf, viewModel in
+                strongSelf.configureForViewModel(viewModel)
+            })
+    }
+    
+    private func configureForViewModel(_ viewModel: LoginPresenter.LoginViewModel) {
+        self.emailTextInput.errorText = viewModel.emailError
+        self.passwordTextInput.errorText = viewModel.passwordError
+        self.loginButton.isEnabled = viewModel.submitButtonEnabled
+        
+        if let apiError = viewModel.apiError {
+            self.apiErrorLabel.text = apiError
+            self.apiErrorLabel.isHidden = false
+        } else {
+            self.apiErrorLabel.isHidden = true
+        }
+        
+        if viewModel.indicatorAnimating {
+            self.activityIndicator.startAnimating()
+        } else {
+            self.activityIndicator.stopAnimating()
+        }
+        
+        if viewModel.loginSucceeded {
+            self.loginSucceeded()
+        }
+    }
+    
+    private func loginSucceeded() {
+        self.perform(segue: LoginSegue.loginSucceeded)
     }
 }
 
@@ -38,63 +82,11 @@ extension LoginViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         switch textField {
         case self.emailTextInput.textInputView?.textField:
-            self.presenter.validateEmail()
+            self.emailTextInput.errorText = self.presenter.validateEmail(email: self.email)
         case self.passwordTextInput.textInputView?.textField:
-            self.presenter.validatePassword()
+            self.passwordTextInput.errorText = self.presenter.validatePassword(password: self.password)
         default:
             assertionFailure("Unhandled text field: \(textField)")
         }
-    }
-}
-
-// MARK: - LoginView
-
-extension LoginViewController: LoginView {
-    
-    func setSubmitButtonEnabled(enabled: Bool) {
-        self.loginButton.isEnabled = enabled
-    }
-    
-    func emailErrorUpdated(toString: String?) {
-        self.emailTextInput.errorText = toString
-    }
-    
-    func passwordErrorUpdated(toString: String?) {
-        self.passwordTextInput.errorText = toString
-    }
-    
-    func apiErrorUpdated(toString: String?) {
-        self.apiErrorLabel.text = toString
-        self.apiErrorLabel.isHidden = (toString == nil)
-    }
-    
-    func loginSucceeded() {
-        self.perform(segue: LoginSegue.loginSucceeded)
-    }
-    
-    var email: String? {
-        get {
-            return self.emailTextInput.text
-        }
-        set(email) {
-            self.emailTextInput.text = email
-        }
-    }
-    
-    var password: String? {
-        get {
-            return self.passwordTextInput.text
-        }
-        set(password) {
-            self.passwordTextInput.text = password
-        }
-    }
-    
-    func startLoadingIndicator() {
-        self.activityIndicator.startAnimating()
-    }
-    
-    func stopLoadingIndicator() {
-        self.activityIndicator.stopAnimating()
     }
 }

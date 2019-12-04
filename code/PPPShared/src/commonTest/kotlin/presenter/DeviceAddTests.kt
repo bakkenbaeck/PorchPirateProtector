@@ -42,7 +42,7 @@ class DeviceAddTests {
     @Test
     fun attemptingToAddDeviceWithIncorrectLoginTokenFails() = platformRunBlocking {
         storage.tokenString = "Nooooope"
-        insecureStorage.storeIPAddresses(listOf(MockNetworkClient.lockedIP))
+        insecureStorage.storeIPAddresses(listOf(MockNetworkClient.lockedIP, "4.5.6"))
 
         presenter.api.client = MockNetworkClient()
 
@@ -54,7 +54,7 @@ class DeviceAddTests {
                 assertTrue(initialViewModel.indicatorAnimating)
                 assertFalse(initialViewModel.deviceAdded)
                 assertNull(initialViewModel.errorMessage)
-                assertEquals(listOf(MockNetworkClient.lockedIP), initialViewModel.availableIPAddresses)
+                assertEquals(listOf(MockNetworkClient.lockedIP, "4.5.6"), initialViewModel.availableIPAddresses)
             },
             insecureStorage = insecureStorage,
             secureStorage = storage
@@ -62,6 +62,7 @@ class DeviceAddTests {
 
         assertTrue(initialHit)
 
+        assertEquals(listOf(MockNetworkClient.lockedIP, "4.5.6"), viewModel.availableIPAddresses)
         assertFalse(viewModel.indicatorAnimating)
         assertFalse(viewModel.deviceAdded)
         assertEquals("Not authorized!", viewModel.errorMessage)
@@ -70,7 +71,7 @@ class DeviceAddTests {
     @Test
     fun addingLockedDeviceSucceeds() = platformRunBlocking {
         storage.tokenString = MockNetworkClient.mockToken
-        insecureStorage.storeIPAddresses(listOf(MockNetworkClient.lockedIP))
+        insecureStorage.storeIPAddresses(listOf(MockNetworkClient.lockedIP, "4.5.6"))
         presenter.api.client = MockNetworkClient()
 
         var initialHit = false
@@ -78,7 +79,7 @@ class DeviceAddTests {
             deviceIpAddress = MockNetworkClient.lockedIP,
             initialViewModelHandler = { initialViewModel ->
                 initialHit = true
-                assertEquals(listOf(MockNetworkClient.lockedIP), initialViewModel.availableIPAddresses)
+                assertEquals(listOf(MockNetworkClient.lockedIP, "4.5.6"), initialViewModel.availableIPAddresses)
                 assertTrue(initialViewModel.indicatorAnimating)
                 assertFalse(initialViewModel.deviceAdded)
                 assertNull(initialViewModel.errorMessage)
@@ -90,7 +91,7 @@ class DeviceAddTests {
 
         assertTrue(initialHit)
 
-        assertTrue(viewModel.availableIPAddresses.isEmpty())
+        assertEquals(listOf("4.5.6"), viewModel.availableIPAddresses)
         assertTrue(viewModel.deviceAdded)
         assertFalse(viewModel.indicatorAnimating)
         assertNull(viewModel.errorMessage)
@@ -103,7 +104,7 @@ class DeviceAddTests {
                 assertNotNull(it.lockState)
                 assertEquals(true, it.lockState?.isLocked)
                 assertEquals(listOf(it), DeviceManager.loadPairedDevicesFromDatabase())
-                assertEquals(listOf<String>(), insecureStorage.loadIPAddresses())
+                assertEquals(listOf("4.5.6"), insecureStorage.loadIPAddresses())
             } ?: fail("Device was not successfully added!")
     }
 
@@ -112,7 +113,7 @@ class DeviceAddTests {
         storage.tokenString = MockNetworkClient.mockToken
 
         val unlockedIPAddress = MockNetworkClient.lockedIP + ".1"
-        insecureStorage.storeIPAddresses(listOf(unlockedIPAddress))
+        insecureStorage.storeIPAddresses(listOf(unlockedIPAddress, "4.5.6"))
 
         presenter.api.client = MockNetworkClient()
 
@@ -121,7 +122,7 @@ class DeviceAddTests {
             deviceIpAddress = unlockedIPAddress,
             initialViewModelHandler = { initialViewModel ->
                 initialHit = true
-                assertEquals(listOf(unlockedIPAddress), initialViewModel.availableIPAddresses)
+                assertEquals(listOf(unlockedIPAddress, "4.5.6"), initialViewModel.availableIPAddresses)
                 assertTrue(initialViewModel.indicatorAnimating)
                 assertFalse(initialViewModel.deviceAdded)
                 assertNull(initialViewModel.errorMessage)
@@ -132,7 +133,7 @@ class DeviceAddTests {
 
         assertTrue(initialHit)
 
-        assertTrue(viewModel.availableIPAddresses.isEmpty())
+        assertEquals(listOf("4.5.6"), viewModel.availableIPAddresses)
         assertTrue(viewModel.deviceAdded)
         assertFalse(viewModel.indicatorAnimating)
         assertNull(viewModel.errorMessage)
@@ -146,7 +147,7 @@ class DeviceAddTests {
                 assertNotNull(it.lockState)
                 assertEquals(false, it.lockState?.isLocked)
                 assertEquals(listOf(it), DeviceManager.loadPairedDevicesFromDatabase())
-                assertEquals(listOf<String>(), insecureStorage.loadIPAddresses())
+                assertEquals(listOf("4.5.6"), insecureStorage.loadIPAddresses())
             } ?: fail("Device was not successfully added!")
     }
 }

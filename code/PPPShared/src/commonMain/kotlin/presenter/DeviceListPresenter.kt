@@ -8,22 +8,22 @@ import no.bakkenbaeck.pppshared.model.PairedDevice
 
 class DeviceListPresenter: BaseCoroutinePresenter() {
 
-    data class DeviceListViewModel(
+    data class DeviceListViewState(
         val pairedDeviceList: List<PairedDevice>,
         val addButtonEnabled: Boolean = true,
         val indicatorAnimating: Boolean = false,
         val apiError: String? = null
     )
 
-    fun updateViewModel(insecureStorage: InsecureStorage,
+    fun updateViewState(insecureStorage: InsecureStorage,
                         isLoading: Boolean = false,
-                        apiError: String? = null): DeviceListViewModel {
+                        apiError: String? = null): DeviceListViewState {
         val existingDevices = DeviceManager.loadPairedDevicesFromDatabase()
         val unpairedDevices = insecureStorage.loadIPAddresses() ?: emptyList()
 
         val enableAddButton = unpairedDevices.isNotEmpty() && !isLoading
 
-        return DeviceListViewModel(
+        return DeviceListViewState(
             pairedDeviceList = existingDevices,
             addButtonEnabled = enableAddButton,
             indicatorAnimating = isLoading,
@@ -32,11 +32,11 @@ class DeviceListPresenter: BaseCoroutinePresenter() {
     }
 
     suspend fun fetchDeviceDetailsAsync(device: PairedDevice,
-                                        initialViewModelHandler: (DeviceListViewModel) -> Unit,
+                                        initialViewStateHandler: (DeviceListViewState) -> Unit,
                                         secureStorage: SecureStorage,
-                                        insecureStorage: InsecureStorage): DeviceListViewModel {
-        initialViewModelHandler(
-            updateViewModel(
+                                        insecureStorage: InsecureStorage): DeviceListViewState {
+        initialViewStateHandler(
+            updateViewState(
                 insecureStorage = insecureStorage,
                 isLoading = true
             )
@@ -45,11 +45,11 @@ class DeviceListPresenter: BaseCoroutinePresenter() {
         return try {
             val token = throwingToken(secureStorage)
             DeviceManager.updateStatus(api, device, token)
-            updateViewModel(
+            updateViewState(
                 insecureStorage = insecureStorage
             )
         } catch (exception: Exception) {
-            updateViewModel(
+            updateViewState(
                 insecureStorage = insecureStorage,
                 apiError = exception.message
             )
@@ -57,19 +57,19 @@ class DeviceListPresenter: BaseCoroutinePresenter() {
     }
 
     fun fetchDeviceDetails(device: PairedDevice,
-                           initialViewModelHandler: (DeviceListViewModel) -> Unit,
+                           initialViewStateHandler: (DeviceListViewState) -> Unit,
                            secureStorage: SecureStorage,
                            insecureStorage: InsecureStorage,
-                           completion: (DeviceListViewModel) -> Unit) {
+                           completion: (DeviceListViewState) -> Unit) {
         launch {
-            val viewModel = fetchDeviceDetailsAsync(
+            val viewState = fetchDeviceDetailsAsync(
                 device,
-                initialViewModelHandler,
+                initialViewStateHandler,
                 secureStorage,
                 insecureStorage
             )
 
-            completion(viewModel)
+            completion(viewState)
         }
     }
 }

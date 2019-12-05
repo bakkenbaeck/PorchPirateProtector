@@ -1,16 +1,14 @@
 package no.bakkenbaeck.pppshared.presenter
 
 import kotlinx.coroutines.launch
-import no.bakkenbaeck.pppshared.api.Api
 import no.bakkenbaeck.pppshared.interfaces.SecureStorage
 import no.bakkenbaeck.pppshared.model.UserCredentials
 import no.bakkenbaeck.pppshared.validator.InputValidator
 import no.bakkenbaeck.pppshared.validator.ValidationResult
-import kotlin.properties.Delegates
 
 class CreateAccountPresenter: BaseCoroutinePresenter() {
 
-    data class CreateAccountViewModel(
+    data class CreateAccountViewState(
         val emailError: String? = null,
         val passwordError: String? = null,
         val confirmPasswordError: String? = null,
@@ -53,7 +51,7 @@ class CreateAccountPresenter: BaseCoroutinePresenter() {
 
     fun validateAllInput(email: String?,
                          password: String?,
-                         confirmPassword: String?): CreateAccountViewModel {
+                         confirmPassword: String?): CreateAccountViewState {
         val emailError = validateEmail(email)
         val passwordError = validatePassword(password)
         val confirmPasswordError = validateConfirmPassword(password, confirmPassword)
@@ -64,7 +62,7 @@ class CreateAccountPresenter: BaseCoroutinePresenter() {
                 && confirmPasswordError == null
         )
 
-        return CreateAccountViewModel(
+        return CreateAccountViewState(
             emailError = emailError,
             passwordError = passwordError,
             confirmPasswordError = confirmPasswordError,
@@ -75,15 +73,15 @@ class CreateAccountPresenter: BaseCoroutinePresenter() {
     suspend fun createAccountAsync(email: String?,
                                    password: String?,
                                    confirmPassword: String?,
-                                   initialViewModelHandler: (CreateAccountViewModel) -> Unit,
-                                   secureStorage: SecureStorage): CreateAccountViewModel  {
-        val validationCheckViewModel = validateAllInput(email, password, confirmPassword)
-        if (!validationCheckViewModel.submitButtonEnabled) {
-            return validationCheckViewModel
+                                   initialViewStateHandler: (CreateAccountViewState) -> Unit,
+                                   secureStorage: SecureStorage): CreateAccountViewState  {
+        val validationCheckViewState = validateAllInput(email, password, confirmPassword)
+        if (!validationCheckViewState.submitButtonEnabled) {
+            return validationCheckViewState
         }
 
-        initialViewModelHandler(
-            CreateAccountViewModel(
+        initialViewStateHandler(
+            CreateAccountViewState(
                 submitButtonEnabled = false,
                 indicatorAnimating = true
             )
@@ -95,11 +93,11 @@ class CreateAccountPresenter: BaseCoroutinePresenter() {
         return try {
             val token = api.createAccount(creds)
             secureStorage.storeTokenString(token.token)
-            CreateAccountViewModel(
+            CreateAccountViewState(
                 accountCreated = true
             )
         } catch (exception: Exception) {
-            CreateAccountViewModel(
+            CreateAccountViewState(
                 apiErrorMessage = exception.message,
                 submitButtonEnabled = true
             )
@@ -109,18 +107,18 @@ class CreateAccountPresenter: BaseCoroutinePresenter() {
     fun createAccount(email: String?,
                       password: String?,
                       confirmPassword: String?,
-                      initialViewModelHandler: (CreateAccountViewModel) -> Unit,
+                      initialViewStateHandler: (CreateAccountViewState) -> Unit,
                       secureStorage: SecureStorage,
-                      completion: (CreateAccountViewModel) -> Unit) {
+                      completion: (CreateAccountViewState) -> Unit) {
         launch {
-            val viewModel = createAccountAsync(
+            val viewState = createAccountAsync(
                 email,
                 password,
                 confirmPassword,
-                initialViewModelHandler,
+                initialViewStateHandler,
                 secureStorage
             )
-            completion(viewModel)
+            completion(viewState)
         }
     }
 }

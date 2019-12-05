@@ -24,19 +24,19 @@ class DeviceAddTests {
     }
 
     @Test
-    fun callingInitialViewModelPassesBackCorrectIPAddresses() {
+    fun callingInitialViewStatePassesBackCorrectIPAddresses() {
         val initialList = listOf("1.2.3", "4.5.6")
         insecureStorage.storeIPAddresses(initialList)
 
-        val viewModel = presenter.initialViewModel(insecureStorage)
+        val viewState = presenter.initialViewState(insecureStorage)
 
-        assertEquals(initialList, viewModel.availableIPAddresses)
+        assertEquals(initialList, viewState.availableIPAddresses)
 
         val updatedList = listOf("4.5.6")
         insecureStorage.storeIPAddresses(updatedList)
 
-        val updatedViewModel = presenter.initialViewModel(insecureStorage)
-        assertEquals(updatedList, updatedViewModel.availableIPAddresses)
+        val updatedViewState = presenter.initialViewState(insecureStorage)
+        assertEquals(updatedList, updatedViewState.availableIPAddresses)
     }
 
     @Test
@@ -47,14 +47,14 @@ class DeviceAddTests {
         presenter.api.client = MockNetworkClient()
 
         var initialHit = false
-        val viewModel = presenter.addDeviceAsync(
+        val viewState = presenter.addDeviceAsync(
             deviceIpAddress = MockNetworkClient.lockedIP,
-            initialViewModelHandler = { initialViewModel ->
+            initialViewStateHandler = { initialViewState ->
                 initialHit = true
-                assertTrue(initialViewModel.indicatorAnimating)
-                assertFalse(initialViewModel.deviceAdded)
-                assertNull(initialViewModel.errorMessage)
-                assertEquals(listOf(MockNetworkClient.lockedIP, "4.5.6"), initialViewModel.availableIPAddresses)
+                assertTrue(initialViewState.indicatorAnimating)
+                assertFalse(initialViewState.deviceAdded)
+                assertNull(initialViewState.errorMessage)
+                assertEquals(listOf(MockNetworkClient.lockedIP, "4.5.6"), initialViewState.availableIPAddresses)
             },
             insecureStorage = insecureStorage,
             secureStorage = storage
@@ -62,10 +62,10 @@ class DeviceAddTests {
 
         assertTrue(initialHit)
 
-        assertEquals(listOf(MockNetworkClient.lockedIP, "4.5.6"), viewModel.availableIPAddresses)
-        assertFalse(viewModel.indicatorAnimating)
-        assertFalse(viewModel.deviceAdded)
-        assertEquals("Not authorized!", viewModel.errorMessage)
+        assertEquals(listOf(MockNetworkClient.lockedIP, "4.5.6"), viewState.availableIPAddresses)
+        assertFalse(viewState.indicatorAnimating)
+        assertFalse(viewState.deviceAdded)
+        assertEquals("Not authorized!", viewState.errorMessage)
     }
 
     @Test
@@ -75,14 +75,14 @@ class DeviceAddTests {
         presenter.api.client = MockNetworkClient()
 
         var initialHit = false
-        val viewModel =  presenter.addDeviceAsync(
+        val viewState =  presenter.addDeviceAsync(
             deviceIpAddress = MockNetworkClient.lockedIP,
-            initialViewModelHandler = { initialViewModel ->
+            initialViewStateHandler = { initialViewState ->
                 initialHit = true
-                assertEquals(listOf(MockNetworkClient.lockedIP, "4.5.6"), initialViewModel.availableIPAddresses)
-                assertTrue(initialViewModel.indicatorAnimating)
-                assertFalse(initialViewModel.deviceAdded)
-                assertNull(initialViewModel.errorMessage)
+                assertEquals(listOf(MockNetworkClient.lockedIP, "4.5.6"), initialViewState.availableIPAddresses)
+                assertTrue(initialViewState.indicatorAnimating)
+                assertFalse(initialViewState.deviceAdded)
+                assertNull(initialViewState.errorMessage)
                 assertNull(DeviceManager.loadPairedDevicesFromDatabase().firstOrNull())
             },
             insecureStorage = insecureStorage,
@@ -91,10 +91,10 @@ class DeviceAddTests {
 
         assertTrue(initialHit)
 
-        assertEquals(listOf("4.5.6"), viewModel.availableIPAddresses)
-        assertTrue(viewModel.deviceAdded)
-        assertFalse(viewModel.indicatorAnimating)
-        assertNull(viewModel.errorMessage)
+        assertEquals(listOf("4.5.6"), viewState.availableIPAddresses)
+        assertTrue(viewState.deviceAdded)
+        assertFalse(viewState.indicatorAnimating)
+        assertNull(viewState.errorMessage)
 
         DeviceManager.loadPairedDevicesFromDatabase()
             .firstOrNull { it.deviceId == MockNetworkClient.lockedDeviceId }
@@ -118,14 +118,14 @@ class DeviceAddTests {
         presenter.api.client = MockNetworkClient()
 
         var initialHit = false
-        val viewModel = presenter.addDeviceAsync(
+        val viewState = presenter.addDeviceAsync(
             deviceIpAddress = unlockedIPAddress,
-            initialViewModelHandler = { initialViewModel ->
+            initialViewStateHandler = { initialViewState ->
                 initialHit = true
-                assertEquals(listOf(unlockedIPAddress, "4.5.6"), initialViewModel.availableIPAddresses)
-                assertTrue(initialViewModel.indicatorAnimating)
-                assertFalse(initialViewModel.deviceAdded)
-                assertNull(initialViewModel.errorMessage)
+                assertEquals(listOf(unlockedIPAddress, "4.5.6"), initialViewState.availableIPAddresses)
+                assertTrue(initialViewState.indicatorAnimating)
+                assertFalse(initialViewState.deviceAdded)
+                assertNull(initialViewState.errorMessage)
             },
             insecureStorage = insecureStorage,
             secureStorage = storage
@@ -133,10 +133,10 @@ class DeviceAddTests {
 
         assertTrue(initialHit)
 
-        assertEquals(listOf("4.5.6"), viewModel.availableIPAddresses)
-        assertTrue(viewModel.deviceAdded)
-        assertFalse(viewModel.indicatorAnimating)
-        assertNull(viewModel.errorMessage)
+        assertEquals(listOf("4.5.6"), viewState.availableIPAddresses)
+        assertTrue(viewState.deviceAdded)
+        assertFalse(viewState.indicatorAnimating)
+        assertNull(viewState.errorMessage)
 
 
         DeviceManager.loadPairedDevicesFromDatabase()

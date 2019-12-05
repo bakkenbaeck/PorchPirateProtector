@@ -58,14 +58,14 @@ class LoginFragment: Fragment() {
 
         button_login_submit.setOnClickListener {
             presenter.launch {
-                val viewModel = presenter.loginAsync(
+                val viewState = presenter.loginAsync(
                     email = email,
                     password = password,
-                    initialViewModelHandler = this@LoginFragment::configureForViewModel,
+                    initialViewStateHandler = this@LoginFragment::configureForViewState,
                     secureStorage = secureStorage
                 )
 
-                configureForViewModel(viewModel)
+                configureForViewState(viewState)
             }
         }
 
@@ -78,20 +78,19 @@ class LoginFragment: Fragment() {
         super.onDestroy()
     }
 
-    // VIEW MODEL CONFIGURATION
+    // VIEW STATE CONFIGURATION
 
-    private fun configureForViewModel(viewModel: LoginPresenter.LoginViewModel) {
-        textview_error_login.text = viewModel.apiError
-        button_login_submit.isEnabled = viewModel.submitButtonEnabled
-        progress_bar_login.updateAnimating(viewModel.indicatorAnimating)
+    private fun configureForViewState(viewState: LoginPresenter.LoginViewState) {
+        textview_error_login.text = viewState.apiError
+        button_login_submit.isEnabled = viewState.submitButtonEnabled
+        progress_bar_login.updateAnimating(viewState.indicatorAnimating)
 
-        text_input_username.error = viewModel.emailError
-        text_input_password.error = viewModel.passwordError
+        text_input_username.error = viewState.emailError
+        text_input_password.error = viewState.passwordError
 
-        if (viewModel.loginSucceeded) {
+        if (viewState.loginSucceeded) {
             loginSucceeded()
         }
-
     }
 
     private fun loginSucceeded() {

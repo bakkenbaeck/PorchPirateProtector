@@ -38,11 +38,11 @@ class DeviceListViewController: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         
-        let viewModel = self.presenter.updateViewModel(
+        let viewState = self.presenter.updateViewState(
             insecureStorage: UserDefaultsWrapper.shared,
             isLoading: false,
             apiError: nil)
-        self.configureForViewModel(viewModel)
+        self.configureForViewState(viewState)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -70,15 +70,15 @@ class DeviceListViewController: UIViewController {
         self.perform(segue: DeviceListSegue.showAddDevice)
     }
     
-    private func configureForViewModel(_ viewModel: DeviceListPresenter.DeviceListViewModel) {
-        self.dataSource.updateItems(to: viewModel.pairedDeviceList)
-        self.setAddButtonEnabled(enabled: viewModel.addButtonEnabled)
+    private func configureForViewState(_ viewState: DeviceListPresenter.DeviceListViewState) {
+        self.dataSource.updateItems(to: viewState.pairedDeviceList)
+        self.setAddButtonEnabled(enabled: viewState.addButtonEnabled)
         
-        if let error = viewModel.apiError {
+        if let error = viewState.apiError {
             self.showErrorBanner(with: error)
         } // else nothing to show
         
-        if viewModel.indicatorAnimating {
+        if viewState.indicatorAnimating {
             self.loadingSpinner.startAnimating()
         } else {
             self.loadingSpinner.stopAnimating()

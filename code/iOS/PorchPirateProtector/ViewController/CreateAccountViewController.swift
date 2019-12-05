@@ -41,12 +41,12 @@ class CreateAccountViewController: UIViewController {
             email: self.email,
             password: self.password,
             confirmPassword: self.confirmPassword,
-            initialViewModelHandler: weakify { strongSelf, viewModel in
-                strongSelf.configureForViewModel(viewModel)
+            initialViewStateHandler: weakify { strongSelf, viewState in
+                strongSelf.configureForViewState(viewState)
             },
             secureStorage: Keychain.shared,
-            completion: weakify { strongSelf, viewModel in
-                strongSelf.configureForViewModel(viewModel)
+            completion: weakify { strongSelf, viewState in
+                strongSelf.configureForViewState(viewState)
             })
     }
     
@@ -58,26 +58,26 @@ class CreateAccountViewController: UIViewController {
         self.presenter.onDestroy()
     }
     
-    private func configureForViewModel(_ viewModel: CreateAccountPresenter.CreateAccountViewModel) {
-        self.emailInput.errorText = viewModel.emailError
-        self.passwordInput.errorText = viewModel.passwordError
-        self.confirmPasswordInput.errorText = viewModel.confirmPasswordError
-        self.createAccountButton.isEnabled = viewModel.submitButtonEnabled
+    private func configureForViewState(_ viewState: CreateAccountPresenter.CreateAccountViewState) {
+        self.emailInput.errorText = viewState.emailError
+        self.passwordInput.errorText = viewState.passwordError
+        self.confirmPasswordInput.errorText = viewState.confirmPasswordError
+        self.createAccountButton.isEnabled = viewState.submitButtonEnabled
 
-        if let apiError = viewModel.apiErrorMessage {
+        if let apiError = viewState.apiErrorMessage {
             self.errorLabel.text = apiError
             self.errorLabel.isHidden = false
         } else {
             self.errorLabel.isHidden = true
         }
                 
-        if viewModel.indicatorAnimating {
+        if viewState.indicatorAnimating {
             self.loadingSpinner.startAnimating()
         } else {
             self.loadingSpinner.stopAnimating()
         }
         
-        if viewModel.accountCreated {
+        if viewState.accountCreated {
             self.accountSuccessfullyCreated()
         }
     }

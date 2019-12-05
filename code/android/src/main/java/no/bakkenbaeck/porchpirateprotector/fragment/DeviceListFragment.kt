@@ -46,8 +46,8 @@ class DeviceListFragment: Fragment(), DeviceSelectionListener {
 
     override fun onResume() {
         super.onResume()
-        val viewModel = presenter.updateViewModel(insecureStorage)
-        configureForViewModel(viewModel)
+        val viewState = presenter.updateViewState(insecureStorage)
+        configureForViewState(viewState)
     }
 
     override fun onDestroy() {
@@ -61,14 +61,14 @@ class DeviceListFragment: Fragment(), DeviceSelectionListener {
         showDetailForDevice(device)
     }
 
-    // VIEW MODEL CONFIGURATION
+    // VIEW STATE CONFIGURATION
 
-    private fun configureForViewModel(viewModel: DeviceListPresenter.DeviceListViewModel) {
-        adapter.list = viewModel.pairedDeviceList
-        progress_bar_device_list.updateAnimating(viewModel.indicatorAnimating)
-        fab_add_device.isEnabled = viewModel.addButtonEnabled
+    private fun configureForViewState(viewState: DeviceListPresenter.DeviceListViewState) {
+        adapter.list = viewState.pairedDeviceList
+        progress_bar_device_list.updateAnimating(viewState.indicatorAnimating)
+        fab_add_device.isEnabled = viewState.addButtonEnabled
 
-        viewModel.apiError?.let {
+        viewState.apiError?.let {
             Snackbar.make(coordinator_device_list, it, LENGTH_LONG).show()
         }
     }

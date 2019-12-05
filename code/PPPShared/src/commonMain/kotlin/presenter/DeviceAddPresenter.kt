@@ -7,7 +7,7 @@ import no.bakkenbaeck.pppshared.manager.DeviceManager
 
 class DeviceAddPresenter: BaseCoroutinePresenter() {
 
-    data class DeviceAddViewModel(
+    data class DeviceAddViewState(
         val availableIPAddresses: List<String>,
         val indicatorAnimating: Boolean = false,
         val deviceAdded: Boolean = false,
@@ -18,18 +18,18 @@ class DeviceAddPresenter: BaseCoroutinePresenter() {
         return insecureStorage.loadIPAddresses() ?: emptyList()
     }
 
-    fun initialViewModel(insecureStorage: InsecureStorage): DeviceAddViewModel {
-        return DeviceAddViewModel(
+    fun initialViewState(insecureStorage: InsecureStorage): DeviceAddViewState {
+        return DeviceAddViewState(
             availableIPAddresses = currentAvailableIPAddresses(insecureStorage)
         )
     }
 
     suspend fun addDeviceAsync(deviceIpAddress: String,
-                               initialViewModelHandler: (DeviceAddViewModel) -> Unit,
+                               initialViewStateHandler: (DeviceAddViewState) -> Unit,
                                insecureStorage: InsecureStorage,
-                               secureStorage: SecureStorage): DeviceAddViewModel {
-        initialViewModelHandler(
-            DeviceAddViewModel(
+                               secureStorage: SecureStorage): DeviceAddViewState {
+        initialViewStateHandler(
+            DeviceAddViewState(
                 availableIPAddresses = currentAvailableIPAddresses(insecureStorage),
                 indicatorAnimating = true
             )
@@ -41,12 +41,12 @@ class DeviceAddPresenter: BaseCoroutinePresenter() {
 
             // On success, remove the IP address from the list of IP addresses
             insecureStorage.removeIPAddress(deviceIpAddress)
-            DeviceAddViewModel(
+            DeviceAddViewState(
                 availableIPAddresses = currentAvailableIPAddresses(insecureStorage),
                 deviceAdded = true
             )
         } catch (exception: Exception) {
-            DeviceAddViewModel(
+            DeviceAddViewState(
                 availableIPAddresses = currentAvailableIPAddresses(insecureStorage),
                 errorMessage = exception.message
             )
@@ -54,18 +54,18 @@ class DeviceAddPresenter: BaseCoroutinePresenter() {
     }
 
     fun addDevice(deviceIpAddress: String,
-                  initialViewModelHandler: (DeviceAddViewModel) -> Unit,
+                  initialViewStateHandler: (DeviceAddViewState) -> Unit,
                   insecureStorage: InsecureStorage,
                   secureStorage: SecureStorage,
-                  completion: (DeviceAddViewModel) -> Unit) {
+                  completion: (DeviceAddViewState) -> Unit) {
         launch {
-            val viewModel = addDeviceAsync(
+            val viewState = addDeviceAsync(
                 deviceIpAddress,
-                initialViewModelHandler,
+                initialViewStateHandler,
                 insecureStorage,
                 secureStorage
             )
-            completion(viewModel)
+            completion(viewState)
         }
     }
 }

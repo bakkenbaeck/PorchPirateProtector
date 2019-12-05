@@ -8,7 +8,7 @@ import no.bakkenbaeck.pppshared.validator.ValidationResult
 
 class LoginPresenter: BaseCoroutinePresenter() {
 
-    data class LoginViewModel(
+    data class LoginViewState(
         val emailError: String? = null,
         val passwordError: String? = null,
         val submitButtonEnabled: Boolean = false,
@@ -33,13 +33,13 @@ class LoginPresenter: BaseCoroutinePresenter() {
         }
     }
 
-    fun validateAllInput(email: String?, password: String?): LoginViewModel {
+    fun validateAllInput(email: String?, password: String?): LoginViewState {
         val emailError = validateEmail(email)
         val passwordError = validatePassword(password)
 
         val enableSubmit = (emailError == null && passwordError == null)
 
-        return LoginViewModel(
+        return LoginViewState(
             emailError = emailError,
             passwordError = passwordError,
             submitButtonEnabled = enableSubmit
@@ -48,15 +48,15 @@ class LoginPresenter: BaseCoroutinePresenter() {
     
     suspend fun loginAsync(email: String?,
                            password: String?,
-                           initialViewModelHandler: (LoginViewModel) -> Unit,
-                           secureStorage: SecureStorage): LoginViewModel {
-        val validationViewModel = validateAllInput(email, password)
-        if (!validationViewModel.submitButtonEnabled) {
-            return validationViewModel
+                           initialViewStateHandler: (LoginViewState) -> Unit,
+                           secureStorage: SecureStorage): LoginViewState {
+        val validationViewState = validateAllInput(email, password)
+        if (!validationViewState.submitButtonEnabled) {
+            return validationViewState
         }
 
-        initialViewModelHandler(
-            LoginViewModel(
+        initialViewStateHandler(
+            LoginViewState(
                 indicatorAnimating = true
             )
         )
@@ -67,11 +67,11 @@ class LoginPresenter: BaseCoroutinePresenter() {
         return try {
             val token = api.login(creds)
             secureStorage.storeTokenString(token.token)
-            LoginViewModel(
+            LoginViewState(
                 loginSucceeded = true
             )
         } catch (exception: Exception) {
-            LoginViewModel(
+            LoginViewState(
                 submitButtonEnabled = true,
                 apiError = exception.message
             )
@@ -80,12 +80,12 @@ class LoginPresenter: BaseCoroutinePresenter() {
 
     fun login(email: String?,
               password: String?,
-              initialViewModelHandler: (LoginViewModel) -> Unit,
+              initialViewStateHandler: (LoginViewState) -> Unit,
               secureStorage: SecureStorage,
-              completion: (LoginViewModel) -> Unit) {
+              completion: (LoginViewState) -> Unit) {
         launch {
-            val viewModel = loginAsync(email, password, initialViewModelHandler, secureStorage)
-            completion(viewModel)
+            val viewState = loginAsync(email, password, initialViewStateHandler, secureStorage)
+            completion(viewState)
         }
     }
 

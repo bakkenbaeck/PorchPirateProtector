@@ -38,34 +38,34 @@ class LoginViewController: UIViewController {
         self.presenter.login(
             email: self.email,
             password: self.password,
-            initialViewModelHandler: weakify { strongSelf, viewModel in
-                strongSelf.configureForViewModel(viewModel)
+            initialViewStateHandler: weakify { strongSelf, viewState in
+                strongSelf.configureForViewState(viewState)
             },
             secureStorage: Keychain.shared,
-            completion: weakify { strongSelf, viewModel in
-                strongSelf.configureForViewModel(viewModel)
+            completion: weakify { strongSelf, viewState in
+                strongSelf.configureForViewState(viewState)
             })
     }
     
-    private func configureForViewModel(_ viewModel: LoginPresenter.LoginViewModel) {
-        self.emailTextInput.errorText = viewModel.emailError
-        self.passwordTextInput.errorText = viewModel.passwordError
-        self.loginButton.isEnabled = viewModel.submitButtonEnabled
+    private func configureForViewState(_ viewState: LoginPresenter.LoginViewState) {
+        self.emailTextInput.errorText = viewState.emailError
+        self.passwordTextInput.errorText = viewState.passwordError
+        self.loginButton.isEnabled = viewState.submitButtonEnabled
         
-        if let apiError = viewModel.apiError {
+        if let apiError = viewState.apiError {
             self.apiErrorLabel.text = apiError
             self.apiErrorLabel.isHidden = false
         } else {
             self.apiErrorLabel.isHidden = true
         }
         
-        if viewModel.indicatorAnimating {
+        if viewState.indicatorAnimating {
             self.activityIndicator.startAnimating()
         } else {
             self.activityIndicator.stopAnimating()
         }
         
-        if viewModel.loginSucceeded {
+        if viewState.loginSucceeded {
             self.loginSucceeded()
         }
     }

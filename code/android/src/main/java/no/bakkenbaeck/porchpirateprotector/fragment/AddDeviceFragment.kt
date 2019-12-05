@@ -42,8 +42,8 @@ class AddDeviceFragment: Fragment(), IpSelectionListener {
         recyclerview_ip_list.layoutManager = LinearLayoutManager(context)
         recyclerview_ip_list.adapter = adapter
 
-        val initialViewModel = presenter.initialViewModel(insecureStorage)
-        configureForViewModel(initialViewModel)
+        val initialViewState = presenter.initialViewState(insecureStorage)
+        configureForViewState(initialViewState)
     }
 
     override fun onDestroy() {
@@ -55,28 +55,28 @@ class AddDeviceFragment: Fragment(), IpSelectionListener {
 
     override fun selectedIpAddress(ipAddress: String) {
         presenter.launch {
-            val viewModel = presenter.addDeviceAsync(
+            val viewState = presenter.addDeviceAsync(
                 deviceIpAddress = ipAddress,
-                initialViewModelHandler = this@AddDeviceFragment::configureForViewModel,
+                initialViewStateHandler = this@AddDeviceFragment::configureForViewState,
                 secureStorage = secureStorage,
                 insecureStorage = insecureStorage
             )
 
-            configureForViewModel(viewModel)
+            configureForViewState(viewState)
         }
     }
 
-    // VIEW MODEL CONFIGURATION
+    // VIEW STATE CONFIGURATION
 
-    private fun configureForViewModel(viewModel: DeviceAddPresenter.DeviceAddViewModel) {
-        adapter.updateAddresses(viewModel.availableIPAddresses)
-        progress_bar_add_device.updateAnimating(viewModel.indicatorAnimating)
+    private fun configureForViewState(viewState: DeviceAddPresenter.DeviceAddViewState) {
+        adapter.updateAddresses(viewState.availableIPAddresses)
+        progress_bar_add_device.updateAnimating(viewState.indicatorAnimating)
 
-        viewModel.errorMessage?.let {
+        viewState.errorMessage?.let {
             Snackbar.make(coordinator_device_add, it, Snackbar.LENGTH_LONG).show()
         }
 
-        if (viewModel.deviceAdded) {
+        if (viewState.deviceAdded) {
             deviceAddedSuccessfully()
         }
     }

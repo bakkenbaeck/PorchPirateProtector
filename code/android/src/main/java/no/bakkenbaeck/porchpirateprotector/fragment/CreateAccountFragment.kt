@@ -55,15 +55,15 @@ class CreateAccountFragment: Fragment() {
 
         button_create_account_submit.setOnClickListener {
             presenter.launch {
-                val viewModel = presenter.createAccountAsync(
+                val viewState = presenter.createAccountAsync(
                     email = email,
                     password = password,
                     confirmPassword = confirmPassword,
-                    initialViewModelHandler = this@CreateAccountFragment::configureForViewModel,
+                    initialViewStateHandler = this@CreateAccountFragment::configureForViewState,
                     secureStorage = secureStorage
                 )
 
-                configureForViewModel(viewModel)
+                configureForViewState(viewState)
             }
         }
 
@@ -77,17 +77,17 @@ class CreateAccountFragment: Fragment() {
         super.onDestroy()
     }
 
-    // VIEW MODEL CONFIGURATION
+    // VIEW STATE CONFIGURATION
 
-    private fun configureForViewModel(viewModel: CreateAccountPresenter.CreateAccountViewModel) {
-        text_input_username.error = viewModel.emailError
-        text_input_password.error = viewModel.passwordError
-        text_input_confirm_password.error = viewModel.confirmPasswordError
-        textview_error_create_account.text = viewModel.apiErrorMessage
-        button_create_account_submit.isEnabled = viewModel.submitButtonEnabled
-        progress_bar_create_account.updateAnimating(viewModel.indicatorAnimating)
+    private fun configureForViewState(viewState: CreateAccountPresenter.CreateAccountViewState) {
+        text_input_username.error = viewState.emailError
+        text_input_password.error = viewState.passwordError
+        text_input_confirm_password.error = viewState.confirmPasswordError
+        textview_error_create_account.text = viewState.apiErrorMessage
+        button_create_account_submit.isEnabled = viewState.submitButtonEnabled
+        progress_bar_create_account.updateAnimating(viewState.indicatorAnimating)
 
-        if (viewModel.accountCreated) {
+        if (viewState.accountCreated) {
             accountSuccessfullyCreated()
         }
     }

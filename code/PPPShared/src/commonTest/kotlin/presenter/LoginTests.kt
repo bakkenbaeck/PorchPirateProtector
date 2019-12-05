@@ -11,78 +11,78 @@ class LoginTests {
 
     @Test
     fun validationSetsProperErrorsForNullInput() {
-        val viewModel = presenter.validateAllInput(
+        val viewState = presenter.validateAllInput(
             email = null,
             password = null
         )
 
         val expectedEmailError = ValidationResult.Invalid.WasNull("email")
-        assertEquals(expectedEmailError.reason, viewModel.emailError)
+        assertEquals(expectedEmailError.reason, viewState.emailError)
 
         val expectedPasswordError = ValidationResult.Invalid.WasNull("password")
-        assertEquals(expectedPasswordError.reason, viewModel.passwordError)
+        assertEquals(expectedPasswordError.reason, viewState.passwordError)
 
-        assertFalse(viewModel.submitButtonEnabled)
-        assertFalse(viewModel.loginSucceeded)
-        assertFalse(viewModel.indicatorAnimating)
-        assertNull(viewModel.apiError)
+        assertFalse(viewState.submitButtonEnabled)
+        assertFalse(viewState.loginSucceeded)
+        assertFalse(viewState.indicatorAnimating)
+        assertNull(viewState.apiError)
     }
 
     @Test
     fun validationSetsProperErrorsForNullEmailAndValidPassword() {
-        val viewModel = presenter.validateAllInput(
+        val viewState = presenter.validateAllInput(
             email = null,
             password = "aaaaaa"
         )
 
         val expectedEmailError = ValidationResult.Invalid.WasNull("email")
-        assertEquals(expectedEmailError.reason, viewModel.emailError)
+        assertEquals(expectedEmailError.reason, viewState.emailError)
 
-        assertNull(viewModel.passwordError)
+        assertNull(viewState.passwordError)
 
-        assertFalse(viewModel.submitButtonEnabled)
-        assertFalse(viewModel.loginSucceeded)
-        assertFalse(viewModel.indicatorAnimating)
-        assertNull(viewModel.apiError)
+        assertFalse(viewState.submitButtonEnabled)
+        assertFalse(viewState.loginSucceeded)
+        assertFalse(viewState.indicatorAnimating)
+        assertNull(viewState.apiError)
     }
 
     @Test
     fun validationPassesForValidCreds() {
-        val viewModel = presenter.validateAllInput(
+        val viewState = presenter.validateAllInput(
             email = "not@real.biz",
             password = "aaaaaa"
         )
 
-        assertNull(viewModel.emailError)
-        assertNull(viewModel.passwordError)
+        assertNull(viewState.emailError)
+        assertNull(viewState.passwordError)
 
-        assertTrue(viewModel.submitButtonEnabled)
-        assertFalse(viewModel.loginSucceeded)
-        assertFalse(viewModel.indicatorAnimating)
-        assertNull(viewModel.apiError)
+        assertTrue(viewState.submitButtonEnabled)
+        assertFalse(viewState.loginSucceeded)
+        assertFalse(viewState.indicatorAnimating)
+        assertNull(viewState.apiError)
     }
 
     @Test
     fun attemptingToLoginWithoutChangesTriggersErrorsAndFails() = platformRunBlocking {
-        val viewModel = presenter.loginAsync(
+        val viewState = presenter.loginAsync(
             email = null,
             password = null,
-            initialViewModelHandler = { _ ->
+            initialViewStateHandler = { _ ->
                 fail("Should not have hit this with invalid creds")
             },
             secureStorage = storage
         )
 
         val expectedEmailError = ValidationResult.Invalid.WasNull("email")
-        assertEquals(expectedEmailError.reason, viewModel.emailError)
+        assertEquals(expectedEmailError.reason, viewState.emailError)
 
         val expectedPasswordError = ValidationResult.Invalid.WasNull("password")
-        assertEquals(expectedPasswordError.reason, viewModel.passwordError)
+        assertEquals(expectedPasswordError.reason, viewState.passwordError)
 
-        assertFalse(viewModel.submitButtonEnabled)
-        assertFalse(viewModel.loginSucceeded)
-        assertFalse(viewModel.indicatorAnimating)
-        assertNull(viewModel.apiError)
+        assertFalse(viewState.submitButtonEnabled)
+        assertFalse(viewState.loginSucceeded)
+        assertFalse(viewState.indicatorAnimating)
+        assertNull(viewState.apiError)
     }
 
     @Test
@@ -90,29 +90,29 @@ class LoginTests {
         presenter.api.client = MockNetworkClient()
 
         var initialHit = false
-        val viewModel = presenter.loginAsync(
+        val viewState = presenter.loginAsync(
             email = MockNetworkClient.validUsername,
             password = "password",
-            initialViewModelHandler = { initialViewModel ->
+            initialViewStateHandler = { initialViewState ->
                 initialHit = true
-                assertTrue(initialViewModel.indicatorAnimating)
-                assertFalse(initialViewModel.submitButtonEnabled)
-                assertNull(initialViewModel.emailError)
-                assertNull(initialViewModel.passwordError)
-                assertNull(initialViewModel.apiError)
-                assertFalse(initialViewModel.loginSucceeded)
+                assertTrue(initialViewState.indicatorAnimating)
+                assertFalse(initialViewState.submitButtonEnabled)
+                assertNull(initialViewState.emailError)
+                assertNull(initialViewState.passwordError)
+                assertNull(initialViewState.apiError)
+                assertFalse(initialViewState.loginSucceeded)
             },
             secureStorage = storage
         )
 
         assertTrue(initialHit)
 
-        assertTrue(viewModel.loginSucceeded)
-        assertFalse(viewModel.submitButtonEnabled)
-        assertFalse(viewModel.indicatorAnimating)
-        assertNull(viewModel.emailError)
-        assertNull(viewModel.passwordError)
-        assertNull(viewModel.apiError)
+        assertTrue(viewState.loginSucceeded)
+        assertFalse(viewState.submitButtonEnabled)
+        assertFalse(viewState.indicatorAnimating)
+        assertNull(viewState.emailError)
+        assertNull(viewState.passwordError)
+        assertNull(viewState.apiError)
 
         assertNotNull(storage.tokenString)
         assertEquals(MockNetworkClient.mockToken, storage.tokenString)
@@ -123,29 +123,29 @@ class LoginTests {
         presenter.api.client = MockNetworkClient()
 
         var initialHit = false
-        val viewModel = presenter.loginAsync(
+        val viewState = presenter.loginAsync(
             email = MockNetworkClient.wrongPasswordUsername,
             password = "password",
-            initialViewModelHandler = { initialViewModel ->
+            initialViewStateHandler = { initialViewState ->
                 initialHit = true
-                assertTrue(initialViewModel.indicatorAnimating)
-                assertFalse(initialViewModel.submitButtonEnabled)
-                assertNull(initialViewModel.emailError)
-                assertNull(initialViewModel.passwordError)
-                assertNull(initialViewModel.apiError)
-                assertFalse(initialViewModel.loginSucceeded)
+                assertTrue(initialViewState.indicatorAnimating)
+                assertFalse(initialViewState.submitButtonEnabled)
+                assertNull(initialViewState.emailError)
+                assertNull(initialViewState.passwordError)
+                assertNull(initialViewState.apiError)
+                assertFalse(initialViewState.loginSucceeded)
             },
             secureStorage = storage
         )
 
         assertTrue(initialHit)
 
-        assertTrue(viewModel.submitButtonEnabled)
-        assertFalse(viewModel.indicatorAnimating)
-        assertFalse(viewModel.loginSucceeded)
-        assertNull(viewModel.emailError)
-        assertNull(viewModel.passwordError)
-        assertEquals("Wrong password", viewModel.apiError)
+        assertTrue(viewState.submitButtonEnabled)
+        assertFalse(viewState.indicatorAnimating)
+        assertFalse(viewState.loginSucceeded)
+        assertNull(viewState.emailError)
+        assertNull(viewState.passwordError)
+        assertEquals("Wrong password", viewState.apiError)
 
         assertNull(storage.tokenString)
     }

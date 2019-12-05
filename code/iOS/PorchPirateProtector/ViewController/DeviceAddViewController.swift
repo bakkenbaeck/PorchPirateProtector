@@ -31,24 +31,24 @@ class DeviceAddViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let viewModel = self.presenter.initialViewModel(insecureStorage: UserDefaultsWrapper.shared)
-        self.configureForViewModel(viewModel)
+        let viewState = self.presenter.initialViewState(insecureStorage: UserDefaultsWrapper.shared)
+        self.configureForViewState(viewState)
     }
     
-    private func configureForViewModel(_ viewModel: DeviceAddPresenter.DeviceAddViewModel) {
-        self.dataSource.updateItems(to: viewModel.availableIPAddresses)
+    private func configureForViewState(_ viewState: DeviceAddPresenter.DeviceAddViewState) {
+        self.dataSource.updateItems(to: viewState.availableIPAddresses)
         
-        if viewModel.indicatorAnimating {
+        if viewState.indicatorAnimating {
             self.loadingSpinner.startAnimating()
         } else {
             self.loadingSpinner.stopAnimating()
         }
         
-        if let error = viewModel.errorMessage {
+        if let error = viewState.errorMessage {
             self.showErrorBanner(with: error)
         } // else nothing to show
         
-        if viewModel.deviceAdded {
+        if viewState.deviceAdded {
             self.deviceAddedSuccessfully()
         }
     }
@@ -66,13 +66,13 @@ extension DeviceAddViewController: IPAddressSelectionDelegate {
     func didSelectIPAddress(_ ipAddress: String) {
         self.presenter.addDevice(
             deviceIpAddress: ipAddress,
-            initialViewModelHandler: weakify { strongSelf, viewModel in
-                strongSelf.configureForViewModel(viewModel)
+            initialViewStatelHandler: weakify { strongSelf, viewState in
+                strongSelf.configureForViewState(viewState)
             },
             insecureStorage: UserDefaultsWrapper.shared,
             secureStorage: Keychain.shared,
-            completion: weakify { strongSelf, viewModel in
-                strongSelf.configureForViewModel(viewModel)
+            completion: weakify { strongSelf, viewState in
+                strongSelf.configureForViewState(viewState)
             })
     }
 }

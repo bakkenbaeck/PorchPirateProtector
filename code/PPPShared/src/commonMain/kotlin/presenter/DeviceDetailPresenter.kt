@@ -9,7 +9,7 @@ class DeviceDetailPresenter(
     val device: PairedDevice
 ): BaseCoroutinePresenter() {
 
-    data class DeviceDetailViewModel(
+    data class DeviceDetailViewState(
         val lockButtonEnabled: Boolean,
         val unlockButtonEnabled: Boolean,
         val errorMessage: String? = null,
@@ -19,24 +19,24 @@ class DeviceDetailPresenter(
     val title: String
         get() = "Device #${device.deviceId}"
 
-    private fun generateViewModel(fromDevices: List<PairedDevice>): DeviceDetailViewModel {
+    private fun generateViewState(fromDevices: List<PairedDevice>): DeviceDetailViewState {
         val updatedDevice = fromDevices.first { it.deviceId == device.deviceId }
         device.lockState = updatedDevice.lockState
         return device.lockState?.isLocked?.let { isLocked ->
-            DeviceDetailViewModel(
+            DeviceDetailViewState(
                 lockButtonEnabled = !isLocked,
                 unlockButtonEnabled = isLocked
             )
-        } ?: DeviceDetailViewModel(
+        } ?: DeviceDetailViewState(
             lockButtonEnabled = false,
             unlockButtonEnabled = false,
             errorMessage = "Lock state unknown"
         )
     }
 
-    suspend fun getStatusAsync(initialViewModelHandler: (DeviceDetailViewModel) -> Unit,
-                               secureStorage: SecureStorage): DeviceDetailViewModel {
-        initialViewModelHandler(DeviceDetailViewModel(
+    suspend fun getStatusAsync(initialViewStateHandler: (DeviceDetailViewState) -> Unit,
+                               secureStorage: SecureStorage): DeviceDetailViewState {
+        initialViewStateHandler(DeviceDetailViewState(
                 lockButtonEnabled = false,
                 unlockButtonEnabled = false,
                 indicatorAnimating = true
@@ -46,9 +46,9 @@ class DeviceDetailPresenter(
         return try {
             val token = throwingToken(secureStorage)
             val pairedDevices = DeviceManager.updateStatus(api, device, token)
-            generateViewModel(pairedDevices)
+            generateViewState(pairedDevices)
         } catch (exception: Exception) {
-            DeviceDetailViewModel(
+            DeviceDetailViewState(
                 lockButtonEnabled = false,
                 unlockButtonEnabled = false,
                 errorMessage = exception.message
@@ -56,9 +56,9 @@ class DeviceDetailPresenter(
         }
     }
 
-    suspend fun lockAsync(initialViewModelHandler: (DeviceDetailViewModel) -> Unit,
-                          secureStorage: SecureStorage): DeviceDetailViewModel {
-        initialViewModelHandler(DeviceDetailViewModel(
+    suspend fun lockAsync(initialViewStateHandler: (DeviceDetailViewState) -> Unit,
+                          secureStorage: SecureStorage): DeviceDetailViewState {
+        initialViewStateHandler(DeviceDetailViewState(
                 lockButtonEnabled = false,
                 unlockButtonEnabled = false,
                 indicatorAnimating = true
@@ -68,9 +68,9 @@ class DeviceDetailPresenter(
         return try {
             val token = throwingToken(secureStorage)
             val updatedDevices = DeviceManager.updateLockState(api, device, token, true)
-            generateViewModel(updatedDevices)
+            generateViewState(updatedDevices)
         } catch (exception: Exception) {
-            DeviceDetailViewModel(
+            DeviceDetailViewState(
                 lockButtonEnabled = true,
                 unlockButtonEnabled = false,
                 errorMessage = exception.message
@@ -78,9 +78,9 @@ class DeviceDetailPresenter(
         }
     }
 
-    suspend fun unlockAsync(initialViewModelHandler: (DeviceDetailViewModel) -> Unit,
-                            secureStorage: SecureStorage): DeviceDetailViewModel {
-        initialViewModelHandler(DeviceDetailViewModel(
+    suspend fun unlockAsync(initialViewStateHandler: (DeviceDetailViewState) -> Unit,
+                            secureStorage: SecureStorage): DeviceDetailViewState {
+        initialViewStateHandler(DeviceDetailViewState(
                 lockButtonEnabled = false,
                 unlockButtonEnabled = false,
                 indicatorAnimating = true
@@ -89,9 +89,9 @@ class DeviceDetailPresenter(
         return try {
             val token = throwingToken(secureStorage)
             val updatedDevices = DeviceManager.updateLockState(api, device, token, false)
-            generateViewModel(updatedDevices)
+            generateViewState(updatedDevices)
         } catch (exception: Exception) {
-            DeviceDetailViewModel(
+            DeviceDetailViewState(
                 lockButtonEnabled = false,
                 unlockButtonEnabled = true,
                 errorMessage = exception.message
@@ -99,30 +99,30 @@ class DeviceDetailPresenter(
         }
     }
 
-    fun getStatus(initialViewModelHandler: (DeviceDetailViewModel) -> Unit,
+    fun getStatus(initialViewStateHandler: (DeviceDetailViewState) -> Unit,
                   secureStorage: SecureStorage,
-                  completion: (DeviceDetailViewModel) -> Unit) {
+                  completion: (DeviceDetailViewState) -> Unit) {
         launch {
-            val viewModel = getStatusAsync(initialViewModelHandler, secureStorage)
-            completion(viewModel)
+            val viewState = getStatusAsync(initialViewStateHandler, secureStorage)
+            completion(viewState)
         }
     }
 
-    fun lock(initialViewModelHandler: (DeviceDetailViewModel) -> Unit,
+    fun lock(initialViewStateHandler: (DeviceDetailViewState) -> Unit,
              secureStorage: SecureStorage,
-             completion: (DeviceDetailViewModel) -> Unit) {
+             completion: (DeviceDetailViewState) -> Unit) {
         launch {
-            val viewModel = lockAsync(initialViewModelHandler, secureStorage)
-            completion(viewModel)
+            val viewState = lockAsync(initialViewStateHandler, secureStorage)
+            completion(viewState)
         }
     }
 
-    fun unlock(initialViewModelHandler: (DeviceDetailViewModel) -> Unit,
+    fun unlock(initialViewStateHandler: (DeviceDetailViewState) -> Unit,
                secureStorage: SecureStorage,
-               completion: (DeviceDetailViewModel) -> Unit) {
+               completion: (DeviceDetailViewState) -> Unit) {
         launch {
-            val viewModel = unlockAsync(initialViewModelHandler, secureStorage)
-            completion(viewModel)
+            val viewState = unlockAsync(initialViewStateHandler, secureStorage)
+            completion(viewState)
         }
     }
 }

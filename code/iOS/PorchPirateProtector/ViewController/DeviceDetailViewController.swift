@@ -29,48 +29,48 @@ class DeviceDetailViewController: UIViewController {
         super.viewWillAppear(animated)
         self.title = self.presenter.title
         self.presenter.getStatus(
-            initialViewModelHandler: weakify { strongSelf, viewModel in
-                strongSelf.configureForViewModel(viewModel)
+            initialViewStateHandler: weakify { strongSelf, viewState in
+                strongSelf.configureForViewState(viewState)
             },
             secureStorage: Keychain.shared,
-            completion: weakify { strongSelf, viewModel in
-                strongSelf.configureForViewModel(viewModel)
+            completion: weakify { strongSelf, viewState in
+                strongSelf.configureForViewState(viewState)
             })
     }
     
     @IBAction private func lockTapped() {
         self.presenter.lock(
-            initialViewModelHandler: weakify { strongSelf, viewModel in
-                strongSelf.configureForViewModel(viewModel)
+            initialViewStateHandler: weakify { strongSelf, viewState in
+                strongSelf.configureForViewState(viewState)
             },
             secureStorage: Keychain.shared,
-            completion: weakify { strongSelf, viewModel in
-                strongSelf.configureForViewModel(viewModel)
+            completion: weakify { strongSelf, viewState in
+                strongSelf.configureForViewState(viewState)
             })
     }
     
     @IBAction private func unlockTapped() {
         self.presenter.unlock(
-            initialViewModelHandler: weakify { strongSelf, viewModel in
-                strongSelf.configureForViewModel(viewModel)
+            initialViewStateHandler: weakify { strongSelf, viewState in
+                strongSelf.configureForViewState(viewState)
             },
-            secureStorage: Keychain.shared, completion: weakify { strongSelf, viewModel in
-                strongSelf.configureForViewModel(viewModel)
+            secureStorage: Keychain.shared, completion: weakify { strongSelf, viewState in
+                strongSelf.configureForViewState(viewState)
             })
     }
     
-    private func configureForViewModel(_ viewModel: DeviceDetailPresenter.DeviceDetailViewModel) {
-        self.lockButton.isEnabled = viewModel.lockButtonEnabled
-        self.unlockButton.isEnabled = viewModel.unlockButtonEnabled
+    private func configureForViewState(_ viewState: DeviceDetailPresenter.DeviceDetailViewState) {
+        self.lockButton.isEnabled = viewState.lockButtonEnabled
+        self.unlockButton.isEnabled = viewState.unlockButtonEnabled
 
-        if let apiError = viewModel.errorMessage {
+        if let apiError = viewState.errorMessage {
             self.errorLabel.text = apiError
             self.errorLabel.isHidden = false
         } else {
             self.errorLabel.isHidden = true
         }
         
-        if viewModel.indicatorAnimating {
+        if viewState.indicatorAnimating {
             self.loadingSpinner.startAnimating()
         } else {
             self.loadingSpinner.stopAnimating()

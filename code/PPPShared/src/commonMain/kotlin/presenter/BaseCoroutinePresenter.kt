@@ -31,5 +31,4 @@ open class BaseCoroutinePresenter(
             return it
         } ?: throw RuntimeException("Couldn't find token!")
     }
-    
 }

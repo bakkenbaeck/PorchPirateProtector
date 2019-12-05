@@ -42,21 +42,23 @@ class DeviceDetailTests {
         assertNull(presenter.device.lockState)
 
         var initialHit = false
-        val viewModel = presenter.getStatusAsync(
-            initialViewModelHandler = { initialViewModel ->
+        val viewState = presenter.getStatusAsync(
+            initialViewStateHandler = { initialViewState ->
                 initialHit = true
-                assertTrue(initialViewModel.indicatorAnimating)
-                assertFalse(initialViewModel.lockButtonEnabled)
-                assertFalse(initialViewModel.unlockButtonEnabled)
-                assertNull(initialViewModel.errorMessage)
+                assertTrue(initialViewState.indicatorAnimating)
+                assertFalse(initialViewState.lockButtonEnabled)
+                assertFalse(initialViewState.unlockButtonEnabled)
+                assertNull(initialViewState.errorMessage)
             },
             secureStorage = storage
         )
 
-        assertFalse(viewModel.lockButtonEnabled)
-        assertTrue(viewModel.unlockButtonEnabled)
-        assertFalse(viewModel.indicatorAnimating)
-        assertNull(viewModel.errorMessage)
+        assertTrue(initialHit)
+
+        assertFalse(viewState.lockButtonEnabled)
+        assertTrue(viewState.unlockButtonEnabled)
+        assertFalse(viewState.indicatorAnimating)
+        assertNull(viewState.errorMessage)
 
 
         // Is the presenter device updated?
@@ -89,23 +91,23 @@ class DeviceDetailTests {
         assertNull(presenter.device.lockState)
 
         var initialHit = false
-        val viewModel = presenter.getStatusAsync(
-            initialViewModelHandler = { initialViewModel ->
+        val viewState = presenter.getStatusAsync(
+            initialViewStateHandler = { initialViewState ->
                 initialHit = true
-                assertFalse(initialViewModel.lockButtonEnabled)
-                assertFalse(initialViewModel.unlockButtonEnabled)
-                assertTrue(initialViewModel.indicatorAnimating)
-                assertNull(initialViewModel.errorMessage)
+                assertFalse(initialViewState.lockButtonEnabled)
+                assertFalse(initialViewState.unlockButtonEnabled)
+                assertTrue(initialViewState.indicatorAnimating)
+                assertNull(initialViewState.errorMessage)
             },
             secureStorage = storage
         )
 
         assertTrue(initialHit)
 
-        assertFalse(viewModel.lockButtonEnabled)
-        assertFalse(viewModel.unlockButtonEnabled)
-        assertFalse(viewModel.indicatorAnimating)
-        assertEquals("Invalid pairing key!", viewModel.errorMessage)
+        assertFalse(viewState.lockButtonEnabled)
+        assertFalse(viewState.unlockButtonEnabled)
+        assertFalse(viewState.indicatorAnimating)
+        assertEquals("Invalid pairing key!", viewState.errorMessage)
 
         assertNull(presenter.device.lockState)
     }
@@ -130,23 +132,23 @@ class DeviceDetailTests {
         assertEquals(false, presenter.device.lockState?.isLocked)
 
         var initialHit = false
-        val viewModel = presenter.lockAsync(
-            initialViewModelHandler = { initialViewModel ->
+        val viewState = presenter.lockAsync(
+            initialViewStateHandler = { initialViewState ->
                 initialHit = true
-                assertFalse(initialViewModel.lockButtonEnabled)
-                assertFalse(initialViewModel.unlockButtonEnabled)
-                assertTrue(initialViewModel.indicatorAnimating)
-                assertNull(initialViewModel.errorMessage)
+                assertFalse(initialViewState.lockButtonEnabled)
+                assertFalse(initialViewState.unlockButtonEnabled)
+                assertTrue(initialViewState.indicatorAnimating)
+                assertNull(initialViewState.errorMessage)
             },
             secureStorage = storage
         )
 
         assertTrue(initialHit)
 
-        assertFalse(viewModel.lockButtonEnabled)
-        assertTrue(viewModel.unlockButtonEnabled)
-        assertFalse(viewModel.indicatorAnimating)
-        assertNull(viewModel.errorMessage)
+        assertFalse(viewState.lockButtonEnabled)
+        assertTrue(viewState.unlockButtonEnabled)
+        assertFalse(viewState.indicatorAnimating)
+        assertNull(viewState.errorMessage)
 
         // Is the presenter device updated?
         assertEquals(true, presenter.device.lockState?.isLocked)
@@ -179,23 +181,23 @@ class DeviceDetailTests {
         assertEquals(false, presenter.device.lockState?.isLocked)
 
         var initialHit = false
-        val viewModel = presenter.lockAsync(
-            initialViewModelHandler = { initialViewModel ->
+        val viewState = presenter.lockAsync(
+            initialViewStateHandler = { initialViewState ->
                 initialHit = true
-                assertFalse(initialViewModel.lockButtonEnabled)
-                assertFalse(initialViewModel.unlockButtonEnabled)
-                assertTrue(initialViewModel.indicatorAnimating)
-                assertNull(initialViewModel.errorMessage)
+                assertFalse(initialViewState.lockButtonEnabled)
+                assertFalse(initialViewState.unlockButtonEnabled)
+                assertTrue(initialViewState.indicatorAnimating)
+                assertNull(initialViewState.errorMessage)
             },
             secureStorage = storage
         )
 
         assertTrue(initialHit)
 
-        assertTrue(viewModel.lockButtonEnabled)
-        assertFalse(viewModel.unlockButtonEnabled)
-        assertFalse(viewModel.indicatorAnimating)
-        assertEquals("Invalid pairing key!", viewModel.errorMessage)
+        assertTrue(viewState.lockButtonEnabled)
+        assertFalse(viewState.unlockButtonEnabled)
+        assertFalse(viewState.indicatorAnimating)
+        assertEquals("Invalid pairing key!", viewState.errorMessage)
 
         // We should still think the device is unlocked.
         assertEquals(false, presenter.device.lockState?.isLocked)
@@ -222,23 +224,23 @@ class DeviceDetailTests {
         assertEquals(true, presenter.device.lockState?.isLocked)
 
         var initialHit = false
-        val viewModel = presenter.unlockAsync(
-            initialViewModelHandler = { initialViewModel ->
+        val viewState = presenter.unlockAsync(
+            initialViewStateHandler = { initialViewState ->
                 initialHit = true
-                assertFalse(initialViewModel.lockButtonEnabled)
-                assertFalse(initialViewModel.unlockButtonEnabled)
-                assertTrue(initialViewModel.indicatorAnimating)
-                assertNull(initialViewModel.errorMessage)
+                assertFalse(initialViewState.lockButtonEnabled)
+                assertFalse(initialViewState.unlockButtonEnabled)
+                assertTrue(initialViewState.indicatorAnimating)
+                assertNull(initialViewState.errorMessage)
             },
             secureStorage = storage
         )
 
         assertTrue(initialHit)
 
-        assertTrue(viewModel.lockButtonEnabled)
-        assertFalse(viewModel.unlockButtonEnabled)
-        assertFalse(viewModel.indicatorAnimating)
-        assertNull(viewModel.errorMessage)
+        assertTrue(viewState.lockButtonEnabled)
+        assertFalse(viewState.unlockButtonEnabled)
+        assertFalse(viewState.indicatorAnimating)
+        assertNull(viewState.errorMessage)
 
         // Is the presenter device updated?
         assertEquals(false, presenter.device.lockState?.isLocked)
@@ -271,19 +273,23 @@ class DeviceDetailTests {
         assertEquals(true, presenter.device.lockState?.isLocked)
 
         var initialHit = false
-        val viewModel = presenter.unlockAsync(
-            initialViewModelHandler = { initialViewModel ->
+        val viewState = presenter.unlockAsync(
+            initialViewStateHandler = { initialViewState ->
                 initialHit = true
+                assertFalse(initialViewState.lockButtonEnabled)
+                assertFalse(initialViewState.unlockButtonEnabled)
+                assertTrue(initialViewState.indicatorAnimating)
+                assertNull(initialViewState.errorMessage)
             },
             secureStorage = storage
         )
 
         assertTrue(initialHit)
 
-        assertFalse(viewModel.lockButtonEnabled)
-        assertTrue(viewModel.unlockButtonEnabled)
-        assertFalse(viewModel.indicatorAnimating)
-        assertEquals("Invalid pairing key!", viewModel.errorMessage)
+        assertFalse(viewState.lockButtonEnabled)
+        assertTrue(viewState.unlockButtonEnabled)
+        assertFalse(viewState.indicatorAnimating)
+        assertEquals("Invalid pairing key!", viewState.errorMessage)
 
         // We should still think the device is locked.
         assertEquals(true, presenter.device.lockState?.isLocked)

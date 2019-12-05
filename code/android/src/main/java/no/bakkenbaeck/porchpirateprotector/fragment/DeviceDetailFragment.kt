@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_device_detail.*
 import kotlinx.coroutines.launch
 import no.bakkenbaeck.porchpirateprotector.R
-import no.bakkenbaeck.porchpirateprotector.extension.showAndStartAnimating
 import no.bakkenbaeck.porchpirateprotector.extension.updateAnimating
 import no.bakkenbaeck.porchpirateprotector.manager.KeyStoreManager
 import no.bakkenbaeck.pppshared.model.PairedDevice
@@ -49,32 +48,32 @@ class DeviceDetailFragment: Fragment() {
         textview_device_detail_name.text = presenter.title
         button_lock.setOnClickListener {
             presenter.launch {
-                val viewModel = presenter.lockAsync(
-                    initialViewModelHandler = this@DeviceDetailFragment::configureForViewModel,
+                val viewState = presenter.lockAsync(
+                    initialViewStateHandler = this@DeviceDetailFragment::configureForViewState,
                     secureStorage = secureStorage
                 )
 
-                configureForViewModel(viewModel)
+                configureForViewState(viewState)
             }
         }
 
         button_unlock.setOnClickListener {
             presenter.launch {
-                val viewModel = presenter.unlockAsync(
-                    initialViewModelHandler = this@DeviceDetailFragment::configureForViewModel,
+                val viewState = presenter.unlockAsync(
+                    initialViewStateHandler = this@DeviceDetailFragment::configureForViewState,
                     secureStorage = secureStorage
                 )
 
-                configureForViewModel(viewModel)
+                configureForViewState(viewState)
             }
         }
 
         presenter.launch {
-            val viewModel = presenter.getStatusAsync(
-                initialViewModelHandler = this@DeviceDetailFragment::configureForViewModel,
+            val viewState = presenter.getStatusAsync(
+                initialViewStateHandler = this@DeviceDetailFragment::configureForViewState,
                 secureStorage = secureStorage
             )
-            configureForViewModel(viewModel)
+            configureForViewState(viewState)
         }
     }
 
@@ -83,12 +82,12 @@ class DeviceDetailFragment: Fragment() {
         super.onDestroy()
     }
 
-    // VIEW MODEL CONFIGURATION
+    // VIEW STATE CONFIGURATION
 
-    private fun configureForViewModel(viewModel: DeviceDetailPresenter.DeviceDetailViewModel) {
-        button_lock.isEnabled = viewModel.lockButtonEnabled
-        button_unlock.isEnabled = viewModel.unlockButtonEnabled
-        textview_error_device_detail.text = viewModel.errorMessage
-        progress_bar_device_detail.updateAnimating(viewModel.indicatorAnimating)
+    private fun configureForViewState(viewState: DeviceDetailPresenter.DeviceDetailViewState) {
+        button_lock.isEnabled = viewState.lockButtonEnabled
+        button_unlock.isEnabled = viewState.unlockButtonEnabled
+        textview_error_device_detail.text = viewState.errorMessage
+        progress_bar_device_detail.updateAnimating(viewState.indicatorAnimating)
     }
 }

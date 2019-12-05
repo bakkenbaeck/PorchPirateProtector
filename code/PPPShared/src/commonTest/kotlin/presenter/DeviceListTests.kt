@@ -31,16 +31,16 @@ class DeviceListTests {
         insecureStorage.storeIPAddresses(mockIPAddresses)
         storage.storeTokenString("TESTING_TOKEN")
 
-        val viewModel = presenter.updateViewModel(
+        val viewState = presenter.updateViewState(
             insecureStorage = insecureStorage,
             isLoading = false
         )
 
-        assertNotNull(viewModel.pairedDeviceList)
-        assertTrue(viewModel.pairedDeviceList.isEmpty())
-        assertNull(viewModel.apiError)
-        assertFalse(viewModel.indicatorAnimating)
-        assertTrue(viewModel.addButtonEnabled)
+        assertNotNull(viewState.pairedDeviceList)
+        assertTrue(viewState.pairedDeviceList.isEmpty())
+        assertNull(viewState.apiError)
+        assertFalse(viewState.indicatorAnimating)
+        assertTrue(viewState.addButtonEnabled)
 
         val addressToAdd = mockIPAddresses.first()
 
@@ -53,17 +53,17 @@ class DeviceListTests {
         DeviceManager.storeDeviceToDatabase(fakeDevice)
         insecureStorage.removeIPAddress(addressToAdd)
 
-        val updatedViewModel = presenter.updateViewModel(
+        val updatedViewState = presenter.updateViewState(
             insecureStorage = insecureStorage,
             isLoading = false
         )
 
-        assertNotNull(updatedViewModel.pairedDeviceList)
-        assertEquals(updatedViewModel.pairedDeviceList.count(), 1)
-        assertEquals(updatedViewModel.pairedDeviceList, listOf(fakeDevice))
-        assertNull(updatedViewModel.apiError)
-        assertFalse(updatedViewModel.indicatorAnimating)
-        assertTrue(updatedViewModel.addButtonEnabled)
+        assertNotNull(updatedViewState.pairedDeviceList)
+        assertEquals(updatedViewState.pairedDeviceList.count(), 1)
+        assertEquals(updatedViewState.pairedDeviceList, listOf(fakeDevice))
+        assertNull(updatedViewState.apiError)
+        assertFalse(updatedViewState.indicatorAnimating)
+        assertTrue(updatedViewState.addButtonEnabled)
     }
 
     @Test
@@ -80,14 +80,14 @@ class DeviceListTests {
         DeviceManager.storeDeviceToDatabase(device)
 
         var initialHit = false
-        val viewModel = presenter.fetchDeviceDetailsAsync(
+        val viewState = presenter.fetchDeviceDetailsAsync(
             device = device,
-            initialViewModelHandler = { initialViewModel ->
+            initialViewStateHandler = { initialViewState ->
                 initialHit = true
-                assertEquals(listOf(device), initialViewModel.pairedDeviceList)
-                assertTrue(initialViewModel.indicatorAnimating)
-                assertNull(initialViewModel.apiError)
-                assertFalse(initialViewModel.addButtonEnabled)
+                assertEquals(listOf(device), initialViewState.pairedDeviceList)
+                assertTrue(initialViewState.indicatorAnimating)
+                assertNull(initialViewState.apiError)
+                assertFalse(initialViewState.addButtonEnabled)
             },
             secureStorage = storage,
             insecureStorage = insecureStorage
@@ -95,12 +95,12 @@ class DeviceListTests {
 
         assertTrue(initialHit)
 
-        assertFalse(viewModel.indicatorAnimating)
-        assertFalse(viewModel.addButtonEnabled)
-        assertNull(viewModel.apiError)
+        assertFalse(viewState.indicatorAnimating)
+        assertFalse(viewState.addButtonEnabled)
+        assertNull(viewState.apiError)
 
 
-        val firstDevice = viewModel.pairedDeviceList.first()
+        val firstDevice = viewState.pairedDeviceList.first()
         assertEquals(device.deviceId, firstDevice.deviceId)
         assertEquals(device.ipAddress, firstDevice.ipAddress)
         assertEquals(device.pairingKey, firstDevice.pairingKey)

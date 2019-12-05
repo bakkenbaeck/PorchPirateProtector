@@ -66,7 +66,7 @@ class SharedPreferencesManager(
 
     override fun removeIPAddress(address: String) {
         loadIPAddresses()?.let { initialAddresses ->
-            val updated = initialAddresses.filter { it == address }
+            val updated = initialAddresses.filter { it != address }
             storeIPAddresses(updated)
         }
     }

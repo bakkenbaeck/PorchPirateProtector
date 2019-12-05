@@ -16,7 +16,8 @@ import no.bakkenbaeck.pppshared.presenter.CreateAccountPresenter
 class CreateAccountFragment: Fragment() {
 
     private val presenter = CreateAccountPresenter()
-    private val secureStorage by lazy { KeyStoreManager(context!!) }
+    private val secureStorage: KeyStoreManager
+        get() = KeyStoreManager(context!!)
 
     private var email: String?
         get() = text_input_username.editText?.text.toString()

@@ -14,7 +14,9 @@ import no.bakkenbaeck.pppshared.presenter.WelcomePresenter
 
 class WelcomeFragment: Fragment() {
 
-    private val secureStorage by lazy { KeyStoreManager(context!!) }
+    private val secureStorage: KeyStoreManager
+        get() = KeyStoreManager(context!!)
+
     private val presenter = WelcomePresenter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

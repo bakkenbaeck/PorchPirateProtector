@@ -23,7 +23,10 @@ import no.bakkenbaeck.pppshared.presenter.DeviceListPresenter
 class DeviceListFragment: Fragment(), DeviceSelectionListener {
 
     private val adapter by lazy { DeviceListAdapter(this) }
-    private val insecureStorage by lazy { SharedPreferencesManager(this.context!!) }
+
+    private val insecureStorage: SharedPreferencesManager
+        get() = SharedPreferencesManager(this.context!!)
+
     private val presenter = DeviceListPresenter()
 
     // FRAGMENT LIFECYCLE

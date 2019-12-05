@@ -21,8 +21,13 @@ import no.bakkenbaeck.pppshared.presenter.DeviceAddPresenter
 class AddDeviceFragment: Fragment(), IpSelectionListener {
 
     private val presenter = DeviceAddPresenter()
-    private val insecureStorage by lazy { SharedPreferencesManager(context!!) }
-    private val secureStorage by lazy { KeyStoreManager(context!!) }
+
+    private val insecureStorage: SharedPreferencesManager
+        get() = SharedPreferencesManager(context!!)
+
+    private val secureStorage: KeyStoreManager
+        get() = KeyStoreManager(context!!)
+
     private val adapter by lazy { IpListAdapter(this) }
 
     // FRAGMENT LIFECYCLE

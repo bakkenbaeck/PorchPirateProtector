@@ -18,7 +18,9 @@ import no.bakkenbaeck.pppshared.presenter.LoginPresenter
 
 class LoginFragment: Fragment() {
 
-    private val secureStorage by lazy { KeyStoreManager(context!!) }
+    private val secureStorage: KeyStoreManager
+        get() = KeyStoreManager(context!!)
+
     private val presenter = LoginPresenter()
 
     private var email: String?

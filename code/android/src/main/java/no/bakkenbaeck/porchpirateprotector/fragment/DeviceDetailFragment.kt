@@ -68,6 +68,14 @@ class DeviceDetailFragment: Fragment() {
                 configureForViewModel(viewModel)
             }
         }
+
+        presenter.launch {
+            val viewModel = presenter.getStatusAsync(
+                initialViewModelHandler = this@DeviceDetailFragment::configureForViewModel,
+                secureStorage = secureStorage
+            )
+            configureForViewModel(viewModel)
+        }
     }
 
     override fun onDestroy() {
